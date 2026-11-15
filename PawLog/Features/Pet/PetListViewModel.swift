@@ -45,8 +45,13 @@ final class PetListViewModel: ObservableObject {
         service.countRecords(for: pet)
     }
 
-    /// 重排宠物顺序。数据源本身可重排，M2 接入拖动排序时直接调用。
+    /// 重排宠物顺序，写入 sortIndex 后重新加载
     func movePets(fromOffsets source: IndexSet, toOffset destination: Int) {
-        pets.move(fromOffsets: source, toOffset: destination)
+        do {
+            try service.movePets(fromOffsets: source, toOffset: destination)
+            loadPets()
+        } catch {
+            errorMessage = String(localized: "pet.list.error.load")
+        }
     }
 }

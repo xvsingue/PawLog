@@ -38,6 +38,8 @@ final class Pet {
     var chipID: String?
     var avatarData: Data?
     var archived: Bool
+    /// 手动排序序号，越小越靠前
+    var sortIndex: Int = 0
     var createdAt: Date
 
     @Relationship(deleteRule: .cascade, inverse: \Record.pet)
@@ -64,6 +66,7 @@ final class Pet {
         chipID: String? = nil,
         avatarData: Data? = nil,
         archived: Bool = false,
+        sortIndex: Int = 0,
         createdAt: Date = Date()
     ) {
         self.id = id
@@ -80,6 +83,7 @@ final class Pet {
         self.chipID = chipID
         self.avatarData = avatarData
         self.archived = archived
+        self.sortIndex = sortIndex
         self.createdAt = createdAt
     }
 }

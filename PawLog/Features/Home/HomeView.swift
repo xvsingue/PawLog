@@ -90,7 +90,8 @@ struct HomeView: View {
     }
 
     private func movePets(fromOffsets source: IndexSet, toOffset destination: Int) {
-        pets.move(fromOffsets: source, toOffset: destination)
+        try? petService.movePets(fromOffsets: source, toOffset: destination)
+        pets = (try? petService.fetchPets()) ?? pets
     }
 }
 

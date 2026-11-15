@@ -17,18 +17,39 @@ final class PetService {
         self.context = context
     }
 
-    /// 获取未归档宠物，按创建时间升序
+    /// 获取未归档宠物，按手动排序、再按创建时间升序
     func fetchPets() throws -> [Pet] {
         let descriptor = FetchDescriptor<Pet>(
             predicate: #Predicate { !$0.archived },
-            sortBy: [SortDescriptor(\.createdAt, order: .forward)]
+            sortBy: [
+                SortDescriptor(\.sortIndex, order: .forward),
+                SortDescriptor(\.createdAt, order: .forward)
+            ]
         )
         return try context.fetch(descriptor)
     }
 
-    /// 新建宠物
+    /// 新建宠物，排序序号取当前最大值 + 1
     func createPet(_ pet: Pet) throws {
+        let existing = (try? fetchPets()) ?? []
+        pet.sortIndex = (existing.map(\.sortIndex).max() ?? -1) + 1
         context.insert(pet)
+        try context.save()
+    }
+
+    /// 重排宠物顺序，在一次 save 内批量重写全部 sortIndex
+    func movePets(fromOffsets source: IndexSet, toOffset destination: Int) throws {
+        let ordered = try fetchPets()
+
+        let removed = Set(source)
+        let moving = source.sorted().compactMap { ordered.indices.contains($0) ? ordered[$0] : nil }
+        var rest = ordered.enumerated().filter { !removed.contains($0.offset) }.map(\.element)
+        let insertAt = destination - source.filter { $0 < destination }.count
+        rest.insert(contentsOf: moving, at: max(0, min(insertAt, rest.count)))
+
+        for (index, pet) in rest.enumerated() {
+            pet.sortIndex = index
+        }
         try context.save()
     }
 
