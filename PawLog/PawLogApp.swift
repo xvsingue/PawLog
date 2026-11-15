@@ -12,7 +12,11 @@ import SwiftData
 struct PawLogApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Pet.self,
+            Record.self,
+            WeightEntry.self,
+            Reminder.self,
+            Attachment.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -86,6 +86,9 @@ xcodebuild -scheme PawLog -destination 'platform=iOS Simulator,name=iPhone 16' t
 3. 不擅自重构无关文件、不批量重命名、不删除现有代码，除非任务明确要求。
 4. 不擅自更换架构（如引入 MVVM 之外的模式、改用 Core Data、改用 UIKit）。
 5. 遇到需求未覆盖的情况，列出选项并提问，不自行发明产品规则。
+6. 每个里程碑（M0–M5）完成的最后一个动作必须是 git 提交，提交信息格式为 `<type>: <里程碑内容>（Mx）`，并在汇报中附上 `git status` 与 `git log --oneline -1` 的真实输出。
+7. 未提交前不得开始下一里程碑。
+8. 仓库必须包含 `.gitignore`，至少忽略：`.DS_Store`、`xcuserdata/`、`DerivedData/`、`*.xcuserstate`、`build/`、`.swiftpm/`。
 
 ## 10. 禁止清单
 

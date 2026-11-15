@@ -14,6 +14,8 @@ struct EmptyState: View {
     let description: LocalizedStringKey
     let buttonTitle: LocalizedStringKey
     let action: () -> Void
+    /// 主按钮的无障碍标识，便于 UI 测试定位
+    var buttonIdentifier: String? = nil
 
     var body: some View {
         VStack(spacing: Theme.Spacing.lg) {
@@ -32,6 +34,7 @@ struct EmptyState: View {
             }
             PrimaryButton(buttonTitle, action: action)
                 .frame(width: 200)
+                .accessibilityIdentifier(buttonIdentifier ?? "")
         }
         .padding(.horizontal, Theme.Spacing.xl)
     }
