@@ -157,7 +157,9 @@ final class RecordService {
 
     /// 保持 Record 与 WeightEntry 一致：体重类型写入/更新，其他类型清理
     private func syncWeight(for record: Record, input: WeightInput?) {
-        let existing = record.pet?.weightEntries.first { $0.recordID == record.id }
+        let existing = record.pet?.weightEntries.first {
+            $0.recordID == record.id && $0.deletedAt == nil
+        }
 
         guard record.type == .weight, let input else {
             if let existing {
