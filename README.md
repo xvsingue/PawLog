@@ -109,6 +109,23 @@ xcodebuild -scheme PawLog \
 
 本应用生成的就诊摘要由用户自行录入，仅供主人与兽医沟通参考，**不构成诊断或治疗建议**。PDF 页脚会显示同样的免责。
 
+## 支持这个项目
+
+爪记是我用业余时间独立开发的开源项目，没有广告、没有内购、数据全部存在你自己的设备上。
+如果它帮你省下了一次"病历说不清"的麻烦，可以请我喝杯咖啡：
+
+- 微信 / 支付宝赞赏码：
+
+<p align="center">
+  <img src="<img width="1280" height="1919" alt="4f02c8c44f5d014fdff1c807eaa89746" src="https://github.com/user-attachments/assets/b57d09eb-8bce-4587-820e-0b2dbc623045" />
+" width="240" alt="赞赏码">
+  <img src="![Uploading 59adfad5ad8c3a09fa89a0d621afe11f.jpg…]()
+" alt="赞赏码">
+</p>
+
+打赏完全自愿，不打赏也能用全部功能。
+
+
 ## License
 
 本仓库以 MIT License 发布，见 [LICENSE](LICENSE)。
