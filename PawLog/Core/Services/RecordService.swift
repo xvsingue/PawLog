@@ -37,9 +37,11 @@ final class RecordService {
 
     private let context: ModelContext
     private let calendar = Calendar.current
+    private let reminderService: ReminderService?
 
-    init(context: ModelContext) {
+    init(context: ModelContext, reminderService: ReminderService? = nil) {
         self.context = context
+        self.reminderService = reminderService
     }
 
     // MARK: - 校验
@@ -88,6 +90,7 @@ final class RecordService {
     }
 
     /// 更新记录。体重类型同步更新对应 WeightEntry；改为非体重类型时删除旧 WeightEntry。
+    /// 下次日期变化时同步重排派生提醒。
     func update(
         _ record: Record,
         occurredAt: Date,
@@ -99,6 +102,8 @@ final class RecordService {
     ) throws {
         try validate(occurredAt: occurredAt, now: now)
 
+        let previousNextDate = ReminderService.nextDateAndKind(for: record)?.1
+
         record.occurredAt = occurredAt
         record.title = title
         record.note = note
@@ -106,10 +111,27 @@ final class RecordService {
         record.updatedAt = now
         syncWeight(for: record, input: weight)
         try context.save()
+
+        syncReminderAfterUpdate(for: record, previousNextDate: previousNextDate)
     }
 
-    /// 删除记录，同时删除其关联的 WeightEntry
+    /// 下次日期变化时重排提醒；被清空则删除派生提醒
+    private func syncReminderAfterUpdate(for record: Record, previousNextDate: Date?) {
+        guard let reminderService else { return }
+        let currentNextDate = ReminderService.nextDateAndKind(for: record)?.1
+        guard currentNextDate != previousNextDate else { return }
+
+        if currentNextDate == nil {
+            reminderService.deleteDerivedReminders(for: record)
+            return
+        }
+        guard let reminder = try? reminderService.upsertDerivedReminder(for: record) else { return }
+        Task { await reminderService.reschedule(reminder) }
+    }
+
+    /// 删除记录，同时删除其关联的 WeightEntry 与派生提醒并撤销通知
     func delete(_ record: Record) throws {
+        reminderService?.deleteDerivedReminders(for: record)
         for entry in record.pet?.weightEntries ?? [] where entry.recordID == record.id {
             context.delete(entry)
         }

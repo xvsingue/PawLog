@@ -103,7 +103,7 @@ final class NotificationService {
 
     /// 排期单个偏移的通知
     private func scheduleSingle(reminder: Reminder, offsetDays: Int, now: Date) async {
-        guard let fireDate = calendar.date(byAdding: .day, value: -offsetDays, to: reminder.dueAt),
+        guard let fireDate = fireDate(for: reminder, offsetDays: offsetDays),
               fireDate > now else {
             // 偏移时间已过，不排
             return
@@ -124,6 +124,28 @@ final class NotificationService {
         } catch {
             logger.error("通知排期失败：id=\(id, privacy: .public) error=\(error.localizedDescription, privacy: .public)")
         }
+    }
+
+    // MARK: - 触发时间
+
+    /// 某提醒某偏移的实际触发时间（已按静默时段顺延）
+    private func fireDate(for reminder: Reminder, offsetDays: Int) -> Date? {
+        guard let raw = calendar.date(byAdding: .day, value: -offsetDays, to: reminder.dueAt) else {
+            return nil
+        }
+        return Self.adjustedFireDate(raw, calendar: calendar)
+    }
+
+    /// 22:00–08:00 静默：落在该区间的触发时间顺延到当日或次日 08:00
+    static func adjustedFireDate(_ date: Date, calendar: Calendar) -> Date {
+        let hour = calendar.component(.hour, from: date)
+        guard hour >= 22 || hour < 8 else { return date }
+
+        let day = hour >= 22
+            ? calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: date))
+            : calendar.startOfDay(for: date)
+        guard let day else { return date }
+        return calendar.date(bySettingHour: 8, minute: 0, second: 0, of: day) ?? date
     }
 
     // MARK: - 撤销
@@ -149,7 +171,7 @@ final class NotificationService {
         var expectedIDs = Set<String>()
         for reminder in reminders where reminder.enabled {
             for offset in Self.leadDays {
-                guard let fireDate = calendar.date(byAdding: .day, value: -offset, to: reminder.dueAt),
+                guard let fireDate = fireDate(for: reminder, offsetDays: offset),
                       fireDate > now else { continue }
                 expectedIDs.insert(notificationID(reminderID: reminder.id, offsetDays: offset))
             }

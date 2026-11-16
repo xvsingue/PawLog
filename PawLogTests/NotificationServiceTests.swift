@@ -148,4 +148,61 @@ final class NotificationServiceTests: XCTestCase {
 
         XCTAssertEqual(center.requests.count, 0, "已关闭提醒的通知应被清理")
     }
+
+    // MARK: - 静默时段（22:00–08:00）
+
+    private func fixedService(at date: Date) -> NotificationService {
+        NotificationService(center: center, calendar: calendar, clock: FixedClock(date))
+    }
+
+    /// 触发时间在 22:00 之后，顺延到次日 08:00
+    func testFireTimeAfter22ShiftsToNextMorning() async throws {
+        let base = calendar.date(from: DateComponents(year: 2026, month: 11, day: 16, hour: 12))!
+        let service = fixedService(at: base)
+        let dueAt = calendar.date(from: DateComponents(year: 2026, month: 11, day: 30, hour: 23))!
+        let reminder = Reminder(kind: .vaccine, dueAt: dueAt)
+
+        await service.schedule(for: reminder)
+
+        // 30 天偏移已过期，只剩 7 天与 1 天两条
+        XCTAssertEqual(center.requests.count, 2)
+        let id = service.notificationID(reminderID: reminder.id, offsetDays: 7)
+        let request = try XCTUnwrap(center.requests[id])
+        let trigger = try XCTUnwrap(request.trigger as? UNCalendarNotificationTrigger)
+        XCTAssertEqual(trigger.dateComponents.day, 24, "22:00 触发应顺延到次日")
+        XCTAssertEqual(trigger.dateComponents.hour, 8)
+        XCTAssertEqual(trigger.dateComponents.minute, 0)
+    }
+
+    /// 触发时间在 08:00 之前，顺延到当日 08:00
+    func testFireTimeBefore8ShiftsToSameDayMorning() async throws {
+        let base = calendar.date(from: DateComponents(year: 2026, month: 11, day: 16, hour: 12))!
+        let service = fixedService(at: base)
+        let dueAt = calendar.date(from: DateComponents(year: 2026, month: 11, day: 24, hour: 5))!
+        let reminder = Reminder(kind: .vaccine, dueAt: dueAt)
+
+        await service.schedule(for: reminder)
+
+        let id = service.notificationID(reminderID: reminder.id, offsetDays: 7)
+        let request = try XCTUnwrap(center.requests[id])
+        let trigger = try XCTUnwrap(request.trigger as? UNCalendarNotificationTrigger)
+        XCTAssertEqual(trigger.dateComponents.day, 17, "08:00 前触发应顺延到当日 08:00")
+        XCTAssertEqual(trigger.dateComponents.hour, 8)
+    }
+
+    /// 白天触发时间保持原样
+    func testFireTimeInDaytimeIsUnchanged() async throws {
+        let base = calendar.date(from: DateComponents(year: 2026, month: 11, day: 16, hour: 12))!
+        let service = fixedService(at: base)
+        let dueAt = calendar.date(from: DateComponents(year: 2026, month: 11, day: 30, hour: 15))!
+        let reminder = Reminder(kind: .vaccine, dueAt: dueAt)
+
+        await service.schedule(for: reminder)
+
+        let id = service.notificationID(reminderID: reminder.id, offsetDays: 7)
+        let request = try XCTUnwrap(center.requests[id])
+        let trigger = try XCTUnwrap(request.trigger as? UNCalendarNotificationTrigger)
+        XCTAssertEqual(trigger.dateComponents.day, 23)
+        XCTAssertEqual(trigger.dateComponents.hour, 15)
+    }
 }

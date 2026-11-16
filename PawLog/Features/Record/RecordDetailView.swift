@@ -175,15 +175,12 @@ struct RecordDetailView: View {
     // MARK: - 删除
 
     private func deleteRecord() {
-        Task { @MainActor in
-            // 先撤销并删除该记录派生的提醒，再删记录本身
-            await reminderService?.deleteReminders(for: record)
-            do {
-                try service.delete(record)
-                dismiss()
-            } catch {
-                errorMessage = error.localizedDescription
-            }
+        do {
+            // RecordService.delete 会一并删除派生提醒并撤销通知
+            try service.delete(record)
+            dismiss()
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 }

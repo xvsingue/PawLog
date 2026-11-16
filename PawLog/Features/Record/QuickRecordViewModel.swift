@@ -146,11 +146,11 @@ final class QuickRecordViewModel: ObservableObject {
             )
         }
 
-        // 首次保存记录后申请通知权限，再派生/更新提醒（疫苗/驱虫/用药/就诊）
+        // 首次保存记录后申请通知权限；新建记录在此派生提醒，编辑由 RecordService 按日期变化重排
         if let reminderService {
-            Task {
-                await reminderService.requestAuthorizationIfNeeded()
-                await reminderService.deriveReminder(from: record)
+            Task { await reminderService.requestAuthorizationIfNeeded() }
+            if editing == nil {
+                Task { await reminderService.deriveReminder(from: record) }
             }
         }
     }

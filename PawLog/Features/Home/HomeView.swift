@@ -21,7 +21,9 @@ struct HomeView: View {
     @State private var pendingQuickRecord = false
 
     private var petService: PetService { PetService(context: modelContext) }
-    private var recordService: RecordService { RecordService(context: modelContext) }
+    private var recordService: RecordService {
+        RecordService(context: modelContext, reminderService: reminderService)
+    }
     private var weightService: WeightTrendService { WeightTrendService() }
     private var reminderService: ReminderService {
         ReminderService(context: modelContext, notificationService: NotificationService())

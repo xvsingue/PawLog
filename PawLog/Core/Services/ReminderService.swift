@@ -43,8 +43,15 @@ final class ReminderService {
     /// 同一 sourceRecordID 只保留一条（upsert），并同步排期通知。
     @discardableResult
     func deriveReminder(from record: Record) async -> Reminder? {
-        let now = clock.now
-        guard let (kind, dueAt) = nextDateAndKind(for: record) else { return nil }
+        guard let reminder = try? upsertDerivedReminder(for: record) else { return nil }
+        await reschedule(reminder)
+        return reminder
+    }
+
+    /// 同步 upsert 派生提醒的数据（不排期）。无下次日期时返回 nil。
+    @discardableResult
+    func upsertDerivedReminder(for record: Record) throws -> Reminder? {
+        guard let (kind, dueAt) = Self.nextDateAndKind(for: record) else { return nil }
 
         let existing = record.pet?.reminders.first { $0.sourceRecordID == record.id }
         let reminder: Reminder
@@ -64,18 +71,18 @@ final class ReminderService {
             )
             context.insert(reminder)
         }
-        do {
-            try context.save()
-        } catch {
-            logger.error("保存派生提醒失败：record=\(record.id, privacy: .public) error=\(error.localizedDescription, privacy: .public)")
-        }
-        await notificationService.cancel(for: reminder.id)
-        await notificationService.schedule(for: reminder)
+        try context.save()
         return reminder
     }
 
+    /// 重新排期某提醒的全部通知：先撤销再按当前 dueAt 排期
+    func reschedule(_ reminder: Reminder) async {
+        await notificationService.cancel(for: reminder.id)
+        await notificationService.schedule(for: reminder)
+    }
+
     /// 从记录载荷中提取下次日期与提醒类型
-    private func nextDateAndKind(for record: Record) -> (ReminderKind, Date)? {
+    static func nextDateAndKind(for record: Record) -> (ReminderKind, Date)? {
         switch record.type {
         case .vaccine:
             guard let date = record.payload(VaccinePayload.self)?.nextDate else { return nil }
@@ -172,11 +179,12 @@ final class ReminderService {
 
     // MARK: - 删除
 
-    /// 删除某记录派生的提醒并撤销其通知
-    func deleteReminders(for record: Record) async {
+    /// 删除某记录派生的提醒并撤销其通知（同步，供记录删除时调用）
+    func deleteDerivedReminders(for record: Record) {
         let reminders = record.pet?.reminders.filter { $0.sourceRecordID == record.id } ?? []
+        guard !reminders.isEmpty else { return }
         for reminder in reminders {
-            await notificationService.cancel(for: reminder.id)
+            notificationService.cancel(for: reminder.id)
             context.delete(reminder)
         }
         do {
