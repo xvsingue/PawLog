@@ -143,7 +143,9 @@ struct ReminderListView: View {
 
     /// 跳转到该提醒来源记录的详情
     private func openDetail(_ reminder: Reminder) {
-        if let record = pet.records.first(where: { $0.id == reminder.sourceRecordID }) {
+        if let record = pet.records.first(where: {
+            $0.id == reminder.sourceRecordID && $0.deletedAt == nil
+        }) {
             selectedRecord = record
         }
     }

@@ -60,7 +60,8 @@ final class BackupService {
             .sorted { $0.date != $1.date ? $0.date < $1.date : $0.id.uuidString < $1.id.uuidString }
         let reminders = try context.fetch(FetchDescriptor<Reminder>()).filter { $0.deletedAt == nil }
             .sorted { $0.dueAt != $1.dueAt ? $0.dueAt < $1.dueAt : $0.id.uuidString < $1.id.uuidString }
-        let attachments = try context.fetch(FetchDescriptor<Attachment>()).filter { $0.deletedAt == nil }
+        let attachments = try context.fetch(FetchDescriptor<Attachment>())
+            .filter { $0.deletedAt == nil && $0.record?.deletedAt == nil }
             .sorted { $0.id.uuidString < $1.id.uuidString }
 
         return BackupEnvelope(

@@ -14,7 +14,7 @@ struct WeightCardView: View {
     let service: WeightTrendService
     let onTap: () -> Void
 
-    @Query(filter: #Predicate<WeightEntry> { $0.deletedAt == nil }, sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
+    @Query(filter: ActivePredicates.weightEntries, sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
 
     private var unit: WeightUnit {

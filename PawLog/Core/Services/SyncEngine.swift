@@ -12,6 +12,16 @@
 import Foundation
 import SwiftData
 
+/// 同步活动标记：TombstonePurger 在做物理删除前必须确认当前没有同步进行。
+@MainActor
+enum SyncActivity {
+    private(set) static var activeCount = 0
+    static var isActive: Bool { activeCount > 0 }
+
+    static func begin() { activeCount += 1 }
+    static func end() { activeCount = max(0, activeCount - 1) }
+}
+
 @MainActor
 final class SyncEngine {
     private let context: ModelContext
@@ -41,6 +51,8 @@ final class SyncEngine {
     /// 推 + 拉。返回本次应用的远端变更数。
     @discardableResult
     func sync() async throws -> Int {
+        SyncActivity.begin()
+        defer { SyncActivity.end() }
         _ = try await pushPending()
         return try await pullAndApply()
     }

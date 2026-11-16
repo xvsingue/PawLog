@@ -28,10 +28,11 @@ enum LanguagePreference: String, CaseIterable, Identifiable {
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @Query(filter: #Predicate<Pet> { $0.deletedAt == nil }, sort: \Pet.sortIndex) private var pets: [Pet]
+    @Query(filter: ActivePredicates.pets, sort: \Pet.sortIndex) private var pets: [Pet]
 
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
     @AppStorage(LanguagePreference.storageKey) private var languageRaw = LanguagePreference.system.rawValue
+    @AppStorage(TombstonePurger.autoPurgeKey) private var autoPurgeTombstones = true
 
     @State private var showingPetPicker = false
     @State private var selectedPet: Pet?
@@ -189,6 +190,12 @@ struct SettingsView: View {
                 showingClearConfirm = true
             }
             .disabled(pets.isEmpty)
+
+            Toggle(String(localized: "settings.data.autoPurge"), isOn: $autoPurgeTombstones)
+
+            Text(String(localized: "settings.data.autoPurge.hint"))
+                .font(Theme.Typography.caption)
+                .foregroundStyle(Theme.Palette.textSecondary)
         }
     }
 

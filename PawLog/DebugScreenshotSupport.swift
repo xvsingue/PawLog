@@ -127,7 +127,9 @@ struct ScreenshotRootView: View {
     }
 
     private var pet: Pet? {
-        try? container.mainContext.fetch(FetchDescriptor<Pet>()).first
+        try? container.mainContext.fetch(
+            FetchDescriptor<Pet>(predicate: ActivePredicates.pets)
+        ).first
     }
 
     var body: some View {

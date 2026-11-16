@@ -65,7 +65,7 @@ enum SummarySnapshotBuilder {
             to: calendar.startOfDay(for: now)
         ) ?? .distantPast
 
-        let entries = pet.records
+        let entries = pet.records.active
             .filter { $0.occurredAt >= cutoff && $0.occurredAt <= now }
             .sorted { $0.occurredAt > $1.occurredAt }
             .map { makeEntry($0, unit: unit) }
@@ -110,7 +110,7 @@ enum SummarySnapshotBuilder {
     }
 
     private static func latestWeightText(pet: Pet, unit: WeightUnit) -> String {
-        let latest = pet.weightEntries
+        let latest = pet.weightEntries.active
             .sorted { $0.date < $1.date }
             .last
         guard let latest else { return "summary.value.unknown".localized }
@@ -198,7 +198,7 @@ enum SummarySnapshotBuilder {
     ) -> SummarySnapshot.WeightChange? {
         // 同日取最后一条
         var latestByDay: [Date: WeightEntry] = [:]
-        for entry in pet.weightEntries where entry.date >= cutoff {
+        for entry in pet.weightEntries.active where entry.date >= cutoff {
             let day = calendar.startOfDay(for: entry.date)
             if let existing = latestByDay[day], existing.date >= entry.date { continue }
             latestByDay[day] = entry

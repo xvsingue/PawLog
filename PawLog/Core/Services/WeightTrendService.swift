@@ -54,7 +54,7 @@ final class WeightTrendService {
 
     /// 指定区间内的体重点（按宠物关系取）
     func points(for pet: Pet, days: Int) -> [WeightPoint] {
-        points(from: pet.weightEntries, days: days)
+        points(from: pet.weightEntries.active, days: days)
     }
 
     /// 最新一条体重（不受区间限制）
@@ -64,7 +64,7 @@ final class WeightTrendService {
 
     /// 最新一条体重（按宠物关系取）
     func latestPoint(for pet: Pet) -> WeightPoint? {
-        latestPoint(from: pet.weightEntries)
+        latestPoint(from: pet.weightEntries.active)
     }
 
     /// 最近 30 天变化：返回较窗口首条的变化量与比例，不足两条返回 nil
@@ -80,7 +80,7 @@ final class WeightTrendService {
 
     /// 最近 30 天变化（按宠物关系取）
     func recentChange(for pet: Pet) -> (delta: Double, percent: Double)? {
-        recentChange(from: pet.weightEntries)
+        recentChange(from: pet.weightEntries.active)
     }
 
     // MARK: - 提示
@@ -92,7 +92,7 @@ final class WeightTrendService {
 
     /// 变化提示（按宠物关系取）
     func alert(for pet: Pet) -> WeightAlertKind? {
-        alert(from: pet.weightEntries)
+        alert(from: pet.weightEntries.active)
     }
 
     /// 判定规则（纯函数，便于测试）
@@ -118,10 +118,11 @@ final class WeightTrendService {
 
     // MARK: - 去重
 
-    /// 按自然日去重：同日取时间最晚的一条，结果按时间升序
+    /// 按自然日去重：同日取时间最晚的一条，结果按时间升序。
+    /// 先排除墓碑，保证趋势与变化提示不会被已删除数据影响。
     private static func dailyLastEntries(_ entries: [WeightEntry], calendar: Calendar) -> [WeightPoint] {
         var latestByDay: [Date: WeightEntry] = [:]
-        for entry in entries {
+        for entry in entries where entry.deletedAt == nil {
             let day = calendar.startOfDay(for: entry.date)
             if let existing = latestByDay[day], existing.date >= entry.date { continue }
             latestByDay[day] = entry

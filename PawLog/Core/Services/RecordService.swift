@@ -186,7 +186,7 @@ final class RecordService {
 
     /// 最近一次使用的医院（疫苗或就诊）
     func lastHospital(for pet: Pet) -> String? {
-        for record in pet.records.sorted(by: { $0.occurredAt > $1.occurredAt }) {
+        for record in pet.records.active.sorted(by: { $0.occurredAt > $1.occurredAt }) {
             switch record.type {
             case .vaccine:
                 if let hospital = record.payload(VaccinePayload.self)?.hospital, !hospital.isEmpty {
@@ -205,7 +205,7 @@ final class RecordService {
 
     /// 最近一次使用的药品（用药或驱虫）
     func lastDrugName(for pet: Pet) -> String? {
-        for record in pet.records.sorted(by: { $0.occurredAt > $1.occurredAt }) {
+        for record in pet.records.active.sorted(by: { $0.occurredAt > $1.occurredAt }) {
             switch record.type {
             case .medication:
                 if let name = record.payload(MedicationPayload.self)?.drugName, !name.isEmpty {

@@ -60,7 +60,9 @@ final class ReminderService {
     func upsertDerivedReminder(for record: Record) throws -> Reminder? {
         guard let (kind, dueAt) = Self.nextDateAndKind(for: record) else { return nil }
 
-        let existing = record.pet?.reminders.first { $0.sourceRecordID == record.id }
+        let existing = record.pet?.reminders.first {
+            $0.sourceRecordID == record.id && $0.deletedAt == nil
+        }
         let reminder: Reminder
         if let existing {
             existing.kind = kind
@@ -87,7 +89,9 @@ final class ReminderService {
     /// 免费用户只有 dueAt 最近的若干条能排通知，其余撤销待发但不改动提醒数据。
     func reschedule(_ reminder: Reminder) async {
         if let limit = reminderLimit() {
-            let enabled = ((try? context.fetch(FetchDescriptor<Reminder>())) ?? [])
+            let enabled = ((try? context.fetch(
+                FetchDescriptor<Reminder>(predicate: ActivePredicates.reminders)
+            )) ?? [])
                 .filter(\.enabled)
                 .sorted { $0.dueAt < $1.dueAt }
             let eligible = Set(enabled.prefix(limit).map(\.id))
@@ -173,7 +177,7 @@ final class ReminderService {
     /// 分组查询：即将到期 / 已过期（均只含启用的提醒）
     func fetchReminders(for pet: Pet) -> (upcoming: [Reminder], overdue: [Reminder]) {
         let startOfToday = calendar.startOfDay(for: clock.now)
-        let enabled = pet.reminders.filter { $0.enabled }
+        let enabled = pet.reminders.filter { $0.enabled && $0.deletedAt == nil }
         let upcoming = enabled
             .filter { $0.dueAt >= startOfToday }
             .sorted { $0.dueAt < $1.dueAt }
@@ -194,7 +198,7 @@ final class ReminderService {
 
     /// 启动对账：对全部提醒执行通知对账（补缺失、清过期），并刷新逾期每日汇总。幂等。
     func reconcileAll() async {
-        let descriptor = FetchDescriptor<Reminder>()
+        let descriptor = FetchDescriptor<Reminder>(predicate: ActivePredicates.reminders)
         let all = (try? context.fetch(descriptor)) ?? []
         let eligible: [Reminder]
         if let limit = reminderLimit() {
@@ -221,7 +225,9 @@ final class ReminderService {
 
     /// 删除某记录派生的提醒并撤销其通知（同步，供记录删除时调用）
     func deleteDerivedReminders(for record: Record) {
-        let reminders = record.pet?.reminders.filter { $0.sourceRecordID == record.id } ?? []
+        let reminders = record.pet?.reminders.filter {
+            $0.sourceRecordID == record.id && $0.deletedAt == nil
+        } ?? []
         guard !reminders.isEmpty else { return }
         for reminder in reminders {
             notificationService.cancel(for: reminder.id)

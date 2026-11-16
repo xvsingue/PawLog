@@ -37,6 +37,18 @@ struct PawLogApp: App {
         // 注册通知分类与回调，长按通知可直接标记完成/稍后提醒
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
         NotificationService().registerCategories()
+        // 启动时后台清理一次过期墓碑，避免数据库无限膨胀
+        Self.purgeExpiredTombstonesIfNeeded()
+    }
+
+    /// 开关默认开启；只在有活跃数据时读取，清理失败不影响启动。
+    private static func purgeExpiredTombstonesIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: TombstonePurger.autoPurgeKey) as? Bool ?? true else { return }
+        Task { @MainActor in
+            let purger = TombstonePurger(context: sharedContainer.mainContext)
+            _ = try? purger.purge()
+        }
     }
 
     var sharedModelContainer: ModelContainer { Self.sharedContainer }

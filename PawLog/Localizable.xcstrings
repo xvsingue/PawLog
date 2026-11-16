@@ -2268,6 +2268,28 @@
         }
       }
     },
+    "settings.data.autoPurge": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动清理已删除数据"
+          }
+        }
+      }
+    },
+    "settings.data.autoPurge.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已同步且超过 30 天的删除数据会被彻底清理。"
+          }
+        }
+      }
+    },
     "settings.data.clear.title": {
       "extractionState": "stale",
       "localizations": {

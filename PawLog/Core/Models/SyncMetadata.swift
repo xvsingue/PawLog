@@ -22,3 +22,8 @@ extension Record: SyncTracked {}
 extension WeightEntry: SyncTracked {}
 extension Reminder: SyncTracked {}
 extension Attachment: SyncTracked {}
+
+extension Array where Element: SyncTracked {
+    /// 排除墓碑后的活跃对象。用于关系数组（pet.records 等）的内存过滤。
+    var active: [Element] { filter { $0.deletedAt == nil } }
+}

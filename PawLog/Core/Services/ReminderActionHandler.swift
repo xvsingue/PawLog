@@ -35,7 +35,7 @@ enum ReminderActionHandler {
         reminderLimit: @escaping () -> Int? = { nil }
     ) async {
         let descriptor = FetchDescriptor<Reminder>(
-            predicate: #Predicate { $0.id == reminderID }
+            predicate: #Predicate { $0.id == reminderID && $0.deletedAt == nil }
         )
         guard let reminder = (try? context.fetch(descriptor))?.first else { return }
         let service = ReminderService(

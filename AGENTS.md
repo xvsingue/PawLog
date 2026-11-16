@@ -51,6 +51,9 @@ PawLogTests/    单元测试
 - 备份文件：`version` 是人类可读标签（如 `"1.0"`），`schemaVersion` 是结构契约整数。新增可选字段不升 `schemaVersion`；删除字段、改变字段语义或类型必须升 `schemaVersion` 并提供迁移函数。版本不匹配时一律拒绝，不静默降级、不做部分写入。
 - 备份中的附件只存相对路径（`attachments/<文件名>`），导入时按当前沙箱重新拼路径，禁止直接使用外来绝对路径。
 - 删除全部业务数据只走 `ModelCleanup.deleteBusinessData(in:)`，不自行另写一套删除逻辑；不清空 `Entitlement`。
+- 所有查询必须排除墓碑（`deletedAt != nil`）：`@Query` 用 `ActivePredicates`，关系数组用 `.active`，`FetchDescriptor` 显式带谓词。
+- 墓碑不得参与备份导出、统计、PDF 摘要与提醒派生。
+- 物理删除只能由 `TombstonePurger` 在「已同步 + 超期」前提下执行（`ModelCleanup` 的全量清空除外）。
 - 不采集宠物照片内容、备注文本、精确位置、通讯录。
 
 ## 6. 本地化

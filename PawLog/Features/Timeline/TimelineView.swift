@@ -14,7 +14,7 @@ struct TimelineView: View {
     let reminderService: ReminderService?
     let onAdd: () -> Void
 
-    @Query(filter: #Predicate<Record> { $0.deletedAt == nil }, sort: \Record.occurredAt, order: .reverse)
+    @Query(filter: ActivePredicates.records, sort: \Record.occurredAt, order: .reverse)
     private var allRecords: [Record]
 
     @Environment(EntitlementService.self) private var entitlements
