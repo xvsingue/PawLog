@@ -35,6 +35,7 @@ struct WeightTrendView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
     @State private var range: WeightRange = .last90
+    @State private var showingSummary = false
 
     private var entries: [WeightEntry] {
         allEntries.filter { $0.pet?.id == pet.id }
@@ -91,8 +92,15 @@ struct WeightTrendView: View {
                 if let alert {
                     alertCard(alert)
                 }
+
+                PrimaryButton("summary.export.action") {
+                    showingSummary = true
+                }
             }
             .padding(Theme.Spacing.pageMargin)
+        }
+        .sheet(isPresented: $showingSummary) {
+            SummaryView(pet: pet)
         }
     }
 

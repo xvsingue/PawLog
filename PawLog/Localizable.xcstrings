@@ -1732,6 +1732,102 @@
           }
         }
       }
+    },
+    "summary.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
+    },
+    "summary.view.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
+    },
+    "summary.generatedAt %@" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "生成日期 %@" } } }
+    },
+    "summary.header.pet" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "宠物" } } }
+    },
+    "summary.header.speciesBreed" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "物种品种" } } }
+    },
+    "summary.header.sex" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "性别" } } }
+    },
+    "summary.header.age" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "年龄" } } }
+    },
+    "summary.header.chipID" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "芯片号" } } }
+    },
+    "summary.header.weight" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重" } } }
+    },
+    "summary.header.allergies" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "过敏史" } } }
+    },
+    "summary.section.records" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近期记录" } } }
+    },
+    "summary.section.weight" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重变化摘要" } } }
+    },
+    "summary.section.medicationVisits" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用药与就诊重点" } } }
+    },
+    "summary.empty.records" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近 90 天暂无记录" } } }
+    },
+    "summary.value.none" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无" } } }
+    },
+    "summary.value.unknown" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未知" } } }
+    },
+    "summary.value.missing" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未填写" } } }
+    },
+    "summary.age.months %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%lld 月龄" } } }
+    },
+    "summary.age.years %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%lld 岁" } } }
+    },
+    "summary.severity %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "严重度 %lld" } } }
+    },
+    "summary.nextDate %@" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "下次 %@" } } }
+    },
+    "summary.weight.summary %@ %@ %@" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "起始 %@ · 结束 %@ · 变化 %@" } } }
+    },
+    "summary.disclaimer" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本摘要由用户自行记录生成，仅供就诊参考，不构成诊断意见。" } } }
+    },
+    "summary.page.number %lld %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "第 %lld 页 / 共 %lld 页" } } }
+    },
+    "summary.file.suffix" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "摘要" } } }
+    },
+    "summary.file.unnamed" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "宠物" } } }
+    },
+    "summary.export.action" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出就诊摘要" } } }
+    },
+    "summary.share.pdf" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分享 PDF" } } }
+    },
+    "summary.share.image" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分享长图" } } }
+    },
+    "summary.error.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出失败" } } }
+    },
+    "summary.preview.range %lld %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近 %lld 天 · %lld 条记录" } } }
+    },
+    "summary.preview.preparing" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在生成摘要…" } } }
     }
   },
   "version" : "1.0"
