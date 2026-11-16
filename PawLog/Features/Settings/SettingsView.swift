@@ -8,11 +8,10 @@
 import SwiftUI
 import SwiftData
 
-/// 语言偏好
+/// 语言偏好。v1 仅支持跟随系统 / 简体中文，English 留到 v1.1。
 enum LanguagePreference: String, CaseIterable, Identifiable {
     case system
     case zhHans
-    case en
 
     static let storageKey = "settings.language"
 
@@ -22,20 +21,6 @@ enum LanguagePreference: String, CaseIterable, Identifiable {
         switch self {
         case .system: "settings.language.system"
         case .zhHans: "settings.language.zhHans"
-        case .en: "settings.language.en"
-        }
-    }
-
-    /// 写入系统语言偏好，重启后生效
-    static func apply(_ preference: LanguagePreference) {
-        let defaults = UserDefaults.standard
-        switch preference {
-        case .system:
-            defaults.removeObject(forKey: "AppleLanguages")
-        case .zhHans:
-            defaults.set(["zh-Hans"], forKey: "AppleLanguages")
-        case .en:
-            defaults.set(["en"], forKey: "AppleLanguages")
         }
     }
 }
@@ -69,10 +54,7 @@ struct SettingsView: View {
     private var language: Binding<LanguagePreference> {
         Binding(
             get: { LanguagePreference(rawValue: languageRaw) ?? .system },
-            set: { newValue in
-                languageRaw = newValue.rawValue
-                LanguagePreference.apply(newValue)
-            }
+            set: { languageRaw = $0.rawValue }
         )
     }
 
@@ -158,7 +140,20 @@ struct SettingsView: View {
                     Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
                 }
             }
-            Text(String(localized: "settings.language.restartHint"))
+            .pickerStyle(.inline)
+
+            // English 置灰，标注 v1.1 支持
+            HStack {
+                Text(String(localized: "settings.language.en"))
+                Spacer()
+                Text(String(localized: "settings.language.comingSoon"))
+                    .font(Theme.Typography.caption)
+            }
+            .foregroundStyle(Theme.Palette.textTertiary)
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isStaticText)
+
+            Text(String(localized: "settings.language.v1Hint"))
                 .font(Theme.Typography.caption)
                 .foregroundStyle(Theme.Palette.textSecondary)
         } header: {

@@ -187,7 +187,7 @@ PawLog/
 
 ### 5.10 国际化（P0 基建）
 
-- 默认跟随系统，设置内可切 跟随系统/简体中文/English，立即生效不重启。
+- 默认跟随系统，设置内可切 跟随系统/简体中文；English 在 v1 置灰（标注「v1.1 支持」），真切换（含即时生效）留到 v1.1，v1 不写 `AppleLanguages` 伪装切换。
 - 文案集中在 String Catalog，key 语义化（`record.type.vaccine.label`）。
 - 用户输入内容不翻译。
 - 摘要支持中/英两版模板（P1）；英文术语：Vaccination、Deworming、Medication、Vet Visit、Symptoms、Weight、Body Condition Score。
@@ -292,6 +292,8 @@ PawLog/
 ### P13 设置
 
 分组：宠物管理、家庭共享、提醒、数据、隐私、订阅、关于；行高 52；删除全部数据单独分组。
+
+语言（v1 限制）：仅可选「跟随系统」「简体中文」；「English」置灰并标注「v1.1 支持」。v1 不写 `AppleLanguages`，不做伪切换；真正的多语言切换与即时生效在 v1.1 实现。
 
 ### P14 小组件
 
