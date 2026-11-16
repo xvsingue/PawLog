@@ -5,6 +5,14 @@
 //  全量备份导出与恢复。导出只读，不改动任何数据；导入先完整校验、再在单个
 //  save 事务内写入，任一步失败都不留下半份数据。
 //
+//  版本策略
+//  --------
+//  - `version`：人类可读的文件标签（如 "1.0"），用于对外提示。
+//  - `schemaVersion`：结构契约整数，决定字段语义与迁移路径。
+//  - 新增「可选字段」不升 schemaVersion（旧文件缺字段按默认值处理即可）。
+//  - 删除字段、改变字段语义或类型，必须升 schemaVersion，并提供迁移函数。
+//  - 当前策略：版本不匹配即拒绝，不静默降级、不做部分写入。
+//
 
 import Foundation
 import SwiftData
@@ -16,22 +24,27 @@ final class BackupService {
     static let supportedVersion = "1.0"
     /// 当前 schema 版本
     static let currentSchemaVersion = 1
+    /// 附件相对目录名（备份内只存相对路径）
+    static let attachmentFolderName = "attachments"
 
     let context: ModelContext
     let clock: Clock
     let fileManager: FileManager
-    /// 附件恢复目录
+    let notificationService: NotificationService
+    /// 附件恢复目录：当前沙箱 Documents/attachments
     let attachmentDirectory: URL
 
     init(
         context: ModelContext,
         clock: Clock = SystemClock(),
         fileManager: FileManager = .default,
+        notificationService: NotificationService = NotificationService(),
         attachmentDirectory: URL? = nil
     ) {
         self.context = context
         self.clock = clock
         self.fileManager = fileManager
+        self.notificationService = notificationService
         self.attachmentDirectory = attachmentDirectory ?? Self.defaultAttachmentDirectory(fileManager: fileManager)
     }
 
@@ -123,8 +136,9 @@ final class BackupService {
     }
 
     /// 导入备份。先完整校验；本地已有数据时必须显式确认覆盖。
+    /// 写入成功后重排本地通知，使 pending 与导入后的提醒一致。
     @discardableResult
-    func importBackup(_ data: Data, overwriteConfirmed: Bool = false) throws -> BackupCounts {
+    func importBackup(_ data: Data, overwriteConfirmed: Bool = false) async throws -> BackupCounts {
         let envelope = try decode(data)
 
         let existing = try existingCounts().records
@@ -134,28 +148,27 @@ final class BackupService {
 
         // 删除与写入在同一次 save 中完成；任一步失败则整体回滚，不留半份数据
         do {
-            try deleteAll()
+            try ModelCleanup.deleteBusinessData(in: context)
             try insert(envelope)
             try context.save()
         } catch {
             context.rollback()
             throw error
         }
+
+        // save 成功后才动通知系统：撤销旧请求并按当前提醒重新排期
+        let reminderService = ReminderService(
+            context: context,
+            notificationService: notificationService
+        )
+        await reminderService.reconcileAll()
+
         return envelope.counts
     }
 
-    /// 逐个删除全部业务数据。不删除 Entitlement，避免抹掉本地购买状态。
-    private func deleteAll() throws {
-        for record in try context.fetch(FetchDescriptor<Record>()) { context.delete(record) }
-        for entry in try context.fetch(FetchDescriptor<WeightEntry>()) { context.delete(entry) }
-        for reminder in try context.fetch(FetchDescriptor<Reminder>()) { context.delete(reminder) }
-        for attachment in try context.fetch(FetchDescriptor<Attachment>()) { context.delete(attachment) }
-        for pet in try context.fetch(FetchDescriptor<Pet>()) { context.delete(pet) }
-    }
-
     private static func defaultAttachmentDirectory(fileManager: FileManager) -> URL {
-        let base = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        let base = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
             ?? fileManager.temporaryDirectory
-        return base.appendingPathComponent("Attachments", isDirectory: true)
+        return base.appendingPathComponent(attachmentFolderName, isDirectory: true)
     }
 }

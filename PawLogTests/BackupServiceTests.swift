@@ -27,7 +27,7 @@ final class BackupServiceTests: XCTestCase {
 
     // MARK: - 往返一致
 
-    func testExportImportRoundTripPreservesAllModels() throws {
+    func testExportImportRoundTripPreservesAllModels() async throws {
         let seed = try harness.seed()
         let service = harness.makeService()
         let data = try service.exportData()
@@ -42,7 +42,7 @@ final class BackupServiceTests: XCTestCase {
         XCTAssertEqual(envelope.counts.attachments, 1)
 
         try harness.emptyEverything()
-        let counts = try service.importBackup(data, overwriteConfirmed: true)
+        let counts = try await service.importBackup(data, overwriteConfirmed: true)
         XCTAssertEqual(counts, envelope.counts)
 
         let pets = try harness.context.fetch(FetchDescriptor<Pet>())

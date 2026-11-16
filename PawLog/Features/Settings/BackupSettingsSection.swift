@@ -115,13 +115,15 @@ struct BackupSettingsSection: View {
     }
 
     private func performImport(_ data: Data) {
-        do {
-            let counts = try service.importBackup(data, overwriteConfirmed: true)
-            statusMessage = String(localized: "settings.backup.restore.success \(counts.total)")
-        } catch {
-            errorMessage = error.localizedDescription
+        Task {
+            do {
+                let counts = try await service.importBackup(data, overwriteConfirmed: true)
+                statusMessage = String(localized: "settings.backup.restore.success \(counts.total)")
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            pendingData = nil
         }
-        pendingData = nil
     }
 }
 

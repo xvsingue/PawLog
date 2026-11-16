@@ -85,30 +85,40 @@ final class BackupImportValidationTests: XCTestCase {
 
     // MARK: - 损坏文件不破坏现有数据
 
-    func testTruncatedJSONThrowsAndKeepsData() throws {
+    func testTruncatedJSONThrowsAndKeepsData() async throws {
         try harness.seed()
         let service = harness.makeService()
         let data = try service.exportData()
         let truncated = Data(data.prefix(data.count / 2))
 
         let before = try service.existingCounts()
-        XCTAssertThrowsError(try service.importBackup(truncated, overwriteConfirmed: true))
+        do {
+            _ = try await service.importBackup(truncated, overwriteConfirmed: true)
+            XCTFail("截断的 JSON 应被拒绝")
+        } catch {
+            XCTAssertTrue(error is BackupError)
+        }
         XCTAssertEqual(try service.existingCounts(), before)
         XCTAssertEqual(try harness.context.fetch(FetchDescriptor<Pet>()).count, 1)
     }
 
-    func testMissingFieldThrowsAndKeepsData() throws {
+    func testMissingFieldThrowsAndKeepsData() async throws {
         try harness.seed()
         let service = harness.makeService()
         let data = try harness.mutatedExport { $0.removeValue(forKey: "pets") }
 
         let before = try service.existingCounts()
-        XCTAssertThrowsError(try service.importBackup(data, overwriteConfirmed: true))
+        do {
+            _ = try await service.importBackup(data, overwriteConfirmed: true)
+            XCTFail("缺字段的 JSON 应被拒绝")
+        } catch {
+            XCTAssertTrue(error is BackupError)
+        }
         XCTAssertEqual(try service.existingCounts(), before)
         XCTAssertEqual(try harness.context.fetch(FetchDescriptor<Pet>()).count, 1)
     }
 
-    func testInvalidBase64ThrowsAndKeepsData() throws {
+    func testInvalidBase64ThrowsAndKeepsData() async throws {
         try harness.seed()
         let service = harness.makeService()
         let data = try harness.mutatedExport { dict in
@@ -120,7 +130,10 @@ final class BackupImportValidationTests: XCTestCase {
         }
 
         let before = try service.existingCounts()
-        XCTAssertThrowsError(try service.importBackup(data, overwriteConfirmed: true)) { error in
+        do {
+            _ = try await service.importBackup(data, overwriteConfirmed: true)
+            XCTFail("非法 base64 应被拒绝")
+        } catch {
             guard let backupError = error as? BackupError,
                   case .malformed = backupError else {
                 return XCTFail("应抛出结构损坏错误，实际：\(error)")
@@ -129,12 +142,15 @@ final class BackupImportValidationTests: XCTestCase {
         XCTAssertEqual(try service.existingCounts(), before)
     }
 
-    func testOverwriteRequiresConfirmation() throws {
+    func testOverwriteRequiresConfirmation() async throws {
         try harness.seed()
         let service = harness.makeService()
         let data = try service.exportData()
 
-        XCTAssertThrowsError(try service.importBackup(data)) { error in
+        do {
+            _ = try await service.importBackup(data)
+            XCTFail("已有数据时应要求确认")
+        } catch {
             guard let backupError = error as? BackupError,
                   case let .overwriteNotConfirmed(count) = backupError else {
                 return XCTFail("应要求确认覆盖，实际：\(error)")

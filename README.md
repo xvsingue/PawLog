@@ -6,7 +6,7 @@
 ![iOS](https://img.shields.io/badge/iOS-17%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-6-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Tests](https://img.shields.io/badge/Tests-88%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-120%20passed-brightgreen)
 
 📱 iOS 17+ · Swift 6 · SwiftUI · SwiftData · Swift Charts · 零第三方运行时依赖
 
@@ -26,6 +26,7 @@
 - 提醒（30/7/1 天周期、22–08 点静默、逾期汇总、通知内直接"已完成"回写）
 - 就诊摘要 A4 PDF 与长图导出（离线生成，页脚固定免责）
 - 设置页：单位（kg / lb）、语言跟随系统、恢复购买、关于
+- 数据备份：全量导出为单个 JSON（含附件），可从文件恢复，恢复前需输入「覆盖」确认
 
 ## 技术栈与架构
 
@@ -70,7 +71,7 @@ xcodebuild -scheme PawLog \
   -only-testing:PawLogTests test
 ```
 
-当前 **88 条单元测试**，全部在 Service 层：
+当前 **120 条单元测试**，全部在 Service 层：
 
 - `EntitlementServiceTests` · `StoreKitConfigurationTests`（4 条 SKTestSession：productID 校验 / 购买解锁 / 退款回落 / 恢复还原）
 - `ReminderServiceTests` · `ReminderRecordSyncTests` · `ReminderFreeLimitTests`
@@ -79,6 +80,8 @@ xcodebuild -scheme PawLog \
 - `SummaryPDFTests` · `WeightTrendTests` · `WeightUnitTests`
 - `LocalizationKeyTests`（`String(localized:)` 全部 key 在 Catalog 存在）
 - `PawLogConfigTests`（订阅开关关闭时全用户视作 Pro、限额放开；打开时免费限额恢复）
+- `BackupServiceTests` · `BackupImportValidationTests` · `BackupPathAndNotificationTests`（往返一致 / 版本与损坏拒绝 / 相对路径跨设备恢复 / 导入后重排通知）
+- `TimelineSearchTests`（多字段命中 / 大小写无关 / 全角空格容错 / 与类型筛选叠加）
 - `QuickRecordDefaultsTests`（默认值 / 必填字段）
 
 订阅开关在测试里显式注入 `proEnabled: true`，所以即使开源版默认关闭，StoreKit 四个用例仍直连 `.storekit` 通过。
@@ -96,10 +99,12 @@ xcodebuild -scheme PawLog \
 | M5a | 设置页、语言、通知动作、逾期汇总 | ✅ |
 | M5b | StoreKit 2 订阅 + 免费 / Pro 限额 | ✅ |
 | M5c | 开源发布准备：图标、隐私清单、README、许可证、订阅开关 | ✅ |
+| M6 | 数据备份与恢复（JSON）、时间线搜索 | ✅ |
 
 ## 已知限制
 
 - **无 CloudKit / 多设备同步**（留 v1.1，PRD 5.7 家庭共享随 CloudKit 提供）
+- **备份不含 CloudKit**：恢复为整库覆盖，跨设备迁移需手动导入文件
 - **v1 仅简体中文**：English 置灰并标注 `v1.1 支持`，不伪装切换
 - **订阅入口默认关闭**：`PawLogConfig.isProEnabled = false`，上架时改为 `true` 即可恢复 1 宠 / 3 提醒 / 90 天历史锁定
 - **无相册 / 位置权限**：应用不采集图片、通讯录、位置，Info.plist 不声明相册权限

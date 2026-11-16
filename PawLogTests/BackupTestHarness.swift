@@ -15,6 +15,9 @@ final class BackupTestHarness {
     let container: ModelContainer
     let context: ModelContext
     let directory: URL
+    let center = FakeNotificationCenter()
+    let now = Date(timeIntervalSince1970: 1_760_000_000)
+    let calendar = Calendar(identifier: .gregorian)
 
     /// 示例数据的关键字段快照（删除后原对象会失效）
     struct Seed {
@@ -39,10 +42,15 @@ final class BackupTestHarness {
             .appendingPathComponent("PawLogBackupTests-\(UUID().uuidString)", isDirectory: true)
     }
 
+    func makeNotificationService() -> NotificationService {
+        NotificationService(center: center, calendar: calendar, clock: FixedClock(now))
+    }
+
     func makeService() -> BackupService {
         BackupService(
             context: context,
-            clock: FixedClock(Date(timeIntervalSince1970: 1_760_000_000)),
+            clock: FixedClock(now),
+            notificationService: makeNotificationService(),
             attachmentDirectory: directory
         )
     }
@@ -98,6 +106,17 @@ final class BackupTestHarness {
             fileBytes: bytes,
             thumbnail: thumbnail
         )
+    }
+
+    /// 写入 N 条启用提醒（2 天后到期，每条只产生 1 条有效提前通知）
+    func seedReminders(count: Int) throws {
+        let pet = Pet(name: "闹钟猫", species: .cat)
+        context.insert(pet)
+        for index in 0..<count {
+            let due = now.addingTimeInterval(2 * 86_400 + Double(index) * 3_600)
+            context.insert(Reminder(pet: pet, kind: .custom, dueAt: due))
+        }
+        try context.save()
     }
 
     func emptyEverything() throws {

@@ -77,11 +77,19 @@ extension BackupService {
             id: attachment.id,
             recordID: attachment.record?.id,
             kind: attachment.kind.rawValue,
-            localPath: attachment.localPath,
+            // 只存相对路径，换设备后按当前沙箱重新拼
+            localPath: relativePath(for: attachment),
             fileDataBase64: data?.base64EncodedString(),
             thumbnailDataBase64: attachment.thumbnailData?.base64EncodedString(),
             createdAt: attachment.createdAt
         )
+    }
+
+    /// 备份内的相对路径：attachments/<文件名>
+    static func relativePath(for attachment: Attachment) -> String {
+        var name = (attachment.localPath as NSString).lastPathComponent
+        if name.isEmpty { name = attachment.id.uuidString }
+        return "\(attachmentFolderName)/\(name)"
     }
 
     // MARK: - DTO → 模型
@@ -167,7 +175,7 @@ extension BackupService {
                     kind: try requireAttachmentKind(dto.kind),
                     localPath: try restoreFile(
                         attachmentID: dto.id,
-                        originalPath: dto.localPath,
+                        storedPath: dto.localPath,
                         data: fileData
                     ),
                     thumbnailData: try Self.decodeBase64(dto.thumbnailDataBase64, field: "attachment.thumbnail"),
@@ -177,14 +185,16 @@ extension BackupService {
         }
     }
 
-    /// 把附件字节写回本地目录，返回新的本地路径
-    private func restoreFile(attachmentID: UUID, originalPath: String, data: Data?) throws -> String {
-        guard let data else { return originalPath }
+    /// 把附件字节写回当前沙箱的 attachments 目录，返回新的绝对路径。
+    /// 备份里的路径一律只取文件名后重拼，兼容旧备份中的绝对路径。
+    private func restoreFile(attachmentID: UUID, storedPath: String, data: Data?) throws -> String {
+        var name = (storedPath as NSString).lastPathComponent
+        if name.isEmpty { name = attachmentID.uuidString }
+        let url = attachmentDirectory.appendingPathComponent(name)
+
+        guard let data else { return url.path }
         do {
             try fileManager.createDirectory(at: attachmentDirectory, withIntermediateDirectories: true)
-            let ext = (originalPath as NSString).pathExtension
-            let name = ext.isEmpty ? attachmentID.uuidString : "\(attachmentID.uuidString).\(ext)"
-            let url = attachmentDirectory.appendingPathComponent(name)
             try data.write(to: url, options: .atomic)
             return url.path
         } catch {

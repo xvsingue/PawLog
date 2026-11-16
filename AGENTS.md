@@ -48,6 +48,9 @@ PawLogTests/    单元测试
 - `Record.payloadJSON` 存各类型的差异化字段，新增字段必须向后兼容（缺字段给默认值，不得崩溃）。
 - 体重独立存 `WeightEntry`，同日多次以最后一次为准。
 - 就诊摘要只读数据，不写回时间线。
+- 备份文件：`version` 是人类可读标签（如 `"1.0"`），`schemaVersion` 是结构契约整数。新增可选字段不升 `schemaVersion`；删除字段、改变字段语义或类型必须升 `schemaVersion` 并提供迁移函数。版本不匹配时一律拒绝，不静默降级、不做部分写入。
+- 备份中的附件只存相对路径（`attachments/<文件名>`），导入时按当前沙箱重新拼路径，禁止直接使用外来绝对路径。
+- 删除全部业务数据只走 `ModelCleanup.deleteBusinessData(in:)`，不自行另写一套删除逻辑；不清空 `Entitlement`。
 - 不采集宠物照片内容、备注文本、精确位置、通讯录。
 
 ## 6. 本地化
