@@ -45,12 +45,18 @@ final class RecordService {
         context: ModelContext,
         reminderService: ReminderService? = nil,
         deviceID: String = DeviceIdentity.current(),
-        clock: Clock = SystemClock()
+        clock: Clock = SystemClock(),
+        attachmentDirectory: URL? = nil
     ) {
         self.context = context
         self.reminderService = reminderService
         self.clock = clock
-        self.changes = ChangeLogService(context: context, deviceID: deviceID, clock: clock)
+        self.changes = ChangeLogService(
+            context: context,
+            deviceID: deviceID,
+            clock: clock,
+            attachmentDirectory: attachmentDirectory
+        )
     }
 
     // MARK: - 校验
@@ -140,14 +146,19 @@ final class RecordService {
         Task { await reminderService.reschedule(reminder) }
     }
 
-    /// 删除记录：写墓碑（供其它设备同步感知），同时物理清理关联的 WeightEntry
-    /// 与派生提醒并撤销通知。
+    /// 删除记录：写墓碑（供其它设备同步感知），附件一并墓碑化；
+    /// 同时物理清理关联的 WeightEntry 与派生提醒并撤销通知。
+    /// 附件磁盘文件由 TombstonePurger 在确认同步后清理。
     func delete(_ record: Record) throws {
         reminderService?.deleteDerivedReminders(for: record)
         for entry in record.pet?.weightEntries ?? [] where entry.recordID == record.id {
             context.delete(entry)
         }
         let now = clock.now
+        for attachment in record.attachments where attachment.deletedAt == nil {
+            try changes.record(attachment, kind: .attachment, operation: .delete, at: now)
+            attachment.deletedAt = now
+        }
         try changes.record(record, kind: .record, operation: .delete, at: now)
         record.deletedAt = now
         try context.save()

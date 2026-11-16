@@ -42,6 +42,8 @@ struct RecordDetailView: View {
                 }
             }
 
+            RecordAttachmentsSection(record: record)
+
             Section {
                 Button(String(localized: "record.action.delete"), role: .destructive) {
                     showingDeleteConfirm = true

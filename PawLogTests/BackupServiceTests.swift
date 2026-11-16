@@ -71,9 +71,12 @@ final class BackupServiceTests: XCTestCase {
         XCTAssertEqual(attachments.first?.id, seed.attachmentID)
         XCTAssertEqual(attachments.first?.thumbnailData, seed.thumbnail)
 
-        // 附件字节完全一致
+        // 附件字节完全一致；localPath 只存相对路径，按当前沙箱拼接后可读
         let restoredPath = try XCTUnwrap(attachments.first?.localPath)
-        let restoredBytes = try Data(contentsOf: URL(fileURLWithPath: restoredPath))
+        XCTAssertFalse(restoredPath.hasPrefix("/"))
+        let restoredURL = AttachmentStore(directory: harness.directory)
+            .url(forStoredPath: restoredPath)
+        let restoredBytes = try Data(contentsOf: restoredURL)
         XCTAssertEqual(restoredBytes, seed.fileBytes)
     }
 

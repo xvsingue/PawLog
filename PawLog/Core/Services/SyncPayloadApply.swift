@@ -163,6 +163,7 @@ extension SyncPayload {
         )
         attachment.localPath = try restoreFile(
             attachmentID: dto.id,
+            recordID: dto.recordID,
             storedPath: dto.localPath,
             data: try BackupService.decodeBase64(dto.fileDataBase64, field: "attachment.file"),
             directory: directory,
@@ -171,19 +172,27 @@ extension SyncPayload {
         applyMetadata(attachment, from: remote)
     }
 
+    /// 写入附件文件并返回相对路径（attachments/...）
     private static func restoreFile(
         attachmentID: UUID,
+        recordID: UUID?,
         storedPath: String,
         data: Data?,
         directory: URL,
         fileManager: FileManager
     ) throws -> String {
-        var name = (storedPath as NSString).lastPathComponent
-        if name.isEmpty { name = attachmentID.uuidString }
-        let url = directory.appendingPathComponent(name)
-        guard let data else { return url.path }
-        try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        let relative = BackupService.storedRelativePath(
+            storedPath: storedPath,
+            attachmentID: attachmentID,
+            recordID: recordID
+        )
+        let url = AttachmentStore(directory: directory).url(forStoredPath: relative)
+        guard let data else { return relative }
+        try fileManager.createDirectory(
+            at: url.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try data.write(to: url, options: .atomic)
-        return url.path
+        return relative
     }
 }

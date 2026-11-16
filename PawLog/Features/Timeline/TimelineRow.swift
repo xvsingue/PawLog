@@ -50,13 +50,33 @@ struct TimelineRow: View {
 
             Spacer()
 
-            Text(record.occurredAt.formatted(date: .omitted, time: .shortened))
-                .font(Theme.Typography.caption)
-                .foregroundStyle(Theme.Palette.textTertiary)
+            VStack(alignment: .trailing, spacing: Theme.Spacing.xs) {
+                Text(record.occurredAt.formatted(date: .omitted, time: .shortened))
+                    .font(Theme.Typography.caption)
+                    .foregroundStyle(Theme.Palette.textTertiary)
+
+                if !isLocked, let first = activeAttachments.first {
+                    HStack(spacing: Theme.Spacing.xs) {
+                        AsyncAttachmentThumbnail(data: first.thumbnailData)
+                            .frame(width: 28, height: 28)
+                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.input))
+                        Text(String(localized: "attachment.count \(activeAttachments.count)"))
+                            .font(Theme.Typography.caption)
+                            .foregroundStyle(Theme.Palette.textTertiary)
+                    }
+                }
+            }
         }
         .frame(minHeight: 44)
         .padding(.vertical, Theme.Spacing.xs)
         .contentShape(Rectangle())
+    }
+
+    /// 未删除的附件，列表只展示第一张缩略图
+    private var activeAttachments: [Attachment] {
+        record.attachments
+            .filter { $0.deletedAt == nil }
+            .sorted { $0.createdAt < $1.createdAt }
     }
 
     /// 摘要：类型名首位，避免未知类型空白

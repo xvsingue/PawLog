@@ -28,18 +28,18 @@ final class ChangeLogService {
     private let context: ModelContext
     private let deviceID: String
     private let clock: Clock
-    private let fileManager: FileManager
+    private let attachmentDirectory: URL
 
     init(
         context: ModelContext,
         deviceID: String = DeviceIdentity.current(),
         clock: Clock = SystemClock(),
-        fileManager: FileManager = .default
+        attachmentDirectory: URL? = nil
     ) {
         self.context = context
         self.deviceID = deviceID
         self.clock = clock
-        self.fileManager = fileManager
+        self.attachmentDirectory = attachmentDirectory ?? AttachmentStore.defaultDirectory()
     }
 
     /// 写入同步元数据并记录一条变更日志。调用方负责 save。
@@ -55,7 +55,11 @@ final class ChangeLogService {
         object.deviceID = deviceID
         object.changeTag = UUID().uuidString
 
-        let payload = try SyncPayload.json(for: kind, object: object, fileManager: fileManager)
+        let payload = try SyncPayload.json(
+            for: kind,
+            object: object,
+            attachmentDirectory: attachmentDirectory
+        )
         let log = ChangeLog(
             entityName: kind.rawValue,
             entityID: object.id,

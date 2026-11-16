@@ -66,7 +66,7 @@ final class SyncEngine {
             context: context,
             deviceID: deviceID,
             clock: clock,
-            fileManager: fileManager
+            attachmentDirectory: attachmentDirectory
         )
         let logs = try service.pendingLogs()
         guard !logs.isEmpty else { return [] }
@@ -280,7 +280,11 @@ final class SyncEngine {
             deviceID: object.deviceID,
             updatedAt: object.localUpdatedAt,
             deletedAt: object.deletedAt,
-            payloadJSON: try SyncPayload.json(for: kind, object: object, fileManager: fileManager)
+            payloadJSON: try SyncPayload.json(
+                for: kind,
+                object: object,
+                attachmentDirectory: attachmentDirectory
+            )
         )
     }
 }

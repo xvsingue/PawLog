@@ -200,15 +200,17 @@ final class SyncEngineTests: XCTestCase {
         let (_, record) = try seedPetAndRecord(on: a)
 
         let bytes = Data((0..<512).map { UInt8($0 % 251) })
+        let relative = "attachments/\(record.id.uuidString)/xray.pdf"
+        let fileURL = AttachmentStore(directory: a.attachmentDirectory)
+            .url(forStoredPath: relative)
         try FileManager.default.createDirectory(
-            at: a.attachmentDirectory, withIntermediateDirectories: true
+            at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true
         )
-        let fileURL = a.attachmentDirectory.appendingPathComponent("xray.pdf")
         try bytes.write(to: fileURL)
         let thumbnail = Data([0x01, 0x02, 0x03, 0x04])
 
         let attachment = Attachment(
-            record: record, kind: .pdf, localPath: fileURL.path, thumbnailData: thumbnail
+            record: record, kind: .pdf, localPath: relative, thumbnailData: thumbnail
         )
         a.context.insert(attachment)
         try a.changeLogService.record(attachment, kind: .attachment, operation: .create)
@@ -222,7 +224,9 @@ final class SyncEngineTests: XCTestCase {
         XCTAssertEqual(pulled.record?.id, record.id)
         XCTAssertEqual(pulled.thumbnailData, thumbnail)
 
-        let pulledBytes = try Data(contentsOf: URL(fileURLWithPath: pulled.localPath))
+        let pulledURL = AttachmentStore(directory: b.attachmentDirectory)
+            .url(forStoredPath: pulled.localPath)
+        let pulledBytes = try Data(contentsOf: pulledURL)
         XCTAssertEqual(pulledBytes, bytes, "附件字节经 base64 往返后必须完全一致")
     }
 

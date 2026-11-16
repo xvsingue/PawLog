@@ -19,11 +19,17 @@ final class PetService {
     init(
         context: ModelContext,
         deviceID: String = DeviceIdentity.current(),
-        clock: Clock = SystemClock()
+        clock: Clock = SystemClock(),
+        attachmentDirectory: URL? = nil
     ) {
         self.context = context
         self.clock = clock
-        self.changes = ChangeLogService(context: context, deviceID: deviceID, clock: clock)
+        self.changes = ChangeLogService(
+            context: context,
+            deviceID: deviceID,
+            clock: clock,
+            attachmentDirectory: attachmentDirectory
+        )
     }
 
     /// 获取未归档且未删除的宠物，按手动排序、再按创建时间升序
@@ -85,7 +91,13 @@ final class PetService {
         try changes.record(pet, kind: .pet, operation: .delete, at: now)
         pet.deletedAt = now
 
-        for record in pet.records where record.deletedAt == nil {
+        for record in pet.records {
+            // 记录下的照片一并墓碑化，磁盘文件交给 TombstonePurger
+            for attachment in record.attachments where attachment.deletedAt == nil {
+                try changes.record(attachment, kind: .attachment, operation: .delete, at: now)
+                attachment.deletedAt = now
+            }
+            guard record.deletedAt == nil else { continue }
             try changes.record(record, kind: .record, operation: .delete, at: now)
             record.deletedAt = now
         }

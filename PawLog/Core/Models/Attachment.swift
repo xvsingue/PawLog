@@ -19,6 +19,7 @@ final class Attachment {
     var id: UUID
     var record: Record?
     var kind: AttachmentKind
+    /// 相对路径 attachments/<recordID>/<uuid>.jpg；不存绝对路径
     var localPath: String
     var thumbnailData: Data?
     var createdAt: Date

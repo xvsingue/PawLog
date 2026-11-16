@@ -1,6 +1,160 @@
 {
   "sourceLanguage": "zh-Hans",
   "strings": {
+    "attachment.action.add": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加照片"
+          }
+        }
+      }
+    },
+    "attachment.action.delete": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除照片"
+          }
+        }
+      }
+    },
+    "attachment.count %lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共 %lld 张"
+          }
+        }
+      }
+    },
+    "attachment.delete.confirm.action": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        }
+      }
+    },
+    "attachment.delete.confirm.message": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除后无法恢复。"
+          }
+        }
+      }
+    },
+    "attachment.delete.confirm.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除这张照片？"
+          }
+        }
+      }
+    },
+    "attachment.empty.hint": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加照片，就诊时更方便说明。"
+          }
+        }
+      }
+    },
+    "attachment.error.limit %lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每条记录最多 %lld 张照片"
+          }
+        }
+      }
+    },
+    "attachment.error.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照片操作失败"
+          }
+        }
+      }
+    },
+    "attachment.error.unsupported": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法读取这张图片"
+          }
+        }
+      }
+    },
+    "attachment.error.writeFailed": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照片保存失败，请重试"
+          }
+        }
+      }
+    },
+    "attachment.limit.hint %lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最多 %lld 张，已达上限"
+          }
+        }
+      }
+    },
+    "attachment.section.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照片"
+          }
+        }
+      }
+    },
+    "attachment.viewer.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照片"
+          }
+        }
+      }
+    },
     "button.primary.confirm": {
       "extractionState": "stale",
       "localizations": {

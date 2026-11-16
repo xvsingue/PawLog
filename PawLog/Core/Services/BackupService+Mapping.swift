@@ -71,8 +71,10 @@ extension BackupService {
         )
     }
 
-    static func attachmentDTO(_ attachment: Attachment, fileManager: FileManager) -> BackupAttachment {
-        let data = fileManager.contents(atPath: attachment.localPath)
+    static func attachmentDTO(_ attachment: Attachment, attachmentDirectory: URL) -> BackupAttachment {
+        let store = AttachmentStore(directory: attachmentDirectory)
+        let url = store.url(forStoredPath: attachment.localPath)
+        let data = try? Data(contentsOf: url)
         return BackupAttachment(
             id: attachment.id,
             recordID: attachment.record?.id,
@@ -85,10 +87,36 @@ extension BackupService {
         )
     }
 
-    /// 备份内的相对路径：attachments/<文件名>
+    /// 备份内的相对路径：新数据已是 attachments/<recordID>/<文件>；
+    /// 旧的绝对路径退化为 attachments/<文件名>。
     static func relativePath(for attachment: Attachment) -> String {
-        var name = (attachment.localPath as NSString).lastPathComponent
-        if name.isEmpty { name = attachment.id.uuidString }
+        let stored = attachment.localPath
+        guard !stored.hasPrefix("/") else {
+            var name = (stored as NSString).lastPathComponent
+            if name.isEmpty { name = attachment.id.uuidString }
+            return "\(attachmentFolderName)/\(name)"
+        }
+        if stored.hasPrefix("\(attachmentFolderName)/") {
+            return stored
+        }
+        return "\(attachmentFolderName)/\(stored)"
+    }
+
+    /// 把备份里的路径规整为相对路径。外来绝对路径只取文件名；
+    /// 缺少 recordID 目录时按记录重新归档。
+    static func storedRelativePath(
+        storedPath: String,
+        attachmentID: UUID,
+        recordID: UUID?
+    ) -> String {
+        if !storedPath.hasPrefix("/"), storedPath.hasPrefix("\(attachmentFolderName)/") {
+            return storedPath
+        }
+        var name = (storedPath as NSString).lastPathComponent
+        if name.isEmpty { name = "\(attachmentID.uuidString).jpg" }
+        if let recordID {
+            return "\(attachmentFolderName)/\(recordID.uuidString)/\(name)"
+        }
         return "\(attachmentFolderName)/\(name)"
     }
 
@@ -175,6 +203,7 @@ extension BackupService {
                     kind: try requireAttachmentKind(dto.kind),
                     localPath: try restoreFile(
                         attachmentID: dto.id,
+                        recordID: dto.recordID,
                         storedPath: dto.localPath,
                         data: fileData
                     ),
@@ -185,18 +214,29 @@ extension BackupService {
         }
     }
 
-    /// 把附件字节写回当前沙箱的 attachments 目录，返回新的绝对路径。
-    /// 备份里的路径一律只取文件名后重拼，兼容旧备份中的绝对路径。
-    private func restoreFile(attachmentID: UUID, storedPath: String, data: Data?) throws -> String {
-        var name = (storedPath as NSString).lastPathComponent
-        if name.isEmpty { name = attachmentID.uuidString }
-        let url = attachmentDirectory.appendingPathComponent(name)
+    /// 把附件字节写回当前沙箱的 attachments 目录，返回相对路径。
+    /// 备份里的路径一律取相对路径后按当前沙箱重拼，兼容旧备份中的绝对路径。
+    private func restoreFile(
+        attachmentID: UUID,
+        recordID: UUID?,
+        storedPath: String,
+        data: Data?
+    ) throws -> String {
+        let relative = Self.storedRelativePath(
+            storedPath: storedPath,
+            attachmentID: attachmentID,
+            recordID: recordID
+        )
+        let url = AttachmentStore(directory: attachmentDirectory).url(forStoredPath: relative)
 
-        guard let data else { return url.path }
+        guard let data else { return relative }
         do {
-            try fileManager.createDirectory(at: attachmentDirectory, withIntermediateDirectories: true)
+            try fileManager.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try data.write(to: url, options: .atomic)
-            return url.path
+            return relative
         } catch {
             throw BackupError.malformed(reason: String(localized: "settings.backup.error.attachmentWrite"))
         }

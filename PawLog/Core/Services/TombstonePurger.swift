@@ -35,11 +35,18 @@ final class TombstonePurger {
     private let context: ModelContext
     private let clock: Clock
     private let calendar: Calendar
+    private let attachmentStore: AttachmentStore
 
-    init(context: ModelContext, clock: Clock = SystemClock(), calendar: Calendar = .current) {
+    init(
+        context: ModelContext,
+        clock: Clock = SystemClock(),
+        calendar: Calendar = .current,
+        attachmentDirectory: URL? = nil
+    ) {
         self.context = context
         self.clock = clock
         self.calendar = calendar
+        self.attachmentStore = AttachmentStore(directory: attachmentDirectory)
     }
 
     /// 执行一次清理。同步进行中直接返回零，避免删掉正在推送的变更。
@@ -93,6 +100,17 @@ final class TombstonePurger {
         }
 
         var result = Result()
+        // 待删除的附件文件：直接墓碑的 + 随记录/宠物级联删除的
+        var filePaths = Set(purgeableAttachments.map(\.localPath))
+        for record in purgeableRecords {
+            filePaths.formUnion(record.attachments.map(\.localPath))
+        }
+        for pet in purgeablePets {
+            for record in pet.records {
+                filePaths.formUnion(record.attachments.map(\.localPath))
+            }
+        }
+
         // 物理删除顺序：附件 → 体重 → 提醒 → 记录 → 宠物
         for item in purgeableAttachments {
             context.delete(item)
@@ -115,7 +133,13 @@ final class TombstonePurger {
             result.pets += 1
         }
 
-        if result.total > 0 { try context.save() }
+        if result.total > 0 {
+            try context.save()
+            // 数据库提交成功后再删文件，避免回滚后数据还在、文件已没了
+            for path in filePaths {
+                attachmentStore.removeFile(relativePath: path)
+            }
+        }
         return result
     }
 

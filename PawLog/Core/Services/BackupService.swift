@@ -25,7 +25,7 @@ final class BackupService {
     /// 当前 schema 版本
     static let currentSchemaVersion = 1
     /// 附件相对目录名（备份内只存相对路径）
-    static let attachmentFolderName = "attachments"
+    static let attachmentFolderName = AttachmentStore.folderName
 
     let context: ModelContext
     let clock: Clock
@@ -79,7 +79,9 @@ final class BackupService {
             records: records.map(Self.recordDTO),
             weightEntries: weights.map(Self.weightDTO),
             reminders: reminders.map(Self.reminderDTO),
-            attachments: attachments.map { Self.attachmentDTO($0, fileManager: fileManager) }
+            attachments: attachments.map {
+                Self.attachmentDTO($0, attachmentDirectory: attachmentDirectory)
+            }
         )
     }
 

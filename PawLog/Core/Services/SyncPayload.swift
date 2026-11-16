@@ -15,7 +15,7 @@ enum SyncPayload {
     static func json(
         for kind: SyncEntityKind,
         object: any SyncTracked,
-        fileManager: FileManager
+        attachmentDirectory: URL
     ) throws -> String {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -37,7 +37,7 @@ enum SyncPayload {
         case .attachment:
             guard let attachment = object as? Attachment else { throw SyncError.entityMismatch }
             data = try encoder.encode(
-                BackupService.attachmentDTO(attachment, fileManager: fileManager)
+                BackupService.attachmentDTO(attachment, attachmentDirectory: attachmentDirectory)
             )
         }
         return String(decoding: data, as: UTF8.self)

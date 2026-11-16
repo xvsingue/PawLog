@@ -60,13 +60,18 @@ final class BackupPathAndNotificationTests: XCTestCase {
         let restored = try XCTUnwrap(attachments.first)
 
         XCTAssertFalse(restored.localPath.contains("Application/00000000"), "不得沿用外来绝对路径")
+        XCTAssertFalse(restored.localPath.hasPrefix("/"), "恢复后只存相对路径")
         XCTAssertEqual(
             restored.localPath,
-            harness.directory.appendingPathComponent("sample.pdf").path
+            "attachments/\(seed.recordID.uuidString)/sample.pdf",
+            "外来绝对路径只取文件名，并按记录重新归档"
         )
-        XCTAssertTrue(FileManager.default.fileExists(atPath: restored.localPath))
 
-        let bytes = try Data(contentsOf: URL(fileURLWithPath: restored.localPath))
+        let restoredURL = AttachmentStore(directory: harness.directory)
+            .url(forStoredPath: restored.localPath)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: restoredURL.path))
+
+        let bytes = try Data(contentsOf: restoredURL)
         XCTAssertEqual(bytes, seed.fileBytes)
     }
 

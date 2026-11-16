@@ -49,15 +49,30 @@ final class SyncDevice {
     }
 
     var petService: PetService {
-        PetService(context: context, deviceID: deviceID, clock: clock)
+        PetService(
+            context: context,
+            deviceID: deviceID,
+            clock: clock,
+            attachmentDirectory: attachmentDirectory
+        )
     }
 
     var recordService: RecordService {
-        RecordService(context: context, deviceID: deviceID, clock: clock)
+        RecordService(
+            context: context,
+            deviceID: deviceID,
+            clock: clock,
+            attachmentDirectory: attachmentDirectory
+        )
     }
 
     var changeLogService: ChangeLogService {
-        ChangeLogService(context: context, deviceID: deviceID, clock: clock)
+        ChangeLogService(
+            context: context,
+            deviceID: deviceID,
+            clock: clock,
+            attachmentDirectory: attachmentDirectory
+        )
     }
 
     func fetchRecords() throws -> [Record] {
