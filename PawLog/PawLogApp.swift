@@ -7,10 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import UserNotifications
 
 @main
 struct PawLogApp: App {
-    var sharedModelContainer: ModelContainer = {
+    /// 共享容器：App 与通知回调共用
+    static let sharedContainer: ModelContainer = {
         let schema = Schema([
             Pet.self,
             Record.self,
@@ -26,6 +28,14 @@ struct PawLogApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+
+    init() {
+        // 注册通知分类与回调，长按通知可直接标记完成/稍后提醒
+        UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
+        NotificationService().registerCategories()
+    }
+
+    var sharedModelContainer: ModelContainer { Self.sharedContainer }
 
     var body: some Scene {
         WindowGroup {

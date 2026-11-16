@@ -11,6 +11,7 @@ import UserNotifications
 
 final class FakeNotificationCenter: NotificationCenterProtocol {
     private(set) var requests: [String: UNNotificationRequest] = [:]
+    private(set) var categories: Set<UNNotificationCategory> = []
     var authorizationGranted = true
     var addError: Error?
 
@@ -31,6 +32,15 @@ final class FakeNotificationCenter: NotificationCenterProtocol {
 
     func getPendingNotificationRequests() async -> [UNNotificationRequest] {
         Array(requests.values)
+    }
+
+    func setNotificationCategories(_ categories: Set<UNNotificationCategory>) {
+        self.categories = categories
+    }
+
+    /// 逾期汇总 pending 数量
+    var overdueSummaryCount: Int {
+        requests.keys.filter { $0.hasPrefix(NotificationService.overdueSummaryPrefix) }.count
     }
 
     /// 便捷：某提醒的 pending 数量

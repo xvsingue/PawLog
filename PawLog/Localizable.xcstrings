@@ -1828,6 +1828,123 @@
     },
     "summary.preview.preparing" : {
       "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在生成摘要…" } } }
+    },
+    "settings.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置" } } }
+    },
+    "settings.unit.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重单位" } } }
+    },
+    "settings.unit.kg" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "公斤（kg）" } } }
+    },
+    "settings.unit.lb" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "磅（lb）" } } }
+    },
+    "settings.language.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "语言" } } }
+    },
+    "settings.language.system" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "跟随系统" } } }
+    },
+    "settings.language.zhHans" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "简体中文" } } }
+    },
+    "settings.language.en" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "English" } } }
+    },
+    "settings.language.restartHint" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "切换语言后需重启 App 生效" } } }
+    },
+    "settings.notification.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "通知" } } }
+    },
+    "settings.notification.quietHours" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "22:00–08:00 不推送提醒，触发时间会顺延到 08:00" } } }
+    },
+    "settings.notification.overdueSummary" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "存在逾期提醒时，每天 09:00 最多推送一条汇总" } } }
+    },
+    "settings.export.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
+    },
+    "settings.export.action" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出就诊摘要" } } }
+    },
+    "settings.export.empty" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "还没有宠物档案" } } }
+    },
+    "settings.export.pickPet" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择宠物" } } }
+    },
+    "settings.data.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "数据" } } }
+    },
+    "settings.data.clear" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空全部数据" } } }
+    },
+    "settings.data.clear.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空全部数据？" } } }
+    },
+    "settings.data.clear.body" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将删除全部宠物、记录、体重与提醒，且无法恢复。" } } }
+    },
+    "settings.data.clear.continue" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续" } } }
+    },
+    "settings.data.clear.confirmTitle" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "确认删除" } } }
+    },
+    "settings.data.clear.confirmBody" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入「删除」以确认" } } }
+    },
+    "settings.data.clear.hint" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请输入「删除」" } } }
+    },
+    "settings.data.clear.confirm" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除" } } }
+    },
+    "settings.data.clear.failed" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空失败，请重试" } } }
+    },
+    "settings.about.header" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关于" } } }
+    },
+    "settings.about.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关于爪记" } } }
+    },
+    "settings.about.version %@" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "版本 %@" } } }
+    },
+    "settings.disclaimer.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "免责声明" } } }
+    },
+    "settings.disclaimer.body" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本应用仅用于记录宠物日常健康信息，不提供诊断或治疗建议；如有健康问题请咨询兽医。" } } }
+    },
+    "record.weight.confirm.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重超出常规范围" } } }
+    },
+    "record.weight.confirm.body" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重应在 0.2–120 kg 之间，确认要保存吗？" } } }
+    },
+    "record.weight.confirm.ok" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仍要保存" } } }
+    },
+    "notification.action.done" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标记完成" } } }
+    },
+    "notification.action.snooze" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "稍后提醒" } } }
+    },
+    "notification.reminder.snoozeBody" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "稍后再次提醒你" } } }
+    },
+    "notification.overdue.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "有提醒已过期" } } }
+    },
+    "notification.overdue.body %lld" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "有 %lld 条提醒已过期，记得处理" } } }
     }
   },
   "version" : "1.0"

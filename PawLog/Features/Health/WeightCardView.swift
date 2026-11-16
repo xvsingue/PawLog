@@ -15,6 +15,11 @@ struct WeightCardView: View {
     let onTap: () -> Void
 
     @Query(sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
+    @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
+
+    private var unit: WeightUnit {
+        WeightUnit(rawValue: unitRaw) ?? .kg
+    }
 
     private var entries: [WeightEntry] {
         allEntries.filter { $0.pet?.id == pet.id }
@@ -48,7 +53,7 @@ struct WeightCardView: View {
 
                     if let latest {
                         HStack(alignment: .firstTextBaseline, spacing: Theme.Spacing.sm) {
-                            Text(WeightFormatting.string(latest.weightKg))
+                            Text(WeightFormatter.string(latest.weightKg, unit: unit))
                                 .font(Theme.Typography.title1)
                                 .foregroundStyle(Theme.Palette.textPrimary)
                             if let changeText {
@@ -75,7 +80,7 @@ struct WeightCardView: View {
     private var changeText: String? {
         guard let change else { return nil }
         let sign = change.delta > 0 ? "+" : (change.delta < 0 ? "-" : "")
-        let value = WeightFormatting.string(abs(change.delta))
+        let value = WeightFormatter.string(abs(change.delta), unit: unit)
         // 合并为单个参数，保证本地化 key 只有一个 %@
         let signed = sign + value
         return String(localized: "weight.card.change \(signed)")
@@ -85,7 +90,7 @@ struct WeightCardView: View {
         Chart(recentPoints) { point in
             LineMark(
                 x: .value("date", point.date),
-                y: .value("weight", point.weightKg)
+                y: .value("weight", WeightFormatter.value(point.weightKg, in: unit))
             )
             .interpolationMethod(.monotone)
             .foregroundStyle(Theme.Palette.primary)

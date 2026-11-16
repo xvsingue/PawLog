@@ -96,6 +96,9 @@ private struct QuickRecordForm: View {
     @StateObject private var viewModel: QuickRecordViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var errorMessage: String?
+    @State private var showingWeightConfirm = false
+    /// 超界体重经二次确认后置为 true，允许本次保存
+    @State private var confirmedWeight = false
     @FocusState private var isFirstFieldFocused: Bool
 
     init(pet: Pet, service: RecordService, reminderService: ReminderService? = nil, type: RecordType, editing: Record?, onSaved: @escaping () -> Void) {
@@ -153,6 +156,17 @@ private struct QuickRecordForm: View {
             Button(String(localized: "common.ok"), role: .cancel) {}
         } message: {
             if let message = errorMessage { Text(message) }
+        }
+        .alert(String(localized: "record.weight.confirm.title"), isPresented: $showingWeightConfirm) {
+            Button(String(localized: "common.cancel"), role: .cancel) {
+                confirmedWeight = false
+            }
+            Button(String(localized: "record.weight.confirm.ok")) {
+                confirmedWeight = true
+                save()
+            }
+        } message: {
+            Text(String(localized: "record.weight.confirm.body"))
         }
     }
 
@@ -217,6 +231,11 @@ private struct QuickRecordForm: View {
         case .weight:
             Section(String(localized: "record.type.weight")) {
                 requiredField("record.field.weightKg", text: $viewModel.draft.weightText, decimal: true)
+                if let kg = weightKilograms, kg > 0 {
+                    Text(WeightFormatter.dualString(kg))
+                        .font(Theme.Typography.caption)
+                        .foregroundStyle(Theme.Palette.textSecondary)
+                }
                 Toggle(String(localized: "record.field.hasBCS"), isOn: $viewModel.draft.hasBCS)
                     .tint(Theme.Palette.primary)
                 if viewModel.draft.hasBCS {
@@ -272,12 +291,22 @@ private struct QuickRecordForm: View {
     }
 
     private func save() {
+        // 体重超出 0.2–120kg 先二次确认，确认后再保存
+        if type == .weight, let kg = weightKilograms, !WeightFormatter.isWithinRange(kg), !confirmedWeight {
+            showingWeightConfirm = true
+            return
+        }
+        confirmedWeight = false
         do {
             try viewModel.save()
             onSaved()
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    private var weightKilograms: Double? {
+        Double(viewModel.draft.weightText)
     }
 }
 

@@ -16,6 +16,7 @@ struct HomeView: View {
     @State private var showingQuickRecord = false
     @State private var showingPetList = false
     @State private var showingReminders = false
+    @State private var showingSettings = false
     @State private var showingWeightTrend = false
     /// 体重页空状态点「去记录」时，等 Sheet 关闭后再打开记录表单
     @State private var pendingQuickRecord = false
@@ -81,6 +82,14 @@ struct HomeView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityIdentifier("home.settings")
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
                         showingQuickRecord = true
                     } label: {
                         Image(systemName: "plus")
@@ -96,6 +105,9 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingPetList, onDismiss: reload) {
                 PetListView(service: petService, showsCloseButton: true)
+            }
+            .sheet(isPresented: $showingSettings, onDismiss: reload) {
+                SettingsView()
             }
             .sheet(isPresented: $showingReminders) {
                 if let pet = selectedPet {

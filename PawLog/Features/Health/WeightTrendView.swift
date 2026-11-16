@@ -34,8 +34,13 @@ struct WeightTrendView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
+    @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
     @State private var range: WeightRange = .last90
     @State private var showingSummary = false
+
+    private var unit: WeightUnit {
+        WeightUnit(rawValue: unitRaw) ?? .kg
+    }
 
     private var entries: [WeightEntry] {
         allEntries.filter { $0.pet?.id == pet.id }
@@ -118,7 +123,7 @@ struct WeightTrendView: View {
             Text(String(localized: "weight.card.title"))
                 .font(Theme.Typography.callout)
                 .foregroundStyle(Theme.Palette.textSecondary)
-            Text(WeightFormatting.string(point.weightKg))
+            Text(WeightFormatter.string(point.weightKg, unit: unit))
                 .font(Theme.Typography.largeTitle)
                 .foregroundStyle(Theme.Palette.textPrimary)
         }
@@ -127,12 +132,22 @@ struct WeightTrendView: View {
     private var chartCard: some View {
         Card {
             Chart {
+                // 理想体重 ±10% 浅色目标带，未填写时不显示
+                if let ideal = pet.idealWeightKg {
+                    let band = IdealWeightBand.bounds(idealKilograms: ideal, unit: unit)
+                    RectangleMark(
+                        yStart: .value("bandLower", band.lowerBound),
+                        yEnd: .value("bandUpper", band.upperBound)
+                    )
+                    .foregroundStyle(Theme.Palette.primary.opacity(0.10))
+                }
+
                 ForEach(points) { point in
                     // 单点数据不画线，只标点
                     if points.count > 1 {
                         LineMark(
                             x: .value("date", point.date),
-                            y: .value("weight", point.weightKg)
+                            y: .value("weight", displayValue(point.weightKg))
                         )
                         .interpolationMethod(.monotone)
                         .foregroundStyle(Theme.Palette.primary)
@@ -140,7 +155,7 @@ struct WeightTrendView: View {
 
                     PointMark(
                         x: .value("date", point.date),
-                        y: .value("weight", point.weightKg)
+                        y: .value("weight", displayValue(point.weightKg))
                     )
                     .foregroundStyle(Theme.Palette.primary)
                     .symbolSize(36)
@@ -170,13 +185,22 @@ struct WeightTrendView: View {
         }
     }
 
-    /// Y 轴按数据范围留 15% 余量，避免大片空白
+    /// Y 轴按数据与目标带范围留 15% 余量，避免大片空白
     private var yDomain: ClosedRange<Double> {
-        let values = points.map(\.weightKg)
+        var values = points.map { displayValue($0.weightKg) }
+        if let ideal = pet.idealWeightKg {
+            let band = IdealWeightBand.bounds(idealKilograms: ideal, unit: unit)
+            values.append(band.lowerBound)
+            values.append(band.upperBound)
+        }
         guard let minValue = values.min(), let maxValue = values.max() else { return 0...1 }
         let span = maxValue - minValue
         let padding = max(span * 0.15, 0.2)
         return max(0, minValue - padding)...(maxValue + padding)
+    }
+
+    private func displayValue(_ kilograms: Double) -> Double {
+        WeightFormatter.value(kilograms, in: unit)
     }
 
     private func bcsBadge(_ bcs: Int) -> some View {

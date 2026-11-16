@@ -170,11 +170,20 @@ final class ReminderService {
 
     // MARK: - 对账
 
-    /// 启动对账：对全部提醒执行通知对账（补缺失、清过期）。幂等。
+    /// 启动对账：对全部提醒执行通知对账（补缺失、清过期），并刷新逾期每日汇总。幂等。
     func reconcileAll() async {
         let descriptor = FetchDescriptor<Reminder>()
         let reminders = (try? context.fetch(descriptor)) ?? []
         await notificationService.reconcile(reminders: reminders)
+
+        // 逾期（到期日早于今天）且仍启用的提醒，每天最多推 1 条汇总
+        let overdueCount = reminders.filter { $0.enabled && daysRemaining(for: $0) < 0 }.count
+        await notificationService.scheduleOverdueSummary(overdueCount: overdueCount)
+    }
+
+    /// 稍后提醒：延后若干天再推一次
+    func snooze(_ reminder: Reminder, days: Int = 1) async {
+        await notificationService.snooze(for: reminder, days: days)
     }
 
     // MARK: - 删除

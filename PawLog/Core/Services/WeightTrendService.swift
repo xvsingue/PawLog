@@ -145,14 +145,3 @@ extension WeightAlertKind {
         }
     }
 }
-
-/// 体重格式化，统一走 MeasurementFormatter
-enum WeightFormatting {
-    static func string(_ kg: Double) -> String {
-        let formatter = MeasurementFormatter()
-        formatter.unitOptions = .providedUnit
-        formatter.numberFormatter.maximumFractionDigits = 1
-        formatter.numberFormatter.minimumFractionDigits = 0
-        return formatter.string(from: Measurement(value: kg, unit: UnitMass.kilograms))
-    }
-}

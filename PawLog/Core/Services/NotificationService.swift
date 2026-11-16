@@ -16,6 +16,7 @@ protocol NotificationCenterProtocol: AnyObject {
     func add(_ request: UNNotificationRequest) async throws
     func removePendingNotificationRequests(withIdentifiers identifiers: [String])
     func getPendingNotificationRequests() async -> [UNNotificationRequest]
+    func setNotificationCategories(_ categories: Set<UNNotificationCategory>)
 }
 
 /// UNUserNotificationCenter 适配器
@@ -37,12 +38,30 @@ final class UNUserNotificationCenterAdapter: NotificationCenterProtocol {
     func getPendingNotificationRequests() async -> [UNNotificationRequest] {
         await center.pendingNotificationRequests()
     }
+
+    func setNotificationCategories(_ categories: Set<UNNotificationCategory>) {
+        center.setNotificationCategories(categories)
+    }
 }
 
 /// 本地通知服务
 final class NotificationService {
     /// 每条提醒在到期前推送的偏移天数（大→小）
     static let leadDays: [Int] = [30, 7, 1]
+
+    /// 提醒通知分类与动作标识
+    static let categoryIdentifier = "REMINDER"
+    static let actionDone = "REMINDER_DONE"
+    static let actionSnooze = "REMINDER_SNOOZE"
+    /// 通知内容里携带提醒 id 的 key
+    static let reminderIDKey = "reminderID"
+
+    /// 逾期汇总通知 id 前缀
+    static let overdueSummaryPrefix = "overdue-summary-"
+    /// 逾期汇总提前排期天数
+    static let overdueSummaryDays = 7
+    /// 逾期汇总推送时刻（每天 09:00）
+    static let overdueSummaryHour = 9
 
     private let center: NotificationCenterProtocol
     private let calendar: Calendar
@@ -91,6 +110,29 @@ final class NotificationService {
         "\(reminderID.uuidString)-\(offsetDays)"
     }
 
+    // MARK: - 分类
+
+    /// 注册提醒通知分类：长按可「标记完成 / 稍后提醒」
+    func registerCategories() {
+        let done = UNNotificationAction(
+            identifier: Self.actionDone,
+            title: String(localized: "notification.action.done"),
+            options: []
+        )
+        let snooze = UNNotificationAction(
+            identifier: Self.actionSnooze,
+            title: String(localized: "notification.action.snooze"),
+            options: []
+        )
+        let category = UNNotificationCategory(
+            identifier: Self.categoryIdentifier,
+            actions: [done, snooze],
+            intentIdentifiers: [],
+            options: []
+        )
+        center.setNotificationCategories([category])
+    }
+
     // MARK: - 排期
 
     /// 为某条提醒排期全部偏移的通知。已过期的偏移不排。
@@ -113,6 +155,8 @@ final class NotificationService {
         content.title = reminder.notificationTitle
         content.body = reminder.notificationBody(offsetDays: offsetDays)
         content.sound = .default
+        content.categoryIdentifier = Self.categoryIdentifier
+        content.userInfo = [Self.reminderIDKey: reminder.id.uuidString]
         let components = calendar.dateComponents(
             [.year, .month, .day, .hour, .minute, .second],
             from: fireDate
@@ -153,6 +197,7 @@ final class NotificationService {
     /// 撤销某条提醒的全部待发通知
     func cancel(for reminderID: UUID) {
         let ids = Self.leadDays.map { notificationID(reminderID: reminderID, offsetDays: $0) }
+            + [snoozeID(reminderID: reminderID)]
         center.removePendingNotificationRequests(withIdentifiers: ids)
     }
 
@@ -160,6 +205,93 @@ final class NotificationService {
     func cancelAll() async {
         let pending = await center.getPendingNotificationRequests()
         center.removePendingNotificationRequests(withIdentifiers: pending.map(\.identifier))
+    }
+
+    // MARK: - 稍后提醒
+
+    /// 稍后提醒通知 id
+    func snoozeID(reminderID: UUID) -> String {
+        "\(reminderID.uuidString)-snooze"
+    }
+
+    /// 延后若干天再提醒一次（同样遵守静默时段）
+    func snooze(for reminder: Reminder, days: Int) async {
+        guard reminder.enabled,
+              let raw = calendar.date(byAdding: .day, value: days, to: clock.now) else { return }
+        let fireDate = Self.adjustedFireDate(raw, calendar: calendar)
+        guard fireDate > clock.now else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = reminder.notificationTitle
+        content.body = String(localized: "notification.reminder.snoozeBody")
+        content.sound = .default
+        content.categoryIdentifier = Self.categoryIdentifier
+        content.userInfo = [Self.reminderIDKey: reminder.id.uuidString]
+
+        let components = calendar.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: fireDate
+        )
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        let request = UNNotificationRequest(
+            identifier: snoozeID(reminderID: reminder.id),
+            content: content,
+            trigger: trigger
+        )
+        do {
+            try await center.add(request)
+        } catch {
+            logger.error("稍后提醒排期失败：\(error.localizedDescription, privacy: .public)")
+        }
+    }
+
+    // MARK: - 逾期汇总
+
+    /// 逾期汇总通知 id：按日唯一，保证每天最多 1 条
+    func overdueSummaryID(for date: Date) -> String {
+        Self.overdueSummaryPrefix + date.formatted(.iso8601.year().month().day().dateSeparator(.omitted))
+    }
+
+    /// 为存在逾期提醒的日子排期每日汇总（每天 09:00，最多 1 条）。幂等。
+    func scheduleOverdueSummary(overdueCount: Int) async {
+        let pending = await center.getPendingNotificationRequests()
+        let staleIDs = pending.map(\.identifier).filter { $0.hasPrefix(Self.overdueSummaryPrefix) }
+        center.removePendingNotificationRequests(withIdentifiers: staleIDs)
+        guard overdueCount > 0 else { return }
+
+        for dayOffset in 0..<Self.overdueSummaryDays {
+            guard let day = calendar.date(
+                byAdding: .day,
+                value: dayOffset,
+                to: calendar.startOfDay(for: clock.now)
+            ), let raw = calendar.date(bySettingHour: Self.overdueSummaryHour, minute: 0, second: 0, of: day) else {
+                continue
+            }
+            // 与静默时段规则共用：09:00 本身不在静默区间，调整后保持不变
+            let fireDate = Self.adjustedFireDate(raw, calendar: calendar)
+            guard fireDate > clock.now else { continue }
+
+            let content = UNMutableNotificationContent()
+            content.title = String(localized: "notification.overdue.title")
+            content.body = String(localized: "notification.overdue.body \(overdueCount)")
+            content.sound = .default
+
+            let components = calendar.dateComponents(
+                [.year, .month, .day, .hour, .minute, .second],
+                from: fireDate
+            )
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            let request = UNNotificationRequest(
+                identifier: overdueSummaryID(for: day),
+                content: content,
+                trigger: trigger
+            )
+            do {
+                try await center.add(request)
+            } catch {
+                logger.error("逾期汇总排期失败：\(error.localizedDescription, privacy: .public)")
+            }
+        }
     }
 
     // MARK: - 对账
@@ -181,8 +313,9 @@ final class NotificationService {
         let pending = await center.getPendingNotificationRequests()
         let pendingIDs = Set(pending.map(\.identifier))
 
-        // 3. 清理多余（已过期或不属于任何启用提醒）
+        // 3. 清理多余（已过期或不属于任何启用提醒）；逾期汇总与稍后提醒各自维护
         let staleIDs = pendingIDs.subtracting(expectedIDs)
+            .filter { !$0.hasPrefix(Self.overdueSummaryPrefix) && !$0.hasSuffix("-snooze") }
         if !staleIDs.isEmpty {
             center.removePendingNotificationRequests(withIdentifiers: Array(staleIDs))
         }

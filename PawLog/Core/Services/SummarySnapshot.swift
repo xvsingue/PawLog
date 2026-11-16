@@ -56,7 +56,8 @@ enum SummarySnapshotBuilder {
         pet: Pet,
         now: Date = Date(),
         days: Int = defaultRangeDays,
-        calendar: Calendar = .current
+        calendar: Calendar = .current,
+        unit: WeightUnit = WeightFormatter.unit
     ) -> SummarySnapshot {
         let cutoff = calendar.date(
             byAdding: .day,
@@ -67,12 +68,12 @@ enum SummarySnapshotBuilder {
         let entries = pet.records
             .filter { $0.occurredAt >= cutoff && $0.occurredAt <= now }
             .sorted { $0.occurredAt > $1.occurredAt }
-            .map(makeEntry)
+            .map { makeEntry($0, unit: unit) }
 
         return SummarySnapshot(
-            header: makeHeader(pet: pet, now: now, calendar: calendar),
+            header: makeHeader(pet: pet, now: now, calendar: calendar, unit: unit),
             records: entries,
-            weightChange: makeWeightChange(pet: pet, cutoff: cutoff, calendar: calendar),
+            weightChange: makeWeightChange(pet: pet, cutoff: cutoff, calendar: calendar, unit: unit),
             medicationAndVisits: entries.filter { $0.type == .medication || $0.type == .visit },
             rangeDays: days,
             generatedAt: now
@@ -81,7 +82,7 @@ enum SummarySnapshotBuilder {
 
     // MARK: 头部
 
-    private static func makeHeader(pet: Pet, now: Date, calendar: Calendar) -> SummarySnapshot.Header {
+    private static func makeHeader(pet: Pet, now: Date, calendar: Calendar, unit: WeightUnit) -> SummarySnapshot.Header {
         let breed = pet.breed?.trimmed.isEmpty == false ? pet.breed!.trimmed : nil
         let species = pet.species.localizedKey.localized
         let speciesBreed = breed.map { "\(species) · \($0)" } ?? species
@@ -92,7 +93,7 @@ enum SummarySnapshotBuilder {
             sex: pet.sex.localizedKey.localized,
             age: ageText(birthday: pet.birthday, now: now, calendar: calendar),
             chipID: pet.chipID?.trimmed.isEmpty == false ? pet.chipID!.trimmed : "summary.value.missing".localized,
-            weight: latestWeightText(pet: pet),
+            weight: latestWeightText(pet: pet, unit: unit),
             allergies: pet.allergies?.trimmed.isEmpty == false ? pet.allergies!.trimmed : "summary.value.none".localized
         )
     }
@@ -108,29 +109,31 @@ enum SummarySnapshotBuilder {
         return String(localized: "summary.age.years \(months / 12)")
     }
 
-    private static func latestWeightText(pet: Pet) -> String {
+    private static func latestWeightText(pet: Pet, unit: WeightUnit) -> String {
         let latest = pet.weightEntries
             .sorted { $0.date < $1.date }
             .last
         guard let latest else { return "summary.value.unknown".localized }
-        return WeightFormatting.string(latest.weightKg)
+        return WeightFormatter.string(latest.weightKg, unit: unit)
     }
 
     // MARK: 记录
 
-    private static func makeEntry(_ record: Record) -> SummarySnapshot.Entry {
+    private static func makeEntry(_ record: Record, unit: WeightUnit) -> SummarySnapshot.Entry {
         SummarySnapshot.Entry(
             id: record.id,
             date: record.occurredAt,
             type: record.type,
             typeTitle: record.type.localizedTitle,
-            title: record.title,
-            detail: detailText(for: record)
+            title: record.type == .weight
+                ? WeightFormatter.string(record.payload(WeightPayload.self)?.weightKg ?? 0, unit: unit)
+                : record.title,
+            detail: detailText(for: record, unit: unit)
         )
     }
 
     /// 各类型的关键字段，空字段跳过，用「 · 」连接
-    private static func detailText(for record: Record) -> String {
+    private static func detailText(for record: Record, unit: WeightUnit) -> String {
         var parts: [String] = []
 
         switch record.type {
@@ -161,11 +164,9 @@ enum SummarySnapshotBuilder {
                 parts.append(String(localized: "summary.severity \(payload.severity)"))
             }
         case .weight:
-            if let payload = record.payload(WeightPayload.self) {
-                parts.append(WeightFormatting.string(payload.weightKg))
-                if let bcs = payload.bcs {
-                    parts.append(String(localized: "weight.bcs.label \(bcs)"))
-                }
+            // 体重已作为标题展示，关键字段只保留 BCS
+            if let payload = record.payload(WeightPayload.self), let bcs = payload.bcs {
+                parts.append(String(localized: "weight.bcs.label \(bcs)"))
             }
         case .daily:
             if let payload = record.payload(DailyPayload.self) {
@@ -192,7 +193,8 @@ enum SummarySnapshotBuilder {
     private static func makeWeightChange(
         pet: Pet,
         cutoff: Date,
-        calendar: Calendar
+        calendar: Calendar,
+        unit: WeightUnit
     ) -> SummarySnapshot.WeightChange? {
         // 同日取最后一条
         var latestByDay: [Date: WeightEntry] = [:]
@@ -213,8 +215,8 @@ enum SummarySnapshotBuilder {
         }
 
         return SummarySnapshot.WeightChange(
-            startText: WeightFormatting.string(first.weightKg),
-            endText: WeightFormatting.string(last.weightKg),
+            startText: WeightFormatter.string(first.weightKg, unit: unit),
+            endText: WeightFormatter.string(last.weightKg, unit: unit),
             changeText: changeText
         )
     }

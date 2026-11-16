@@ -10,6 +10,20 @@ import SwiftUI
 struct TimelineRow: View {
     let record: Record
 
+    @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
+
+    private var unit: WeightUnit {
+        WeightUnit(rawValue: unitRaw) ?? .kg
+    }
+
+    /// 体重记录按当前单位实时换算，避免沿用保存时的标题
+    private var displayTitle: String {
+        if record.type == .weight, let payload = record.payload(WeightPayload.self) {
+            return WeightFormatter.string(payload.weightKg, unit: unit)
+        }
+        return record.title
+    }
+
     var body: some View {
         HStack(spacing: Theme.Spacing.md) {
             ZStack {
@@ -22,7 +36,7 @@ struct TimelineRow: View {
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(record.title)
+                Text(displayTitle)
                     .font(Theme.Typography.title3)
                     .foregroundStyle(Theme.Palette.textPrimary)
                     .lineLimit(1)

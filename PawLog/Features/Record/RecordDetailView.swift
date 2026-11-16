@@ -141,7 +141,7 @@ struct RecordDetailView: View {
         case .weight:
             if let p = record.payload(WeightPayload.self) {
                 Section(String(localized: "record.type.weight")) {
-                    row("record.field.weightKg", "\(p.weightKg) kg")
+                    row("record.field.weightKg", WeightFormatter.string(p.weightKg))
                     row("record.field.bcs", p.bcs.map { String($0) })
                 }
             }
