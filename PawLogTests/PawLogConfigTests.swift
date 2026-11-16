@@ -27,11 +27,11 @@ final class PawLogConfigTests: XCTestCase {
         // 即使没买过任何东西，isPro 也为 true
         XCTAssertTrue(service.isPro)
 
-        // petLimit 放开（proPetLimit = 20）
+        // petLimit = 20：能创建到第 20 只，第 21 只被拦截（是合理的边界行为）
         XCTAssertEqual(service.petLimit, EntitlementService.proPetLimit)
         XCTAssertTrue(service.canAddPet(currentCount: 0))
         XCTAssertTrue(service.canAddPet(currentCount: 19))
-        XCTAssertTrue(service.canAddPet(currentCount: 100))
+        XCTAssertFalse(service.canAddPet(currentCount: 20))
 
         // reminderLimit 放开（nil = 无限）
         XCTAssertNil(service.reminderLimit)
