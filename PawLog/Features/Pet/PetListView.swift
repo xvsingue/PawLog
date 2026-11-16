@@ -11,7 +11,9 @@ import SwiftData
 struct PetListView: View {
     @StateObject private var viewModel: PetListViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(EntitlementService.self) private var entitlements
     @State private var showingAddPet = false
+    @State private var showingPaywall = false
     @State private var petToDelete: Pet?
     @State private var deleteConfirmName = ""
 
@@ -32,7 +34,7 @@ struct PetListView: View {
                         title: "pet.list.empty.title",
                         description: "pet.list.empty.description",
                         buttonTitle: "pet.list.empty.action",
-                        action: { showingAddPet = true },
+                        action: { addPet() },
                         buttonIdentifier: "pet.addFirst"
                     )
                 } else {
@@ -59,7 +61,7 @@ struct PetListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showingAddPet = true
+                        addPet()
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -77,6 +79,9 @@ struct PetListView: View {
                 NavigationStack {
                     PetEditView(service: viewModel.service)
                 }
+            }
+            .sheet(isPresented: $showingPaywall) {
+                PaywallView()
             }
             .alert(
                 String(localized: "pet.delete.confirm.title"),
@@ -102,6 +107,17 @@ struct PetListView: View {
             .onAppear {
                 viewModel.loadPets()
             }
+        }
+    }
+
+    // MARK: - 操作
+
+    /// 新建宠物：免费版超过 1 只时先引导订阅
+    private func addPet() {
+        if entitlements.canAddPet(currentCount: viewModel.pets.count) {
+            showingAddPet = true
+        } else {
+            showingPaywall = true
         }
     }
 }
@@ -142,11 +158,13 @@ private struct PetRow: View {
 
 #Preview("PetListView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, configurations: config)
+    let container = try! ModelContainer(for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self, configurations: config)
     let context = container.mainContext
     context.insert(Pet(name: "咪咪", species: .cat, breed: "英短"))
     context.insert(Pet(name: "旺财", species: .dog))
     try! context.save()
     return PetListView(service: PetService(context: context))
         .modelContainer(container)
+        .environment(EntitlementService(context: context))
+        .environment(StoreKitService())
 }

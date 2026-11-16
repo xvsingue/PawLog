@@ -17,8 +17,11 @@ struct TimelineView: View {
     @Query(sort: \Record.occurredAt, order: .reverse)
     private var allRecords: [Record]
 
+    @Environment(EntitlementService.self) private var entitlements
+
     @State private var filter: RecordType?
     @State private var expandedDays: Set<Date> = []
+    @State private var showingPaywall = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -46,6 +49,9 @@ struct TimelineView: View {
             }
         }
         .background(Theme.Palette.background)
+        .sheet(isPresented: $showingPaywall) {
+            PaywallView()
+        }
     }
 
     // MARK: - 筛选
@@ -103,12 +109,22 @@ struct TimelineView: View {
 
             VStack(spacing: 0) {
                 ForEach(Array(visible.enumerated()), id: \.element.id) { index, record in
-                    NavigationLink {
-                        RecordDetailView(record: record, service: service, reminderService: reminderService)
-                    } label: {
-                        TimelineRow(record: record)
+                    if entitlements.isLocked(date: record.occurredAt) {
+                        // 免费用户更早记录：显示锁定态，点击升级
+                        Button {
+                            showingPaywall = true
+                        } label: {
+                            TimelineRow(record: record, isLocked: true)
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        NavigationLink {
+                            RecordDetailView(record: record, service: service, reminderService: reminderService)
+                        } label: {
+                            TimelineRow(record: record)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
 
                     if index < visible.count - 1 {
                         Divider()
@@ -153,7 +169,7 @@ struct TimelineView: View {
 #Preview("TimelineView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self,
+        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
         configurations: config
     )
     let context = container.mainContext
@@ -173,4 +189,6 @@ struct TimelineView: View {
         ) {}
     }
     .modelContainer(container)
+    .environment(EntitlementService(context: context))
+    .environment(StoreKitService())
 }

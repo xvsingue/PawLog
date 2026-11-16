@@ -155,7 +155,7 @@ struct HomeView: View {
 #Preview("HomeView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self,
+        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
         configurations: config
     )
     let context = container.mainContext
@@ -165,4 +165,6 @@ struct HomeView: View {
     try! context.save()
     return HomeView()
         .modelContainer(container)
+        .environment(EntitlementService(context: context))
+        .environment(StoreKitService())
 }

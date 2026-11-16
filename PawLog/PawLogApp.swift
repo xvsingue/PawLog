@@ -18,7 +18,7 @@ struct PawLogApp: App {
             Record.self,
             WeightEntry.self,
             Reminder.self,
-            Attachment.self,
+            Attachment.self, Entitlement.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -28,6 +28,9 @@ struct PawLogApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+
+    @State private var entitlements = EntitlementService(context: PawLogApp.sharedContainer.mainContext)
+    @State private var storeKit = StoreKitService()
 
     init() {
         // 注册通知分类与回调，长按通知可直接标记完成/稍后提醒
@@ -40,6 +43,8 @@ struct PawLogApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(entitlements)
+                .environment(storeKit)
         }
         .modelContainer(sharedModelContainer)
     }

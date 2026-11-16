@@ -1948,6 +1948,48 @@
     },
     "notification.overdue.body %lld" : {
       "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "有 %lld 条提醒已过期，记得处理" } } }
+    },
+    "paywall.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "爪记 Pro" } } }
+    },
+    "paywall.value" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "多宠物、无限提醒与完整历史，一次解锁。" } } }
+    },
+    "paywall.note" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "订阅会自动续期，可随时在系统设置中取消。" } } }
+    },
+    "paywall.period.monthly" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按月订阅" } } }
+    },
+    "paywall.period.yearly" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按年订阅" } } }
+    },
+    "paywall.period.lifetime" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "一次性购买" } } }
+    },
+    "paywall.period.other" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "订阅" } } }
+    },
+    "paywall.restore" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "恢复购买" } } }
+    },
+    "paywall.terms" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "服务条款" } } }
+    },
+    "paywall.privacy" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "隐私政策" } } }
+    },
+    "paywall.privacy.body" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本应用仅记录你填写的宠物健康信息，不上传购买信息，也不做第三方埋点。" } } }
+    },
+    "paywall.purchase.failed" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "购买未完成" } } }
+    },
+    "timeline.locked.title" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "更早的记录已锁定" } } }
+    },
+    "timeline.locked.action" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "升级 Pro 查看，数据仍完整保留" } } }
     }
   },
   "version" : "1.0"

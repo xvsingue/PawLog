@@ -14,7 +14,9 @@ struct ReminderListView: View {
     let recordService: RecordService
 
     @StateObject private var viewModel: ReminderListViewModel
+    @Environment(EntitlementService.self) private var entitlements
     @State private var selectedRecord: Record?
+    @State private var showingPaywall = false
 
     init(pet: Pet, reminderService: ReminderService, recordService: RecordService) {
         self.pet = pet
@@ -56,6 +58,9 @@ struct ReminderListView: View {
             .navigationTitle(String(localized: "reminder.list.title"))
             .navigationBarTitleDisplayMode(.inline)
             .onAppear { viewModel.reload() }
+            .sheet(isPresented: $showingPaywall) {
+                PaywallView()
+            }
             .navigationDestination(item: $selectedRecord) { record in
                 RecordDetailView(record: record, service: recordService, reminderService: reminderService)
             }
@@ -63,6 +68,13 @@ struct ReminderListView: View {
     }
 
     // MARK: - 行
+
+    /// 当前已启用提醒数（不含正在操作的这一条）
+    private func enabledCount(excluding reminder: Reminder) -> Int {
+        (viewModel.upcoming + viewModel.overdue)
+            .filter { $0.enabled && $0.id != reminder.id }
+            .count
+    }
 
     private func reminderRow(_ reminder: Reminder) -> some View {
         let days = viewModel.daysRemaining(for: reminder)
@@ -94,9 +106,16 @@ struct ReminderListView: View {
             .buttonStyle(.plain)
 
             // 关闭开关时 ReminderService 会撤销该提醒的全部待发通知
+            // 免费版开启第 4 条提醒时引导订阅
             Toggle("", isOn: Binding(
                 get: { reminder.enabled },
-                set: { viewModel.setEnabled(reminder, enabled: $0) }
+                set: { newValue in
+                    if newValue, !entitlements.canEnableReminder(currentEnabled: enabledCount(excluding: reminder)) {
+                        showingPaywall = true
+                        return
+                    }
+                    viewModel.setEnabled(reminder, enabled: newValue)
+                }
             ))
             .labelsHidden()
             .tint(Theme.Palette.primary)
@@ -172,7 +191,7 @@ extension ReminderKind {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self,
+        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
         configurations: config
     )
     let context = container.mainContext
@@ -184,4 +203,6 @@ extension ReminderKind {
     let service = ReminderService(context: context, notificationService: notif)
     return ReminderListView(pet: pet, reminderService: service, recordService: RecordService(context: context))
         .modelContainer(container)
+        .environment(EntitlementService(context: context))
+        .environment(StoreKitService())
 }

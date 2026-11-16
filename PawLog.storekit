@@ -1,0 +1,107 @@
+{
+  "identifier" : "PAWLOG-STOREKIT-1",
+  "nonRenewingSubscriptions" : [
+  ],
+  "products" : [
+    {
+      "displayPrice" : "49.99",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4-LIFETIME",
+      "localizations" : [
+        {
+          "description" : "永久解锁多宠物、无限提醒与完整历史",
+          "displayName" : "爪记 Pro 终身",
+          "locale" : "zh_CN"
+        },
+        {
+          "description" : "Unlock multiple pets, unlimited reminders and full history",
+          "displayName" : "PawLog Pro Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.pawlog.pro.lifetime",
+      "referenceName" : "PawLog Pro Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1000000000",
+    "_developerTeamID" : "PAWLOGTEAM",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "zh_CN",
+    "_storefront" : "CHN",
+    "_storeKitErrors" : [
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "P1A2W3L4OG",
+      "localizations" : [
+      ],
+      "name" : "PawLog Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+          ],
+          "codeOffers" : [
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "A1B2C3D4-MONTHLY",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "按月解锁全部 Pro 功能",
+              "displayName" : "爪记 Pro 月订阅",
+              "locale" : "zh_CN"
+            },
+            {
+              "description" : "Monthly access to all Pro features",
+              "displayName" : "PawLog Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.pawlog.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "PawLog Pro Monthly",
+          "subscriptionGroupID" : "P1A2W3L4OG",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+          ],
+          "codeOffers" : [
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "A1B2C3D4-YEARLY",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "按年解锁全部 Pro 功能，更划算",
+              "displayName" : "爪记 Pro 年订阅",
+              "locale" : "zh_CN"
+            },
+            {
+              "description" : "Yearly access to all Pro features",
+              "displayName" : "PawLog Pro Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.pawlog.pro.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "PawLog Pro Yearly",
+          "subscriptionGroupID" : "P1A2W3L4OG",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

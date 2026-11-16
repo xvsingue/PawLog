@@ -17,7 +17,7 @@ final class PetCascadeDeleteTests: XCTestCase {
     override func setUpWithError() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(
-            for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self,
+            for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
             configurations: config
         )
         context = container.mainContext

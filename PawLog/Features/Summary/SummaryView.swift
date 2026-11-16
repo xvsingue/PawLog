@@ -129,7 +129,7 @@ struct SummaryView: View {
 #Preview("SummaryView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self,
+        for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
         configurations: config
     )
     let context = container.mainContext

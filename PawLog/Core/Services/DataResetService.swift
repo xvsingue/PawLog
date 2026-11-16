@@ -24,6 +24,7 @@ final class DataResetService {
         try context.delete(model: WeightEntry.self)
         try context.delete(model: Reminder.self)
         try context.delete(model: Attachment.self)
+        try context.delete(model: Entitlement.self)
         try context.delete(model: Pet.self)
         try context.save()
         await notificationService.cancelAll()

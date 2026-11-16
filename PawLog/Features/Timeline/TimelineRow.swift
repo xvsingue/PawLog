@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TimelineRow: View {
     let record: Record
+    /// 免费用户超出历史窗口的记录：锁定态，数据仍保留
+    var isLocked: Bool = false
 
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
 
@@ -28,19 +30,19 @@ struct TimelineRow: View {
         HStack(spacing: Theme.Spacing.md) {
             ZStack {
                 Circle()
-                    .fill(record.type.tint.opacity(0.12))
+                    .fill((isLocked ? Theme.Palette.textTertiary : record.type.tint).opacity(0.12))
                     .frame(width: 36, height: 36)
-                Image(systemName: record.type.symbolName)
+                Image(systemName: isLocked ? "lock.fill" : record.type.symbolName)
                     .font(.system(size: 16))
-                    .foregroundStyle(record.type.tint)
+                    .foregroundStyle(isLocked ? Theme.Palette.textTertiary : record.type.tint)
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(displayTitle)
+                Text(isLocked ? String(localized: "timeline.locked.title") : displayTitle)
                     .font(Theme.Typography.title3)
-                    .foregroundStyle(Theme.Palette.textPrimary)
+                    .foregroundStyle(isLocked ? Theme.Palette.textTertiary : Theme.Palette.textPrimary)
                     .lineLimit(1)
-                Text(summary)
+                Text(isLocked ? String(localized: "timeline.locked.action") : summary)
                     .font(Theme.Typography.footnote)
                     .foregroundStyle(Theme.Palette.textSecondary)
                     .lineLimit(1)
