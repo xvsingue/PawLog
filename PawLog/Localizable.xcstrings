@@ -1562,6 +1562,176 @@
           }
         }
       }
+    },
+    "weight.card.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重"
+          }
+        }
+      }
+    },
+    "weight.card.empty" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无体重记录"
+          }
+        }
+      }
+    },
+    "weight.card.change %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "较 30 天前 %@"
+          }
+        }
+      }
+    },
+    "weight.trend.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重趋势"
+          }
+        }
+      }
+    },
+    "weight.trend.range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "区间"
+          }
+        }
+      }
+    },
+    "weight.trend.empty.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有体重记录"
+          }
+        }
+      }
+    },
+    "weight.trend.empty.description" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录体重后可以看到变化曲线"
+          }
+        }
+      }
+    },
+    "weight.trend.empty.action" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去记录"
+          }
+        }
+      }
+    },
+    "weight.range.30" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 天"
+          }
+        }
+      }
+    },
+    "weight.range.90" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90 天"
+          }
+        }
+      }
+    },
+    "weight.range.365" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "365 天"
+          }
+        }
+      }
+    },
+    "weight.bcs.label %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BCS %lld"
+          }
+        }
+      }
+    },
+    "weight.alert.rapid.up" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重上升较快，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.rapid.down" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重下降较快，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.consecutive.up" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重连续上升，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.consecutive.down" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重连续下降，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建议咨询兽医"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -16,9 +16,13 @@ struct HomeView: View {
     @State private var showingQuickRecord = false
     @State private var showingPetList = false
     @State private var showingReminders = false
+    @State private var showingWeightTrend = false
+    /// 体重页空状态点「去记录」时，等 Sheet 关闭后再打开记录表单
+    @State private var pendingQuickRecord = false
 
     private var petService: PetService { PetService(context: modelContext) }
     private var recordService: RecordService { RecordService(context: modelContext) }
+    private var weightService: WeightTrendService { WeightTrendService() }
     private var reminderService: ReminderService {
         ReminderService(context: modelContext, notificationService: NotificationService())
     }
@@ -43,6 +47,13 @@ struct HomeView: View {
                             onSelect: { selectedPetID = $0.id },
                             onMove: movePets
                         )
+                        if let pet = selectedPet {
+                            WeightCardView(pet: pet, service: weightService) {
+                                showingWeightTrend = true
+                            }
+                            .padding(.horizontal, Theme.Spacing.pageMargin)
+                            .padding(.bottom, Theme.Spacing.md)
+                        }
                         TimelineView(pet: selectedPet, service: recordService, reminderService: reminderService) {
                             showingQuickRecord = true
                         }
@@ -89,8 +100,23 @@ struct HomeView: View {
                     ReminderListView(pet: pet, reminderService: reminderService, recordService: recordService)
                 }
             }
+            .sheet(isPresented: $showingWeightTrend, onDismiss: handleWeightSheetDismiss) {
+                if let pet = selectedPet {
+                    WeightTrendView(pet: pet, service: weightService) {
+                        pendingQuickRecord = true
+                        showingWeightTrend = false
+                    }
+                }
+            }
             .onAppear(perform: reload)
         }
+    }
+
+    /// 体重页空状态「去记录」：等体重 Sheet 关闭后再打开记录表单
+    private func handleWeightSheetDismiss() {
+        guard pendingQuickRecord else { return }
+        pendingQuickRecord = false
+        showingQuickRecord = true
     }
 
     private var selectedPet: Pet? {
