@@ -39,6 +39,11 @@ Packages/
 *.dSYM.zip
 *.dSYM
 
+# Simctl temporary files (recordVideo leftovers)
+*.sb-*
+*.mp4.sb-*
+store-assets/*.tmp
+
 # Provisioning
 .mobileprovision
 *.entitlements.backup
