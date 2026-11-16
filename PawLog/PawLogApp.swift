@@ -42,10 +42,22 @@ struct PawLogApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(entitlements)
-                .environment(storeKit)
+            #if DEBUG
+            if let scene = ScreenshotScene.requested(from: ProcessInfo.processInfo.arguments) {
+                ScreenshotRootView(scene: scene)
+            } else {
+                mainContent
+            }
+            #else
+            mainContent
+            #endif
         }
         .modelContainer(sharedModelContainer)
+    }
+
+    private var mainContent: some View {
+        ContentView()
+            .environment(entitlements)
+            .environment(storeKit)
     }
 }

@@ -9,10 +9,27 @@ import SwiftUI
 import SwiftData
 import StoreKit
 
+/// 付费墙展示项：StoreKit 商品或 DEBUG 截图用的示例项
+struct PaywallProduct: Identifiable {
+    let id: String
+    let title: String
+    let price: String
+    let period: String
+    /// 示例项没有真实商品，不可购买
+    let product: Product?
+}
+
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(EntitlementService.self) private var entitlements
     @Environment(StoreKitService.self) private var store
+
+    /// 仅用于 DEBUG 截图预览，正式路径传空
+    private let sampleProducts: [PaywallProduct]
+
+    init(sampleProducts: [PaywallProduct] = []) {
+        self.sampleProducts = sampleProducts
+    }
 
     @State private var isWorking = false
     @State private var errorMessage: String?
@@ -65,35 +82,50 @@ struct PaywallView: View {
         }
     }
 
+    private var displayProducts: [PaywallProduct] {
+        guard store.products.isEmpty else {
+            return store.products.map { product in
+                PaywallProduct(
+                    id: product.id,
+                    title: product.displayName,
+                    price: product.displayPrice,
+                    period: periodText(for: product),
+                    product: product
+                )
+            }
+        }
+        return sampleProducts
+    }
+
     private var productList: some View {
         VStack(spacing: Theme.Spacing.md) {
-            if store.products.isEmpty {
+            if displayProducts.isEmpty {
                 ProgressView()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, Theme.Spacing.xl)
             } else {
-                ForEach(store.products, id: \.id) { product in
+                ForEach(displayProducts) { product in
                     productCard(product)
                 }
             }
         }
     }
 
-    private func productCard(_ product: Product) -> some View {
+    private func productCard(_ product: PaywallProduct) -> some View {
         Button {
-            buy(product)
+            if let real = product.product { buy(real) }
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
-                    Text(product.displayName)
+                    Text(product.title)
                         .font(Theme.Typography.title3)
                         .foregroundStyle(Theme.Palette.textPrimary)
-                    Text(periodText(for: product))
+                    Text(product.period)
                         .font(Theme.Typography.caption)
                         .foregroundStyle(Theme.Palette.textSecondary)
                 }
                 Spacer()
-                Text(product.displayPrice)
+                Text(product.price)
                     .font(Theme.Typography.title3)
                     .foregroundStyle(Theme.Palette.primary)
             }
@@ -103,7 +135,7 @@ struct PaywallView: View {
             .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card))
         }
         .buttonStyle(.plain)
-        .disabled(isWorking)
+        .disabled(isWorking || product.product == nil)
     }
 
     private func periodText(for product: Product) -> String {

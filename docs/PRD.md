@@ -184,7 +184,7 @@ PawLog/
 - 国内 ¥18/月、¥98/年、¥198 永久；海外 $3.99/月、$29.99/年、\$59.99 永久。代码与文案不得出现与本章不一致的价格，展示价格一律取 App Store 返回值。
 - 付费墙触发：添加第 2 只宠物、查看 90 天前、提醒超出免费上限、邀请家人（v1.1）。
 - StoreKit 2；必须展示自动续订说明、取消方式、条款与隐私链接、恢复购买。
-- 上架前待办：补 `SKTestSession` 直连自动化用例，并增加一条校验 productID 与 `.storekit`/App Store Connect 配置一致性的测试。
+- 上架前校验：`SKTestSession` 自动化用例已落在 `PawLogTests/StoreKitConfigurationTests.swift`，覆盖 purchase / refund / restore 与 productID 一致性。
 
 ### 5.10 国际化（P0 基建）
 

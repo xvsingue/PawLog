@@ -24,6 +24,14 @@ struct QuickRecordSheet: View {
         _selectedType = State(initialValue: editing?.type)
     }
 
+    #if DEBUG
+    /// 仅截图用：跳过类型选择，直接进入指定类型的表单
+    init(pet: Pet, service: RecordService, reminderService: ReminderService?, debugType: RecordType) {
+        self.init(pet: pet, service: service, reminderService: reminderService, editing: nil)
+        _selectedType = State(initialValue: debugType)
+    }
+    #endif
+
     var body: some View {
         NavigationStack {
             Group {
