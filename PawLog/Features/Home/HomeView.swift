@@ -10,6 +10,7 @@ import SwiftData
 
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(EntitlementService.self) private var entitlements
 
     @State private var pets: [Pet] = []
     @State private var selectedPetID: UUID?
@@ -27,7 +28,11 @@ struct HomeView: View {
     }
     private var weightService: WeightTrendService { WeightTrendService() }
     private var reminderService: ReminderService {
-        ReminderService(context: modelContext, notificationService: NotificationService())
+        ReminderService(
+            context: modelContext,
+            notificationService: NotificationService(),
+            reminderLimit: { entitlements.reminderLimit }
+        )
     }
 
     var body: some View {

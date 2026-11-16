@@ -31,7 +31,8 @@ enum ReminderActionHandler {
         context: ModelContext,
         notificationService: NotificationService = NotificationService(),
         calendar: Calendar = .current,
-        clock: Clock = SystemClock()
+        clock: Clock = SystemClock(),
+        reminderLimit: @escaping () -> Int? = { nil }
     ) async {
         let descriptor = FetchDescriptor<Reminder>(
             predicate: #Predicate { $0.id == reminderID }
@@ -41,7 +42,8 @@ enum ReminderActionHandler {
             context: context,
             notificationService: notificationService,
             calendar: calendar,
-            clock: clock
+            clock: clock,
+            reminderLimit: reminderLimit
         )
 
         switch action {

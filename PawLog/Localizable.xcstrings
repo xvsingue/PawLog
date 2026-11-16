@@ -1953,7 +1953,7 @@
       "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "爪记 Pro" } } }
     },
     "paywall.value" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "多宠物、无限提醒与完整历史，一次解锁。" } } }
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "多宠物（最多 20 只）、无限提醒与完整历史。" } } }
     },
     "paywall.note" : {
       "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "订阅会自动续期，可随时在系统设置中取消。" } } }
@@ -1990,6 +1990,9 @@
     },
     "timeline.locked.action" : {
       "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "升级 Pro 查看，数据仍完整保留" } } }
+    },
+    "reminder.freeLimit.hint" : {
+      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已达免费上限，升级后全部提醒" } } }
     }
   },
   "version" : "1.0"

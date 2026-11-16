@@ -35,10 +35,15 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
               let action = ReminderNotificationAction(identifier: response.actionIdentifier) else {
             return
         }
+        let context = PawLogApp.sharedContainer.mainContext
+        let limit = await MainActor.run {
+            EntitlementService(context: context).reminderLimit
+        }
         await ReminderActionHandler.perform(
             action,
             reminderID: reminderID,
-            context: PawLogApp.sharedContainer.mainContext
+            context: context,
+            reminderLimit: { limit }
         )
     }
 }

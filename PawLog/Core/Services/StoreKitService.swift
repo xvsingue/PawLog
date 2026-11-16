@@ -13,9 +13,9 @@ import os
 @MainActor
 @Observable
 final class StoreKitService {
-    static let monthlyID = "com.pawlog.pro.monthly"
-    static let yearlyID = "com.pawlog.pro.yearly"
-    static let lifetimeID = "com.pawlog.pro.lifetime"
+    static let monthlyID = "com.Lennox.PawLog.pro.monthly"
+    static let yearlyID = "com.Lennox.PawLog.pro.yearly"
+    static let lifetimeID = "com.Lennox.PawLog.pro.lifetime"
     static let productIDs = [monthlyID, yearlyID, lifetimeID]
 
     private(set) var products: [Product] = []

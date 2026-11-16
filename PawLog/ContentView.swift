@@ -24,13 +24,22 @@ struct ContentView: View {
                 guard !didReconcile else { return }
                 didReconcile = true
                 entitlements.refresh()
-                let notificationService = NotificationService()
-                let reminderService = ReminderService(
-                    context: modelContext,
-                    notificationService: notificationService
-                )
-                await reminderService.reconcileAll()
+                await reconcileReminders()
             }
+            .onChange(of: entitlements.isPro) { _, _ in
+                // 升级/降级后按新的提醒上限重排通知
+                Task { await reconcileReminders() }
+            }
+    }
+
+    /// 提醒对账：按当前权益上限决定哪些提醒排通知
+    private func reconcileReminders() async {
+        let reminderService = ReminderService(
+            context: modelContext,
+            notificationService: NotificationService(),
+            reminderLimit: { entitlements.reminderLimit }
+        )
+        await reminderService.reconcileAll()
     }
 }
 

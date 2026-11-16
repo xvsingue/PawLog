@@ -69,18 +69,29 @@ struct ReminderListView: View {
 
     // MARK: - 行
 
-    /// 当前已启用提醒数（不含正在操作的这一条）
-    private func enabledCount(excluding reminder: Reminder) -> Int {
-        (viewModel.upcoming + viewModel.overdue)
-            .filter { $0.enabled && $0.id != reminder.id }
-            .count
+    /// 免费用户可排通知的提醒 id（按 dueAt 最近的若干条）
+    private var notifiableIDs: Set<UUID> {
+        guard let limit = entitlements.reminderLimit else { return [] }
+        let enabled = (viewModel.upcoming + viewModel.overdue)
+            .filter(\.enabled)
+            .sorted { $0.dueAt < $1.dueAt }
+        return Set(enabled.prefix(limit).map(\.id))
+    }
+
+    /// 超出免费上限：数据保留但不会排通知
+    private func isOverLimit(_ reminder: Reminder) -> Bool {
+        entitlements.reminderLimit != nil && reminder.enabled && !notifiableIDs.contains(reminder.id)
     }
 
     private func reminderRow(_ reminder: Reminder) -> some View {
         let days = viewModel.daysRemaining(for: reminder)
         return HStack(spacing: Theme.Spacing.md) {
             Button {
-                openDetail(reminder)
+                if isOverLimit(reminder) {
+                    showingPaywall = true
+                } else {
+                    openDetail(reminder)
+                }
             } label: {
                 HStack(spacing: Theme.Spacing.md) {
                     Image(systemName: reminder.kind.symbolName)
@@ -95,27 +106,27 @@ struct ReminderListView: View {
                         Text(reminder.dueAt.formatted(.dateTime.year().month().day()))
                             .font(Theme.Typography.footnote)
                             .foregroundStyle(Theme.Palette.textSecondary)
+                        if isOverLimit(reminder) {
+                            Text(String(localized: "reminder.freeLimit.hint"))
+                                .font(Theme.Typography.caption)
+                                .foregroundStyle(Theme.Palette.accent)
+                        }
                     }
 
                     Spacer()
 
                     daysBadge(days: days)
                 }
+                .opacity(isOverLimit(reminder) ? 0.5 : 1)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
 
-            // 关闭开关时 ReminderService 会撤销该提醒的全部待发通知
-            // 免费版开启第 4 条提醒时引导订阅
+            // 关闭开关时 ReminderService 会撤销该提醒的全部待发通知；
+            // 超出免费上限的提醒仍保留且可开关，只是不排通知
             Toggle("", isOn: Binding(
                 get: { reminder.enabled },
-                set: { newValue in
-                    if newValue, !entitlements.canEnableReminder(currentEnabled: enabledCount(excluding: reminder)) {
-                        showingPaywall = true
-                        return
-                    }
-                    viewModel.setEnabled(reminder, enabled: newValue)
-                }
+                set: { viewModel.setEnabled(reminder, enabled: $0) }
             ))
             .labelsHidden()
             .tint(Theme.Palette.primary)

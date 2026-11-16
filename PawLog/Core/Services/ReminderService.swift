@@ -16,18 +16,22 @@ final class ReminderService {
     private let notificationService: NotificationService
     private let calendar: Calendar
     private let clock: Clock
+    /// 免费提醒上限（nil 表示不限）；仅影响通知排期，不删数据、不改开关
+    private let reminderLimit: () -> Int?
     private let logger = Logger(subsystem: "com.Lennox.PawLog", category: "ReminderService")
 
     init(
         context: ModelContext,
         notificationService: NotificationService,
         calendar: Calendar = .current,
-        clock: Clock = SystemClock()
+        clock: Clock = SystemClock(),
+        reminderLimit: @escaping () -> Int? = { nil }
     ) {
         self.context = context
         self.notificationService = notificationService
         self.calendar = calendar
         self.clock = clock
+        self.reminderLimit = reminderLimit
     }
 
     // MARK: - 权限
@@ -75,8 +79,19 @@ final class ReminderService {
         return reminder
     }
 
-    /// 重新排期某提醒的全部通知：先撤销再按当前 dueAt 排期
+    /// 重新排期某提醒的全部通知：先撤销再按当前 dueAt 排期。
+    /// 免费用户只有 dueAt 最近的若干条能排通知，其余撤销待发但不改动提醒数据。
     func reschedule(_ reminder: Reminder) async {
+        if let limit = reminderLimit() {
+            let enabled = ((try? context.fetch(FetchDescriptor<Reminder>())) ?? [])
+                .filter(\.enabled)
+                .sorted { $0.dueAt < $1.dueAt }
+            let eligible = Set(enabled.prefix(limit).map(\.id))
+            for item in enabled where !eligible.contains(item.id) {
+                notificationService.cancel(for: item.id)
+            }
+            guard eligible.contains(reminder.id) else { return }
+        }
         await notificationService.cancel(for: reminder.id)
         await notificationService.schedule(for: reminder)
     }
@@ -140,7 +155,7 @@ final class ReminderService {
         reminder.enabled = enabled
         try context.save()
         if enabled {
-            await notificationService.schedule(for: reminder)
+            await reschedule(reminder)
         } else {
             await notificationService.cancel(for: reminder.id)
         }
@@ -173,11 +188,20 @@ final class ReminderService {
     /// 启动对账：对全部提醒执行通知对账（补缺失、清过期），并刷新逾期每日汇总。幂等。
     func reconcileAll() async {
         let descriptor = FetchDescriptor<Reminder>()
-        let reminders = (try? context.fetch(descriptor)) ?? []
-        await notificationService.reconcile(reminders: reminders)
+        let all = (try? context.fetch(descriptor)) ?? []
+        let eligible: [Reminder]
+        if let limit = reminderLimit() {
+            eligible = all.filter(\.enabled)
+                .sorted { $0.dueAt < $1.dueAt }
+                .prefix(limit)
+                .map { $0 }
+        } else {
+            eligible = all
+        }
+        await notificationService.reconcile(reminders: eligible)
 
         // 逾期（到期日早于今天）且仍启用的提醒，每天最多推 1 条汇总
-        let overdueCount = reminders.filter { $0.enabled && daysRemaining(for: $0) < 0 }.count
+        let overdueCount = all.filter { $0.enabled && daysRemaining(for: $0) < 0 }.count
         await notificationService.scheduleOverdueSummary(overdueCount: overdueCount)
     }
 
