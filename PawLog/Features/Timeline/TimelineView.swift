@@ -20,14 +20,16 @@ struct TimelineView: View {
     @Environment(EntitlementService.self) private var entitlements
 
     @State private var filter: RecordType?
+    @State private var searchText = ""
     @State private var expandedDays: Set<Date> = []
     @State private var showingPaywall = false
 
     var body: some View {
         VStack(spacing: 0) {
+            searchBar
             filterBar
 
-            if filteredRecords.isEmpty {
+            if petRecords.isEmpty {
                 EmptyState(
                     systemImage: "list.bullet.rectangle",
                     title: "record.timeline.empty.title",
@@ -36,6 +38,9 @@ struct TimelineView: View {
                     action: onAdd
                 )
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if filteredRecords.isEmpty {
+                searchEmptyState
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: Theme.Spacing.groupSpacing) {
@@ -52,6 +57,55 @@ struct TimelineView: View {
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
         }
+    }
+
+    // MARK: - 搜索
+
+    private var searchBar: some View {
+        HStack(spacing: Theme.Spacing.sm) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(Theme.Palette.textTertiary)
+
+            TextField(String(localized: "record.search.placeholder"), text: $searchText)
+                .font(Theme.Typography.callout)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .submitLabel(.search)
+
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(Theme.Palette.textTertiary)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(String(localized: "record.search.clear"))
+            }
+        }
+        .padding(.horizontal, Theme.Spacing.md)
+        .frame(minHeight: 44)
+        .background(Theme.Palette.card)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card))
+        .padding(.horizontal, Theme.Spacing.pageMargin)
+        .padding(.top, Theme.Spacing.sm)
+    }
+
+    private var searchEmptyState: some View {
+        VStack(spacing: Theme.Spacing.md) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 48))
+                .foregroundStyle(Theme.Palette.textTertiary)
+            Text(String(localized: "record.search.empty.title"))
+                .font(Theme.Typography.title3)
+                .foregroundStyle(Theme.Palette.textPrimary)
+            Text(String(localized: "record.search.empty.description"))
+                .font(Theme.Typography.callout)
+                .foregroundStyle(Theme.Palette.textSecondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(.horizontal, Theme.Spacing.xl)
     }
 
     // MARK: - 筛选
@@ -97,7 +151,8 @@ struct TimelineView: View {
     }
 
     private func daySection(_ day: TimelineDay) -> some View {
-        let isExpanded = expandedDays.contains(day.id)
+        // 搜索时展开全部命中，避免结果被折叠隐藏
+        let isExpanded = isSearching || expandedDays.contains(day.id)
         let visible = isExpanded ? day.records : Array(day.records.prefix(TimelineGrouping.collapsedLimit))
         let hiddenCount = day.records.count - visible.count
 
@@ -158,11 +213,19 @@ struct TimelineView: View {
 
     // MARK: - 数据
 
-    private var filteredRecords: [Record] {
+    private var petRecords: [Record] {
         guard let pet else { return [] }
-        return allRecords.filter { record in
-            record.pet?.id == pet.id && (filter == nil || record.type == filter)
-        }
+        return allRecords.filter { $0.pet?.id == pet.id }
+    }
+
+    private var isSearching: Bool {
+        !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    /// 类型筛选与搜索叠加生效
+    private var filteredRecords: [Record] {
+        let byType = filter == nil ? petRecords : petRecords.filter { $0.type == filter }
+        return TimelineSearch.filter(byType, query: searchText)
     }
 }
 

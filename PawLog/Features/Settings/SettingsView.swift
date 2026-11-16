@@ -65,6 +65,7 @@ struct SettingsView: View {
                 languageSection
                 notificationSection
                 exportSection
+                BackupSettingsSection()
                 dataSection
                 aboutSection
             }
