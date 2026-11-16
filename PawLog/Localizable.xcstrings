@@ -342,6 +342,50 @@
         }
       }
     },
+    "home.a11y.addRecord": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加记录"
+          }
+        }
+      }
+    },
+    "home.a11y.pets": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宠物列表"
+          }
+        }
+      }
+    },
+    "home.a11y.reminders": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒"
+          }
+        }
+      }
+    },
+    "home.a11y.settings": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        }
+      }
+    },
     "home.title": {
       "extractionState": "stale",
       "localizations": {
@@ -959,6 +1003,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "加载失败，请重试"
+          }
+        }
+      }
+    },
+    "pet.list.add": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加宠物"
           }
         }
       }
@@ -3177,6 +3232,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "体重"
+          }
+        }
+      }
+    },
+    "weight.chart.a11y %lld %@ %@ %lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近 %lld 天体重从 %@ 变化到 %@，变化比例 %lld%%。"
+          }
+        }
+      }
+    },
+    "weight.chart.a11y.empty": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无体重数据"
           }
         }
       }

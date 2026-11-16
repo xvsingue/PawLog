@@ -28,6 +28,7 @@ enum LanguagePreference: String, CaseIterable, Identifiable {
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Query(filter: ActivePredicates.pets, sort: \Pet.sortIndex) private var pets: [Pet]
 
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
@@ -126,12 +127,22 @@ struct SettingsView: View {
 
     private var unitSection: some View {
         Section(String(localized: "settings.unit.header")) {
-            Picker(String(localized: "settings.unit.header"), selection: unit) {
-                ForEach(WeightUnit.allCases) { item in
-                    Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+            if dynamicTypeSize.isAccessibilitySize {
+                // 辅助功能字号下分段控件会横向溢出，改用菜单
+                Picker(String(localized: "settings.unit.header"), selection: unit) {
+                    ForEach(WeightUnit.allCases) { item in
+                        Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+                    }
                 }
+                .pickerStyle(.menu)
+            } else {
+                Picker(String(localized: "settings.unit.header"), selection: unit) {
+                    ForEach(WeightUnit.allCases) { item in
+                        Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
         }
     }
 

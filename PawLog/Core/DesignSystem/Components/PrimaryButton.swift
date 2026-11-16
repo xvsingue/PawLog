@@ -9,6 +9,8 @@ import SwiftUI
 
 /// 主按钮样式
 struct PrimaryButtonStyle: ButtonStyle {
+    var reduceMotion: Bool = false
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Theme.Typography.title3)
@@ -16,7 +18,9 @@ struct PrimaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, minHeight: 52)
             .background(Theme.Palette.primary)
             .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.button))
-            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            // 减弱动态效果时取消缩放，仅用透明度提示按压
+            .scaleEffect(reduceMotion ? 1 : (configuration.isPressed ? 0.98 : 1.0))
+            .opacity(reduceMotion && configuration.isPressed ? 0.85 : 1)
             .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
     }
 }
@@ -25,6 +29,8 @@ struct PrimaryButtonStyle: ButtonStyle {
 struct PrimaryButton: View {
     let title: LocalizedStringKey
     let action: () -> Void
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(_ title: LocalizedStringKey, action: @escaping () -> Void) {
         self.title = title
@@ -35,7 +41,7 @@ struct PrimaryButton: View {
         Button(action: action) {
             Text(title)
         }
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(PrimaryButtonStyle(reduceMotion: reduceMotion))
     }
 }
 

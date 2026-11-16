@@ -14,6 +14,8 @@ struct PetSwitcherBar: View {
     let onSelect: (Pet) -> Void
     let onMove: (IndexSet, Int) -> Void
 
+    @ScaledMetric(relativeTo: .footnote) private var nameMaxWidth: CGFloat = 64
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Theme.Spacing.md) {
@@ -24,13 +26,16 @@ struct PetSwitcherBar: View {
                         VStack(spacing: Theme.Spacing.xs) {
                             avatar(for: pet)
                             Text(pet.name)
-                                .font(.system(size: 13))
+                                .font(Theme.Typography.footnote)
                                 .foregroundStyle(Theme.Palette.textSecondary)
                                 .lineLimit(1)
-                                .frame(maxWidth: 64)
+                                .truncationMode(.tail)
+                                .frame(maxWidth: nameMaxWidth)
                         }
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(pet.name)
+                    .accessibilityAddTraits(pet.id == selectedID ? .isSelected : [])
                     .draggable(pet.id.uuidString)
                     .dropDestination(for: String.self) { items, _ in
                         move(items, onto: pet)

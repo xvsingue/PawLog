@@ -65,6 +65,7 @@ struct PetListView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel(String(localized: "pet.list.add"))
                 }
                 if showsCloseButton {
                     ToolbarItem(placement: .topBarLeading) {

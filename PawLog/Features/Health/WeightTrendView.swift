@@ -37,6 +37,7 @@ struct WeightTrendView: View {
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
     @State private var range: WeightRange = .last90
     @State private var showingSummary = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var unit: WeightUnit {
         WeightUnit(rawValue: unitRaw) ?? .kg
@@ -110,12 +111,24 @@ struct WeightTrendView: View {
     }
 
     private var rangePicker: some View {
-        Picker(String(localized: "weight.trend.range"), selection: $range) {
-            ForEach(WeightRange.allCases) { item in
-                Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                // 辅助功能字号下分段控件会横向溢出，改用菜单
+                Picker(String(localized: "weight.trend.range"), selection: $range) {
+                    ForEach(WeightRange.allCases) { item in
+                        Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+                    }
+                }
+                .pickerStyle(.menu)
+            } else {
+                Picker(String(localized: "weight.trend.range"), selection: $range) {
+                    ForEach(WeightRange.allCases) { item in
+                        Text(String(localized: String.LocalizationValue(item.titleKey))).tag(item)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
         }
-        .pickerStyle(.segmented)
     }
 
     private func currentWeight(_ point: WeightPoint) -> some View {
@@ -160,7 +173,7 @@ struct WeightTrendView: View {
                     .foregroundStyle(Theme.Palette.primary)
                     .symbolSize(36)
                     .annotation(position: .top, spacing: Theme.Spacing.xs) {
-                        if let bcs = point.bcs {
+                        if let bcs = point.bcs, !dynamicTypeSize.isAccessibilitySize {
                             bcsBadge(bcs)
                         }
                     }
@@ -168,21 +181,44 @@ struct WeightTrendView: View {
             }
             .chartYScale(domain: yDomain)
             .chartXAxis {
-                AxisMarks(values: .automatic(desiredCount: 4)) { _ in
-                    AxisGridLine().foregroundStyle(Theme.Palette.textTertiary.opacity(0.2))
-                    AxisValueLabel(format: .dateTime.month().day())
-                        .foregroundStyle(Theme.Palette.textSecondary)
+                if dynamicTypeSize.isAccessibilitySize {
+                    // AX5 下日期标签会互相重叠，只保留网格；趋势由 VoiceOver 描述
+                    AxisMarks(values: .automatic(desiredCount: 2)) { _ in
+                        AxisGridLine().foregroundStyle(Theme.Palette.chartGrid)
+                    }
+                } else {
+                    AxisMarks(values: .automatic(desiredCount: 4)) { _ in
+                        AxisGridLine().foregroundStyle(Theme.Palette.chartGrid)
+                        AxisValueLabel(format: .dateTime.month().day())
+                            .foregroundStyle(Theme.Palette.textSecondary)
+                    }
                 }
             }
             .chartYAxis {
-                AxisMarks(position: .leading, values: .automatic(desiredCount: 4)) { _ in
-                    AxisGridLine().foregroundStyle(Theme.Palette.textTertiary.opacity(0.2))
+                AxisMarks(position: .leading,
+                          values: .automatic(desiredCount: dynamicTypeSize.isAccessibilitySize ? 3 : 4)) { _ in
+                    AxisGridLine().foregroundStyle(Theme.Palette.chartGrid)
                     AxisValueLabel()
                         .foregroundStyle(Theme.Palette.textSecondary)
                 }
             }
             .frame(height: 220)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(chartAccessibilityLabel)
         }
+    }
+
+    /// VoiceOver 用一句话描述趋势，图形内部不再单独可聚焦
+    private var chartAccessibilityLabel: String {
+        guard let first = points.first, let last = points.last else {
+            return String(localized: "weight.chart.a11y.empty")
+        }
+        let start = WeightFormatter.string(first.weightKg, unit: unit)
+        let end = WeightFormatter.string(last.weightKg, unit: unit)
+        let percent = first.weightKg == 0
+            ? 0
+            : Int(((last.weightKg - first.weightKg) / first.weightKg * 100).rounded())
+        return String(localized: "weight.chart.a11y \(range.rawValue) \(start) \(end) \(percent)")
     }
 
     /// Y 轴按数据与目标带范围留 15% 余量，避免大片空白

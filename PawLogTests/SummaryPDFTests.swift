@@ -177,6 +177,59 @@ final class SummaryPDFTests: XCTestCase {
         XCTAssertLessThan(elapsed, 1.5, "单次长图导出应小于 1.5 秒，实际 \(elapsed)s")
     }
 
+    /// M11 验收：90 天 / 20 条记录 / 6 张缩略图，连续 5 次取中位数 ≤1.5s，
+    /// 同时输出「缩略图解码 / 文本布局 / 绘制 / PNG 编码」四段耗时占比。
+    func testLongImageFixedDatasetPerformance() throws {
+        let thumbnail = try AttachmentTestSupport.makeJPEG(width: 200, height: 150)
+        for index in 0..<20 {
+            let record = try addVisit(
+                title: "复查记录 \(index)",
+                diagnosis: "复查结果稳定，精神食欲正常",
+                daysAgo: index * 4
+            )
+            if index < 6 {
+                let attachment = Attachment(
+                    record: record,
+                    kind: .image,
+                    localPath: "attachments/\(record.id.uuidString)/thumb.jpg",
+                    thumbnailData: thumbnail
+                )
+                context.insert(attachment)
+            }
+        }
+        try context.save()
+
+        let service = SummaryPDFService(clock: FixedClock(now))
+        let built = snapshot()
+        XCTAssertEqual(built.records.filter { $0.thumbnailData != nil }.count, 6)
+
+        var samples: [TimeInterval] = []
+        var lastProfile: LongImageProfile?
+        for _ in 0..<5 {
+            let result = service.renderLongImageWithProfile(built)
+            XCTAssertFalse(result.data.isEmpty)
+            samples.append(result.profile.total)
+            lastProfile = result.profile
+        }
+
+        let median = samples.sorted()[2]
+        let profile = try XCTUnwrap(lastProfile)
+        let report = String(
+            format: "长图 90天/20条/6图 中位数 %.3fs；分段占比 缩略图%.1f%% 布局%.1f%% 绘制%.1f%% 编码%.1f%%（count=%d, blocks=%d）",
+            median,
+            profile.thumbnailDecode / profile.total * 100,
+            profile.layout / profile.total * 100,
+            profile.draw / profile.total * 100,
+            profile.encode / profile.total * 100,
+            profile.thumbnailCount,
+            profile.blockCount
+        )
+        print("[M11-PDF] \(report)")
+        add(XCTAttachment(string: report))
+
+        XCTAssertLessThanOrEqual(median, 1.5, "固定数据集长图中位数应 ≤1.5 秒，实际 \(median)s")
+    }
+
     // MARK: - 文件名
 
     /// 文件名格式：宠物名_摘要_yyyyMMdd.pdf

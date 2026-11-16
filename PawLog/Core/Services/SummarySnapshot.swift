@@ -28,6 +28,8 @@ struct SummarySnapshot {
         var typeTitle: String
         var title: String
         var detail: String
+        /// 该记录的第一张照片缩略图，用于 PDF / 长图可选嵌图
+        var thumbnailData: Data?
     }
 
     /// 体重变化摘要
@@ -128,8 +130,19 @@ enum SummarySnapshotBuilder {
             title: record.type == .weight
                 ? WeightFormatter.string(record.payload(WeightPayload.self)?.weightKg ?? 0, unit: unit)
                 : record.title,
-            detail: detailText(for: record, unit: unit)
+            detail: detailText(for: record, unit: unit),
+            thumbnailData: firstThumbnail(for: record)
         )
+    }
+
+    /// 每条记录最多取 1 张缩略图，按创建时间取最早一张
+    private static func firstThumbnail(for record: Record) -> Data? {
+        record.attachments
+            .active
+            .filter { $0.kind == .image && $0.thumbnailData != nil }
+            .sorted { $0.createdAt < $1.createdAt }
+            .first?
+            .thumbnailData
     }
 
     /// 各类型的关键字段，空字段跳过，用「 · 」连接

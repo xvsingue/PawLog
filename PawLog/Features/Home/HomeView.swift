@@ -76,6 +76,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "pawprint")
                     }
+                    .accessibilityLabel(String(localized: "home.a11y.pets"))
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -83,6 +84,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "bell")
                     }
+                    .accessibilityLabel(String(localized: "home.a11y.reminders"))
                     .disabled(selectedPet == nil)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -91,6 +93,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "gearshape")
                     }
+                    .accessibilityLabel(String(localized: "home.a11y.settings"))
                     .accessibilityIdentifier("home.settings")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -99,6 +102,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel(String(localized: "home.a11y.addRecord"))
                     .accessibilityIdentifier("home.addRecord")
                     .disabled(selectedPet == nil)
                 }

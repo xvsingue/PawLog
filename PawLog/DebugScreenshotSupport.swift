@@ -13,10 +13,13 @@ import SwiftData
 /// 截图场景
 enum ScreenshotScene: String, CaseIterable {
     case home
+    case timeline
+    case recordDetail
     case quickRecord
     case weightTrend
     case summary
     case reminders
+    case settings
     case paywall
 
     /// 解析启动参数 `-uiScreenshot <scene>`
@@ -142,8 +145,23 @@ struct ScreenshotRootView: View {
     @ViewBuilder
     private var content: some View {
         switch scene {
-        case .home:
+        case .home, .timeline:
             HomeView()
+        case .recordDetail:
+            if let record = try? container.mainContext.fetch(
+                FetchDescriptor<Record>(sortBy: [SortDescriptor(\.occurredAt, order: .reverse)])
+            ).first {
+                NavigationStack {
+                    RecordDetailView(
+                        record: record,
+                        service: RecordService(context: container.mainContext),
+                        reminderService: ReminderService(
+                            context: container.mainContext,
+                            notificationService: NotificationService()
+                        )
+                    )
+                }
+            }
         case .quickRecord:
             if let pet {
                 NavigationStack {
@@ -177,6 +195,8 @@ struct ScreenshotRootView: View {
                     recordService: RecordService(context: container.mainContext)
                 )
             }
+        case .settings:
+            SettingsView()
         case .paywall:
             PaywallView(sampleProducts: ScreenshotSampleData.samplePaywallProducts())
         }

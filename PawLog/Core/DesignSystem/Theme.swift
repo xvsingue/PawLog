@@ -20,7 +20,9 @@ enum Theme {
         static let fill = Color.dynamic(light: Color(hex: "F2F0EC"), dark: Color(hex: "2C2C2E"))
         static let textPrimary = Color.dynamic(light: Color(hex: "1C1C1E"), dark: Color(hex: "FFFFFF"))
         static let textSecondary = Color.dynamic(light: Color(hex: "6B6B70"), dark: Color(hex: "8E8E93"))
-        static let textTertiary = Color.dynamic(light: Color(hex: "9A9A9F"), dark: Color(hex: "636366"))
+        static let textTertiary = Color.dynamic(light: Color(hex: "6F6F75"), dark: Color(hex: "8E8E93"))
+        /// 图表网格线：对卡片背景保持 ≥3:1（WCAG AA 大图形）
+        static let chartGrid = Color.dynamic(light: Color(hex: "8A8A8F"), dark: Color(hex: "8E8E93"))
         static let danger = Color(hex: "C94F45")
     }
 
@@ -51,17 +53,17 @@ enum Theme {
         static let pill: CGFloat = 999
     }
 
-    /// 字号令牌
+    /// 字号令牌。使用系统文本样式而非固定字号，随 Dynamic Type 一起缩放。
     enum Typography {
-        static let largeTitle = Font.system(size: 34, weight: .bold)
-        static let title1 = Font.system(size: 28, weight: .semibold)
-        static let title2 = Font.system(size: 22, weight: .semibold)
-        static let title3 = Font.system(size: 17, weight: .semibold)
-        static let body = Font.system(size: 17, weight: .regular)
-        static let callout = Font.system(size: 15, weight: .regular)
-        static let footnote = Font.system(size: 13, weight: .regular)
-        static let caption = Font.system(size: 12, weight: .regular)
+        static let largeTitle = Font.system(.largeTitle, weight: .bold)
+        static let title1 = Font.system(.title, weight: .semibold)
+        static let title2 = Font.system(.title2, weight: .semibold)
+        static let title3 = Font.system(.headline, weight: .semibold)
+        static let body = Font.system(.body)
+        static let callout = Font.system(.callout)
+        static let footnote = Font.system(.footnote)
+        static let caption = Font.system(.caption)
         /// 等宽数字，用于体重、金额等数字展示
-        static let monospacedDigit = Font.system(size: 17, weight: .regular).monospacedDigit()
+        static let monospacedDigit = Font.system(.body).monospacedDigit()
     }
 }

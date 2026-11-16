@@ -13,6 +13,7 @@ struct TimelineRow: View {
     var isLocked: Bool = false
 
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var unit: WeightUnit {
         WeightUnit(rawValue: unitRaw) ?? .kg
@@ -36,40 +37,81 @@ struct TimelineRow: View {
                     .font(.system(size: 16))
                     .foregroundStyle(isLocked ? Theme.Palette.textTertiary : record.type.tint)
             }
+            .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(isLocked ? String(localized: "timeline.locked.title") : displayTitle)
                     .font(Theme.Typography.title3)
                     .foregroundStyle(isLocked ? Theme.Palette.textTertiary : Theme.Palette.textPrimary)
                     .lineLimit(1)
+                    .truncationMode(.tail)
                 Text(isLocked ? String(localized: "timeline.locked.action") : summary)
                     .font(Theme.Typography.footnote)
                     .foregroundStyle(Theme.Palette.textSecondary)
                     .lineLimit(1)
+                    .truncationMode(.tail)
+
+                // 辅助功能字号下把时间与照片移到正文下方，避免挤压标题
+                if dynamicTypeSize.isAccessibilitySize {
+                    HStack(spacing: Theme.Spacing.sm) {
+                        timeLabel
+                        attachmentBadge
+                    }
+                }
             }
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: Theme.Spacing.xs) {
-                Text(record.occurredAt.formatted(date: .omitted, time: .shortened))
-                    .font(Theme.Typography.caption)
-                    .foregroundStyle(Theme.Palette.textTertiary)
-
-                if !isLocked, let first = activeAttachments.first {
-                    HStack(spacing: Theme.Spacing.xs) {
-                        AsyncAttachmentThumbnail(data: first.thumbnailData)
-                            .frame(width: 28, height: 28)
-                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.input))
-                        Text(String(localized: "attachment.count \(activeAttachments.count)"))
-                            .font(Theme.Typography.caption)
-                            .foregroundStyle(Theme.Palette.textTertiary)
-                    }
+            if !dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .trailing, spacing: Theme.Spacing.xs) {
+                    timeLabel
+                    attachmentBadge
                 }
             }
         }
         .frame(minHeight: 44)
         .padding(.vertical, Theme.Spacing.xs)
         .contentShape(Rectangle())
+        // 整行合并为一个 VoiceOver 焦点
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityText)
+    }
+
+    private var timeLabel: some View {
+        Text(record.occurredAt.formatted(date: .omitted, time: .shortened))
+            .font(Theme.Typography.caption)
+            .foregroundStyle(Theme.Palette.textTertiary)
+    }
+
+    @ViewBuilder
+    private var attachmentBadge: some View {
+        if !isLocked, let first = activeAttachments.first {
+            HStack(spacing: Theme.Spacing.xs) {
+                AsyncAttachmentThumbnail(data: first.thumbnailData)
+                    .frame(width: 28, height: 28)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.input))
+                Text(String(localized: "attachment.count \(activeAttachments.count)"))
+                    .font(Theme.Typography.caption)
+                    .foregroundStyle(Theme.Palette.textTertiary)
+                    .lineLimit(1)
+            }
+            .accessibilityHidden(true)
+        }
+    }
+
+    /// VoiceOver 标签：类型 + 标题，时间，关键字段与照片数量
+    private var accessibilityText: String {
+        let time = record.occurredAt.formatted(date: .abbreviated, time: .shortened)
+        var parts = ["\(record.type.localizedTitle) \(displayTitle)", time]
+        if isLocked {
+            parts.append(String(localized: "timeline.locked.title"))
+        } else {
+            if let note = record.note, !note.isEmpty { parts.append(note) }
+            if !activeAttachments.isEmpty {
+                parts.append(String(localized: "attachment.count \(activeAttachments.count)"))
+            }
+        }
+        return parts.joined(separator: "，")
     }
 
     /// 未删除的附件，列表只展示第一张缩略图

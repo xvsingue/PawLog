@@ -15,6 +15,7 @@ struct ReminderListView: View {
 
     @StateObject private var viewModel: ReminderListViewModel
     @Environment(EntitlementService.self) private var entitlements
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var selectedRecord: Record?
     @State private var showingPaywall = false
 
@@ -111,11 +112,16 @@ struct ReminderListView: View {
                                 .font(Theme.Typography.caption)
                                 .foregroundStyle(Theme.Palette.accent)
                         }
+                        // 辅助功能字号下剩余天数移到文字下方，避免右侧列挤压日期
+                        if dynamicTypeSize.isAccessibilitySize {
+                            daysBadge(days: days)
+                        }
                     }
 
-                    Spacer()
-
-                    daysBadge(days: days)
+                    if !dynamicTypeSize.isAccessibilitySize {
+                        Spacer()
+                        daysBadge(days: days)
+                    }
                 }
                 .opacity(isOverLimit(reminder) ? 0.5 : 1)
                 .contentShape(Rectangle())
