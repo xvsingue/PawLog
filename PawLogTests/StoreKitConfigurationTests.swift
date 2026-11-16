@@ -35,7 +35,8 @@ final class StoreKitConfigurationTests: XCTestCase {
             configurations: config
         )
         context = container.mainContext
-        service = EntitlementService(context: context)
+        // 测试订阅真实逻辑，显式开启 Pro 开关
+        service = EntitlementService(context: context, proEnabled: true)
     }
 
     override func tearDownWithError() throws {
@@ -103,7 +104,7 @@ final class StoreKitConfigurationTests: XCTestCase {
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
             configurations: freshConfig
         )
-        let restored = EntitlementService(context: freshContainer.mainContext)
+        let restored = EntitlementService(context: freshContainer.mainContext, proEnabled: true)
         XCTAssertFalse(restored.isPro)
 
         restored.apply(events: events)

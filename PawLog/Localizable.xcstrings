@@ -68,6 +68,7 @@
       }
     },
     "common.back" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -78,6 +79,7 @@
       }
     },
     "common.cancel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -88,6 +90,7 @@
       }
     },
     "common.done" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -98,6 +101,7 @@
       }
     },
     "common.edit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -108,6 +112,7 @@
       }
     },
     "common.ok" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -118,6 +123,7 @@
       }
     },
     "common.optional" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -128,6 +134,7 @@
       }
     },
     "common.required" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -138,6 +145,7 @@
       }
     },
     "common.save" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -181,6 +189,7 @@
       }
     },
     "home.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -190,7 +199,272 @@
         }
       }
     },
+    "notification.action.done" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标记完成"
+          }
+        }
+      }
+    },
+    "notification.action.snooze" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后提醒"
+          }
+        }
+      }
+    },
+    "notification.kind.custom" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义"
+          }
+        }
+      }
+    },
+    "notification.kind.deworming" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "驱虫"
+          }
+        }
+      }
+    },
+    "notification.kind.medication" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药"
+          }
+        }
+      }
+    },
+    "notification.kind.vaccine" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "疫苗"
+          }
+        }
+      }
+    },
+    "notification.kind.visit" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复诊"
+          }
+        }
+      }
+    },
+    "notification.overdue.body %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有 %lld 条提醒已过期，记得处理"
+          }
+        }
+      }
+    },
+    "notification.overdue.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有提醒已过期"
+          }
+        }
+      }
+    },
+    "notification.reminder.body %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还有 %lld 天到期"
+          }
+        }
+      }
+    },
+    "notification.reminder.snoozeBody" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后再次提醒你"
+          }
+        }
+      }
+    },
+    "notification.reminder.title %@ %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %@"
+          }
+        }
+      }
+    },
+    "paywall.note" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "订阅会自动续期，可随时在系统设置中取消。"
+          }
+        }
+      }
+    },
+    "paywall.period.lifetime" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次性购买"
+          }
+        }
+      }
+    },
+    "paywall.period.monthly" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按月订阅"
+          }
+        }
+      }
+    },
+    "paywall.period.other" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "订阅"
+          }
+        }
+      }
+    },
+    "paywall.period.yearly" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按年订阅"
+          }
+        }
+      }
+    },
+    "paywall.privacy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私政策"
+          }
+        }
+      }
+    },
+    "paywall.privacy.body" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本应用仅记录你填写的宠物健康信息，不上传购买信息，也不做第三方埋点。"
+          }
+        }
+      }
+    },
+    "paywall.purchase.failed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "购买未完成"
+          }
+        }
+      }
+    },
+    "paywall.restore" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复购买"
+          }
+        }
+      }
+    },
+    "paywall.terms" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服务条款"
+          }
+        }
+      }
+    },
+    "paywall.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "爪记 Pro"
+          }
+        }
+      }
+    },
+    "paywall.value" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多宠物（最多 20 只）、无限提醒与完整历史。"
+          }
+        }
+      }
+    },
     "pet.add.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -201,6 +475,7 @@
       }
     },
     "pet.delete.confirm.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -211,6 +486,7 @@
       }
     },
     "pet.delete.confirm.message %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -221,6 +497,7 @@
       }
     },
     "pet.delete.confirm.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -231,6 +508,7 @@
       }
     },
     "pet.delete.confirm.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -241,6 +519,7 @@
       }
     },
     "pet.edit.error.save" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -251,6 +530,7 @@
       }
     },
     "pet.edit.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -271,6 +551,7 @@
       }
     },
     "pet.field.allergies.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -281,6 +562,7 @@
       }
     },
     "pet.field.birthday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -291,6 +573,7 @@
       }
     },
     "pet.field.birthEstimated" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -311,6 +594,7 @@
       }
     },
     "pet.field.breed.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -331,6 +615,7 @@
       }
     },
     "pet.field.chipID.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -351,6 +636,7 @@
       }
     },
     "pet.field.foodBrand.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -361,6 +647,7 @@
       }
     },
     "pet.field.hasBirthday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -371,6 +658,7 @@
       }
     },
     "pet.field.hasNeutered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -391,6 +679,7 @@
       }
     },
     "pet.field.idealWeight.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -411,6 +700,7 @@
       }
     },
     "pet.field.name.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -421,6 +711,7 @@
       }
     },
     "pet.field.neutered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -431,6 +722,7 @@
       }
     },
     "pet.field.sex" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -441,6 +733,7 @@
       }
     },
     "pet.field.species" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -451,6 +744,7 @@
       }
     },
     "pet.list.action.delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -461,6 +755,7 @@
       }
     },
     "pet.list.empty.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -471,6 +766,7 @@
       }
     },
     "pet.list.empty.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -481,6 +777,7 @@
       }
     },
     "pet.list.empty.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -491,6 +788,7 @@
       }
     },
     "pet.list.error.delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -501,6 +799,7 @@
       }
     },
     "pet.list.error.load" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -511,6 +810,7 @@
       }
     },
     "pet.list.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -521,6 +821,7 @@
       }
     },
     "pet.section.basic" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -531,6 +832,7 @@
       }
     },
     "pet.section.birthday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -541,6 +843,7 @@
       }
     },
     "pet.section.body" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -551,6 +854,7 @@
       }
     },
     "pet.section.medical" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -627,6 +931,7 @@
       }
     },
     "record.action.delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -648,6 +953,7 @@
       }
     },
     "record.delete.confirm.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -668,6 +974,7 @@
       }
     },
     "record.delete.confirm.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -689,6 +996,7 @@
       }
     },
     "record.error.dateInFuture" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -699,6 +1007,7 @@
       }
     },
     "record.error.dateTooOld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -709,6 +1018,7 @@
       }
     },
     "record.error.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -741,6 +1051,7 @@
       }
     },
     "record.field.bcs %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -773,6 +1084,7 @@
       }
     },
     "record.field.date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -838,6 +1150,7 @@
       }
     },
     "record.field.endDate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -903,6 +1216,7 @@
       }
     },
     "record.field.hasBCS" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -924,6 +1238,7 @@
       }
     },
     "record.field.medicationRange" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -956,6 +1271,7 @@
       }
     },
     "record.field.note.placeholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -977,6 +1293,7 @@
       }
     },
     "record.field.scope" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -987,6 +1304,7 @@
       }
     },
     "record.field.severity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -997,6 +1315,7 @@
       }
     },
     "record.field.startDate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1007,6 +1326,7 @@
       }
     },
     "record.field.symptomType" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1105,6 +1425,7 @@
       }
     },
     "record.section.note" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1115,6 +1436,7 @@
       }
     },
     "record.section.when" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1232,6 +1554,7 @@
       }
     },
     "record.timeline.collapse" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1242,6 +1565,7 @@
       }
     },
     "record.timeline.empty.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1252,6 +1576,7 @@
       }
     },
     "record.timeline.empty.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1262,6 +1587,7 @@
       }
     },
     "record.timeline.empty.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1272,6 +1598,7 @@
       }
     },
     "record.timeline.expand %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1282,6 +1609,7 @@
       }
     },
     "record.type.daily" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1292,6 +1620,7 @@
       }
     },
     "record.type.deworming" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1302,6 +1631,7 @@
       }
     },
     "record.type.medication" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1312,6 +1642,7 @@
       }
     },
     "record.type.symptom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1322,6 +1653,7 @@
       }
     },
     "record.type.vaccine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1332,6 +1664,7 @@
       }
     },
     "record.type.visit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1342,11 +1675,188 @@
       }
     },
     "record.type.weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "体重"
+          }
+        }
+      }
+    },
+    "record.weight.confirm.body" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重应在 0.2–120 kg 之间，确认要保存吗？"
+          }
+        }
+      }
+    },
+    "record.weight.confirm.ok" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仍要保存"
+          }
+        }
+      }
+    },
+    "record.weight.confirm.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重超出常规范围"
+          }
+        }
+      }
+    },
+    "reminder.action.done" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标记完成"
+          }
+        }
+      }
+    },
+    "reminder.action.toggle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒开关"
+          }
+        }
+      }
+    },
+    "reminder.days.overdue %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已逾期 %lld 天"
+          }
+        }
+      }
+    },
+    "reminder.days.remaining %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还有 %lld 天"
+          }
+        }
+      }
+    },
+    "reminder.days.today" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        }
+      }
+    },
+    "reminder.freeLimit.hint" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已达免费上限，升级后全部提醒"
+          }
+        }
+      }
+    },
+    "reminder.kind.custom" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义"
+          }
+        }
+      }
+    },
+    "reminder.list.empty.action" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去记录"
+          }
+        }
+      }
+    },
+    "reminder.list.empty.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存疫苗、驱虫等记录后会自动生成"
+          }
+        }
+      }
+    },
+    "reminder.list.empty.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无提醒"
+          }
+        }
+      }
+    },
+    "reminder.list.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒"
+          }
+        }
+      }
+    },
+    "reminder.section.overdue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已过期"
+          }
+        }
+      }
+    },
+    "reminder.section.upcoming" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将到期"
           }
         }
       }
@@ -1373,197 +1883,525 @@
         }
       }
     },
-    "notification.kind.vaccine" : {
+    "settings.about.header" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "疫苗"
+            "value" : "关于"
           }
         }
       }
     },
-    "notification.kind.deworming" : {
+    "settings.about.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "驱虫"
+            "value" : "关于爪记"
           }
         }
       }
     },
-    "notification.kind.medication" : {
+    "settings.about.version %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用药"
+            "value" : "版本 %@"
           }
         }
       }
     },
-    "notification.kind.visit" : {
+    "settings.data.clear" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "复诊"
+            "value" : "清空全部数据"
           }
         }
       }
     },
-    "notification.kind.custom" : {
+    "settings.data.clear.body" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自定义"
+            "value" : "将删除全部宠物、记录、体重与提醒，且无法恢复。"
           }
         }
       }
     },
-    "notification.reminder.title %@ %@" : {
+    "settings.data.clear.confirm" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ · %@"
+            "value" : "删除"
           }
         }
       }
     },
-    "notification.reminder.body %lld" : {
+    "settings.data.clear.confirmBody" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "还有 %lld 天到期"
+            "value" : "输入「删除」以确认"
           }
         }
       }
     },
-    "reminder.list.title" : {
+    "settings.data.clear.confirmTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "提醒"
+            "value" : "确认删除"
           }
         }
       }
     },
-    "reminder.section.upcoming" : {
+    "settings.data.clear.continue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "即将到期"
+            "value" : "继续"
           }
         }
       }
     },
-    "reminder.section.overdue" : {
+    "settings.data.clear.failed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已过期"
+            "value" : "清空失败，请重试"
           }
         }
       }
     },
-    "reminder.days.remaining %lld" : {
+    "settings.data.clear.hint" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "还有 %lld 天"
+            "value" : "请输入「删除」"
           }
         }
       }
     },
-    "reminder.days.today" : {
+    "settings.data.clear.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今天"
+            "value" : "清空全部数据？"
           }
         }
       }
     },
-    "reminder.days.overdue %lld" : {
+    "settings.data.header" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已逾期 %lld 天"
+            "value" : "数据"
           }
         }
       }
     },
-    "reminder.action.done" : {
+    "settings.disclaimer.body" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "标记完成"
+            "value" : "本应用仅用于记录宠物日常健康信息，不提供诊断或治疗建议；如有健康问题请咨询兽医。"
           }
         }
       }
     },
-    "reminder.action.toggle" : {
+    "settings.disclaimer.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "提醒开关"
+            "value" : "免责声明"
           }
         }
       }
     },
-    "reminder.kind.custom" : {
+    "settings.export.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自定义"
+            "value" : "导出就诊摘要"
           }
         }
       }
     },
-    "reminder.list.empty.title" : {
+    "settings.export.empty" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无提醒"
+            "value" : "还没有宠物档案"
           }
         }
       }
     },
-    "reminder.list.empty.description" : {
+    "settings.export.header" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保存疫苗、驱虫等记录后会自动生成"
+            "value" : "就诊摘要"
           }
         }
       }
     },
-    "reminder.list.empty.action" : {
+    "settings.export.pickPet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "去记录"
+            "value" : "选择宠物"
           }
         }
       }
     },
-    "weight.card.title" : {
+    "settings.language.comingSoon" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v1.1 支持"
+          }
+        }
+      }
+    },
+    "settings.language.en" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        }
+      }
+    },
+    "settings.language.header" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言"
+          }
+        }
+      }
+    },
+    "settings.language.system" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        }
+      }
+    },
+    "settings.language.v1Hint" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v1 界面仅提供简体中文，English 将在 v1.1 支持"
+          }
+        }
+      }
+    },
+    "settings.language.zhHans" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "简体中文"
+          }
+        }
+      }
+    },
+    "settings.notification.header" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
+          }
+        }
+      }
+    },
+    "settings.notification.overdueSummary" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存在逾期提醒时，每天 09:00 最多推送一条汇总"
+          }
+        }
+      }
+    },
+    "settings.notification.quietHours" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "22:00–08:00 不推送提醒，触发时间会顺延到 08:00"
+          }
+        }
+      }
+    },
+    "settings.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
+          }
+        }
+      }
+    },
+    "settings.unit.header" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重单位"
+          }
+        }
+      }
+    },
+    "settings.unit.kg" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "公斤（kg）"
+          }
+        }
+      }
+    },
+    "settings.unit.lb" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磅（lb）"
+          }
+        }
+      }
+    },
+    "summary.age.months %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 月龄"
+          }
+        }
+      }
+    },
+    "summary.age.years %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 岁"
+          }
+        }
+      }
+    },
+    "summary.disclaimer" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本摘要由用户自行记录生成，仅供就诊参考，不构成诊断意见。"
+          }
+        }
+      }
+    },
+    "summary.empty.records" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近 90 天暂无记录"
+          }
+        }
+      }
+    },
+    "summary.error.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出失败"
+          }
+        }
+      }
+    },
+    "summary.export.action" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出就诊摘要"
+          }
+        }
+      }
+    },
+    "summary.file.suffix" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摘要"
+          }
+        }
+      }
+    },
+    "summary.file.unnamed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宠物"
+          }
+        }
+      }
+    },
+    "summary.generatedAt %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成日期 %@"
+          }
+        }
+      }
+    },
+    "summary.header.age" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年龄"
+          }
+        }
+      }
+    },
+    "summary.header.allergies" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "过敏史"
+          }
+        }
+      }
+    },
+    "summary.header.chipID" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "芯片号"
+          }
+        }
+      }
+    },
+    "summary.header.pet" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宠物"
+          }
+        }
+      }
+    },
+    "summary.header.sex" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "性别"
+          }
+        }
+      }
+    },
+    "summary.header.speciesBreed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物种品种"
+          }
+        }
+      }
+    },
+    "summary.header.weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1573,17 +2411,272 @@
         }
       }
     },
-    "weight.card.empty" : {
+    "summary.nextDate %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无体重记录"
+            "value" : "下次 %@"
+          }
+        }
+      }
+    },
+    "summary.page.number %lld %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 页 / 共 %lld 页"
+          }
+        }
+      }
+    },
+    "summary.preview.preparing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在生成摘要…"
+          }
+        }
+      }
+    },
+    "summary.preview.range %lld %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近 %lld 天 · %lld 条记录"
+          }
+        }
+      }
+    },
+    "summary.section.medicationVisits" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药与就诊重点"
+          }
+        }
+      }
+    },
+    "summary.section.records" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近期记录"
+          }
+        }
+      }
+    },
+    "summary.section.weight" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重变化摘要"
+          }
+        }
+      }
+    },
+    "summary.severity %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "严重度 %lld"
+          }
+        }
+      }
+    },
+    "summary.share.image" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享长图"
+          }
+        }
+      }
+    },
+    "summary.share.pdf" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享 PDF"
+          }
+        }
+      }
+    },
+    "summary.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就诊摘要"
+          }
+        }
+      }
+    },
+    "summary.value.missing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未填写"
+          }
+        }
+      }
+    },
+    "summary.value.none" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无"
+          }
+        }
+      }
+    },
+    "summary.value.unknown" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        }
+      }
+    },
+    "summary.view.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就诊摘要"
+          }
+        }
+      }
+    },
+    "summary.weight.summary %@ %@ %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始 %@ · 结束 %@ · 变化 %@"
+          }
+        }
+      }
+    },
+    "timeline.locked.action" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级 Pro 查看，数据仍完整保留"
+          }
+        }
+      }
+    },
+    "timeline.locked.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更早的记录已锁定"
+          }
+        }
+      }
+    },
+    "weight.alert.body" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建议咨询兽医"
+          }
+        }
+      }
+    },
+    "weight.alert.consecutive.down" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重连续下降，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.consecutive.up" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重连续上升，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.rapid.down" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重下降较快，建议关注"
+          }
+        }
+      }
+    },
+    "weight.alert.rapid.up" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重上升较快，建议关注"
+          }
+        }
+      }
+    },
+    "weight.bcs.label %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BCS %lld"
           }
         }
       }
     },
     "weight.card.change %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1593,57 +2686,30 @@
         }
       }
     },
-    "weight.trend.title" : {
+    "weight.card.empty" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体重趋势"
+            "value" : "暂无体重记录"
           }
         }
       }
     },
-    "weight.trend.range" : {
+    "weight.card.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "区间"
-          }
-        }
-      }
-    },
-    "weight.trend.empty.title" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还没有体重记录"
-          }
-        }
-      }
-    },
-    "weight.trend.empty.description" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录体重后可以看到变化曲线"
-          }
-        }
-      }
-    },
-    "weight.trend.empty.action" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "去记录"
+            "value" : "体重"
           }
         }
       }
     },
     "weight.range.30" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1654,6 +2720,7 @@
       }
     },
     "weight.range.90" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1664,6 +2731,7 @@
       }
     },
     "weight.range.365" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1673,326 +2741,60 @@
         }
       }
     },
-    "weight.bcs.label %lld" : {
+    "weight.trend.empty.action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BCS %lld"
+            "value" : "去记录"
           }
         }
       }
     },
-    "weight.alert.rapid.up" : {
+    "weight.trend.empty.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体重上升较快，建议关注"
+            "value" : "记录体重后可以看到变化曲线"
           }
         }
       }
     },
-    "weight.alert.rapid.down" : {
+    "weight.trend.empty.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体重下降较快，建议关注"
+            "value" : "还没有体重记录"
           }
         }
       }
     },
-    "weight.alert.consecutive.up" : {
+    "weight.trend.range" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体重连续上升，建议关注"
+            "value" : "区间"
           }
         }
       }
     },
-    "weight.alert.consecutive.down" : {
+    "weight.trend.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "体重连续下降，建议关注"
+            "value" : "体重趋势"
           }
         }
       }
-    },
-    "weight.alert.body" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "建议咨询兽医"
-          }
-        }
-      }
-    },
-    "summary.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
-    },
-    "summary.view.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
-    },
-    "summary.generatedAt %@" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "生成日期 %@" } } }
-    },
-    "summary.header.pet" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "宠物" } } }
-    },
-    "summary.header.speciesBreed" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "物种品种" } } }
-    },
-    "summary.header.sex" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "性别" } } }
-    },
-    "summary.header.age" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "年龄" } } }
-    },
-    "summary.header.chipID" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "芯片号" } } }
-    },
-    "summary.header.weight" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重" } } }
-    },
-    "summary.header.allergies" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "过敏史" } } }
-    },
-    "summary.section.records" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近期记录" } } }
-    },
-    "summary.section.weight" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重变化摘要" } } }
-    },
-    "summary.section.medicationVisits" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用药与就诊重点" } } }
-    },
-    "summary.empty.records" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近 90 天暂无记录" } } }
-    },
-    "summary.value.none" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无" } } }
-    },
-    "summary.value.unknown" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未知" } } }
-    },
-    "summary.value.missing" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未填写" } } }
-    },
-    "summary.age.months %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%lld 月龄" } } }
-    },
-    "summary.age.years %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%lld 岁" } } }
-    },
-    "summary.severity %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "严重度 %lld" } } }
-    },
-    "summary.nextDate %@" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "下次 %@" } } }
-    },
-    "summary.weight.summary %@ %@ %@" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "起始 %@ · 结束 %@ · 变化 %@" } } }
-    },
-    "summary.disclaimer" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本摘要由用户自行记录生成，仅供就诊参考，不构成诊断意见。" } } }
-    },
-    "summary.page.number %lld %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "第 %lld 页 / 共 %lld 页" } } }
-    },
-    "summary.file.suffix" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "摘要" } } }
-    },
-    "summary.file.unnamed" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "宠物" } } }
-    },
-    "summary.export.action" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出就诊摘要" } } }
-    },
-    "summary.share.pdf" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分享 PDF" } } }
-    },
-    "summary.share.image" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分享长图" } } }
-    },
-    "summary.error.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出失败" } } }
-    },
-    "summary.preview.range %lld %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "近 %lld 天 · %lld 条记录" } } }
-    },
-    "summary.preview.preparing" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在生成摘要…" } } }
-    },
-    "settings.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置" } } }
-    },
-    "settings.unit.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重单位" } } }
-    },
-    "settings.unit.kg" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "公斤（kg）" } } }
-    },
-    "settings.unit.lb" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "磅（lb）" } } }
-    },
-    "settings.language.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "语言" } } }
-    },
-    "settings.language.system" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "跟随系统" } } }
-    },
-    "settings.language.zhHans" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "简体中文" } } }
-    },
-    "settings.language.en" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "English" } } }
-    },
-    "settings.language.comingSoon" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "v1.1 支持" } } }
-    },
-    "settings.language.v1Hint" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "v1 界面仅提供简体中文，English 将在 v1.1 支持" } } }
-    },
-    "settings.notification.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "通知" } } }
-    },
-    "settings.notification.quietHours" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "22:00–08:00 不推送提醒，触发时间会顺延到 08:00" } } }
-    },
-    "settings.notification.overdueSummary" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "存在逾期提醒时，每天 09:00 最多推送一条汇总" } } }
-    },
-    "settings.export.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "就诊摘要" } } }
-    },
-    "settings.export.action" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "导出就诊摘要" } } }
-    },
-    "settings.export.empty" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "还没有宠物档案" } } }
-    },
-    "settings.export.pickPet" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择宠物" } } }
-    },
-    "settings.data.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "数据" } } }
-    },
-    "settings.data.clear" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空全部数据" } } }
-    },
-    "settings.data.clear.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空全部数据？" } } }
-    },
-    "settings.data.clear.body" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将删除全部宠物、记录、体重与提醒，且无法恢复。" } } }
-    },
-    "settings.data.clear.continue" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续" } } }
-    },
-    "settings.data.clear.confirmTitle" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "确认删除" } } }
-    },
-    "settings.data.clear.confirmBody" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输入「删除」以确认" } } }
-    },
-    "settings.data.clear.hint" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请输入「删除」" } } }
-    },
-    "settings.data.clear.confirm" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除" } } }
-    },
-    "settings.data.clear.failed" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空失败，请重试" } } }
-    },
-    "settings.about.header" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关于" } } }
-    },
-    "settings.about.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关于爪记" } } }
-    },
-    "settings.about.version %@" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "版本 %@" } } }
-    },
-    "settings.disclaimer.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "免责声明" } } }
-    },
-    "settings.disclaimer.body" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本应用仅用于记录宠物日常健康信息，不提供诊断或治疗建议；如有健康问题请咨询兽医。" } } }
-    },
-    "record.weight.confirm.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重超出常规范围" } } }
-    },
-    "record.weight.confirm.body" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "体重应在 0.2–120 kg 之间，确认要保存吗？" } } }
-    },
-    "record.weight.confirm.ok" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仍要保存" } } }
-    },
-    "notification.action.done" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标记完成" } } }
-    },
-    "notification.action.snooze" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "稍后提醒" } } }
-    },
-    "notification.reminder.snoozeBody" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "稍后再次提醒你" } } }
-    },
-    "notification.overdue.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "有提醒已过期" } } }
-    },
-    "notification.overdue.body %lld" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "有 %lld 条提醒已过期，记得处理" } } }
-    },
-    "paywall.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "爪记 Pro" } } }
-    },
-    "paywall.value" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "多宠物（最多 20 只）、无限提醒与完整历史。" } } }
-    },
-    "paywall.note" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "订阅会自动续期，可随时在系统设置中取消。" } } }
-    },
-    "paywall.period.monthly" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按月订阅" } } }
-    },
-    "paywall.period.yearly" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按年订阅" } } }
-    },
-    "paywall.period.lifetime" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "一次性购买" } } }
-    },
-    "paywall.period.other" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "订阅" } } }
-    },
-    "paywall.restore" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "恢复购买" } } }
-    },
-    "paywall.terms" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "服务条款" } } }
-    },
-    "paywall.privacy" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "隐私政策" } } }
-    },
-    "paywall.privacy.body" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本应用仅记录你填写的宠物健康信息，不上传购买信息，也不做第三方埋点。" } } }
-    },
-    "paywall.purchase.failed" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "购买未完成" } } }
-    },
-    "timeline.locked.title" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "更早的记录已锁定" } } }
-    },
-    "timeline.locked.action" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "升级 Pro 查看，数据仍完整保留" } } }
-    },
-    "reminder.freeLimit.hint" : {
-      "localizations" : { "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已达免费上限，升级后全部提醒" } } }
     }
   },
   "version" : "1.0"

@@ -29,7 +29,8 @@ final class EntitlementServiceTests: XCTestCase {
         context = container.mainContext
         calendar = Calendar(identifier: .gregorian)
         now = Date()
-        service = EntitlementService(context: context, clock: FixedClock(now))
+        // 权益逻辑测试显式开启 Pro 开关，绕开 PawLogConfig.isProEnabled
+        service = EntitlementService(context: context, clock: FixedClock(now), proEnabled: true)
     }
 
     override func tearDownWithError() throws {

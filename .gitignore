@@ -1,7 +1,61 @@
+# macOS / Xcode
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Xcode user data — 绝对不得入库
 xcuserdata/
+**/xcuserdata/
 *.xcuserstate
+*.xcuserdatad/
+**/*.xcuserdatad/
+xcschemes/
+
+# Xcode build & derived
 build/
+Build/
 DerivedData/
+**/DerivedData/
 *.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+**/*.perspective
+
+# Swift Package Manager
 .swiftpm/
+Packages/
+
+# Archives & exported products
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Provisioning
+.mobileprovision
+*.entitlements.backup
+
+# SwiftPM resolved
+Package.resolved
+
+# Playgrounds
+timeline.xctimeline
+playground_metadata
+
+# Fastlane / CocoaPods / Carthage
+fastlane/
+Pods/
+Podfile.lock
+Carthage/Build/
+
+# IDE
+.idea/
+.vscode/

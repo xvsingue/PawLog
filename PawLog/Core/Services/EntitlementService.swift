@@ -33,19 +33,22 @@ final class EntitlementService {
 
     private let context: ModelContext
     private let clock: Clock
+    private let proEnabled: Bool
     private(set) var entitlements: [Entitlement] = []
 
-    init(context: ModelContext, clock: Clock = SystemClock()) {
+    init(context: ModelContext, clock: Clock = SystemClock(), proEnabled: Bool = PawLogConfig.isProEnabled) {
         self.context = context
         self.clock = clock
+        self.proEnabled = proEnabled
         refresh()
     }
 
     // MARK: - 判定
 
-    /// 是否 Pro：任一有效权益
+    /// 是否 Pro：上架版看权益；开源预览版恒为 true（所有用户视作 Pro）
     var isPro: Bool {
-        entitlements.contains { $0.isActive(at: clock.now) }
+        guard proEnabled else { return true }
+        return entitlements.contains { $0.isActive(at: clock.now) }
     }
 
     var petLimit: Int {
