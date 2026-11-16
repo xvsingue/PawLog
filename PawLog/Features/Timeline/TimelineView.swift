@@ -11,6 +11,7 @@ import SwiftData
 struct TimelineView: View {
     let pet: Pet?
     let service: RecordService
+    let reminderService: ReminderService?
     let onAdd: () -> Void
 
     @Query(sort: \Record.occurredAt, order: .reverse)
@@ -103,7 +104,7 @@ struct TimelineView: View {
             VStack(spacing: 0) {
                 ForEach(Array(visible.enumerated()), id: \.element.id) { index, record in
                     NavigationLink {
-                        RecordDetailView(record: record, service: service)
+                        RecordDetailView(record: record, service: service, reminderService: reminderService)
                     } label: {
                         TimelineRow(record: record)
                     }
@@ -162,7 +163,14 @@ struct TimelineView: View {
     context.insert(Record(pet: pet, type: .weight, occurredAt: Date(), title: "4.2 kg"))
     try! context.save()
     return NavigationStack {
-        TimelineView(pet: pet, service: RecordService(context: context)) {}
+        TimelineView(
+            pet: pet,
+            service: RecordService(context: context),
+            reminderService: ReminderService(
+                context: context,
+                notificationService: NotificationService(center: UNUserNotificationCenterAdapter())
+            )
+        ) {}
     }
     .modelContainer(container)
 }

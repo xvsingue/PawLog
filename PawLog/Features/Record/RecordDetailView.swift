@@ -11,6 +11,7 @@ import SwiftData
 struct RecordDetailView: View {
     let record: Record
     let service: RecordService
+    let reminderService: ReminderService?
 
     @Environment(\.dismiss) private var dismiss
     @State private var showingEdit = false
@@ -58,7 +59,7 @@ struct RecordDetailView: View {
         }
         .sheet(isPresented: $showingEdit) {
             if let pet = record.pet {
-                QuickRecordSheet(pet: pet, service: service, editing: record)
+                QuickRecordSheet(pet: pet, service: service, reminderService: reminderService, editing: record)
             }
         }
         .confirmationDialog(
@@ -174,11 +175,15 @@ struct RecordDetailView: View {
     // MARK: - 删除
 
     private func deleteRecord() {
-        do {
-            try service.delete(record)
-            dismiss()
-        } catch {
-            errorMessage = error.localizedDescription
+        Task { @MainActor in
+            // 先撤销并删除该记录派生的提醒，再删记录本身
+            await reminderService?.deleteReminders(for: record)
+            do {
+                try service.delete(record)
+                dismiss()
+            } catch {
+                errorMessage = error.localizedDescription
+            }
         }
     }
 }

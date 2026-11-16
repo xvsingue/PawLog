@@ -10,14 +10,16 @@ import SwiftUI
 struct QuickRecordSheet: View {
     let pet: Pet
     let service: RecordService
+    let reminderService: ReminderService?
     var editing: Record?
 
     @Environment(\.dismiss) private var dismiss
     @State private var selectedType: RecordType?
 
-    init(pet: Pet, service: RecordService, editing: Record? = nil) {
+    init(pet: Pet, service: RecordService, reminderService: ReminderService? = nil, editing: Record? = nil) {
         self.pet = pet
         self.service = service
+        self.reminderService = reminderService
         self.editing = editing
         _selectedType = State(initialValue: editing?.type)
     }
@@ -29,6 +31,7 @@ struct QuickRecordSheet: View {
                     QuickRecordForm(
                         pet: pet,
                         service: service,
+                        reminderService: reminderService,
                         type: type,
                         editing: editing,
                         onSaved: { dismiss() }
@@ -95,14 +98,15 @@ private struct QuickRecordForm: View {
     @State private var errorMessage: String?
     @FocusState private var isFirstFieldFocused: Bool
 
-    init(pet: Pet, service: RecordService, type: RecordType, editing: Record?, onSaved: @escaping () -> Void) {
+    init(pet: Pet, service: RecordService, reminderService: ReminderService? = nil, type: RecordType, editing: Record?, onSaved: @escaping () -> Void) {
         self.type = type
         self.onSaved = onSaved
         _viewModel = StateObject(wrappedValue: QuickRecordViewModel(
             pet: pet,
             service: service,
             type: type,
-            editing: editing
+            editing: editing,
+            reminderService: reminderService
         ))
     }
 

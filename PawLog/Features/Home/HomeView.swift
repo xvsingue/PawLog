@@ -15,9 +15,13 @@ struct HomeView: View {
     @State private var selectedPetID: UUID?
     @State private var showingQuickRecord = false
     @State private var showingPetList = false
+    @State private var showingReminders = false
 
     private var petService: PetService { PetService(context: modelContext) }
     private var recordService: RecordService { RecordService(context: modelContext) }
+    private var reminderService: ReminderService {
+        ReminderService(context: modelContext, notificationService: NotificationService())
+    }
 
     var body: some View {
         NavigationStack {
@@ -39,7 +43,7 @@ struct HomeView: View {
                             onSelect: { selectedPetID = $0.id },
                             onMove: movePets
                         )
-                        TimelineView(pet: selectedPet, service: recordService) {
+                        TimelineView(pet: selectedPet, service: recordService, reminderService: reminderService) {
                             showingQuickRecord = true
                         }
                     }
@@ -54,6 +58,14 @@ struct HomeView: View {
                         Image(systemName: "pawprint")
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showingReminders = true
+                    } label: {
+                        Image(systemName: "bell")
+                    }
+                    .disabled(selectedPet == nil)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showingQuickRecord = true
@@ -66,11 +78,16 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingQuickRecord, onDismiss: reload) {
                 if let pet = selectedPet {
-                    QuickRecordSheet(pet: pet, service: recordService)
+                    QuickRecordSheet(pet: pet, service: recordService, reminderService: reminderService)
                 }
             }
             .sheet(isPresented: $showingPetList, onDismiss: reload) {
                 PetListView(service: petService, showsCloseButton: true)
+            }
+            .sheet(isPresented: $showingReminders) {
+                if let pet = selectedPet {
+                    ReminderListView(pet: pet, reminderService: reminderService, recordService: recordService)
+                }
             }
             .onAppear(perform: reload)
         }

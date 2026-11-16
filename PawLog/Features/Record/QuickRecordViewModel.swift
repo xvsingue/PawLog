@@ -67,6 +67,7 @@ final class QuickRecordViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let service: RecordService
+    private let reminderService: ReminderService?
     private let pet: Pet
     private let editing: Record?
 
@@ -95,9 +96,10 @@ final class QuickRecordViewModel: ObservableObject {
         }
     }
 
-    init(pet: Pet, service: RecordService, type: RecordType, editing: Record? = nil) {
+    init(pet: Pet, service: RecordService, type: RecordType, editing: Record? = nil, reminderService: ReminderService? = nil) {
         self.pet = pet
         self.service = service
+        self.reminderService = reminderService
         self.type = type
         self.editing = editing
 
@@ -121,6 +123,7 @@ final class QuickRecordViewModel: ObservableObject {
             : nil
         let note = draft.note.trimmed.isEmpty ? nil : draft.note
 
+        let record: Record
         if let editing {
             try service.update(
                 editing,
@@ -130,8 +133,9 @@ final class QuickRecordViewModel: ObservableObject {
                 payloadJSON: payloadJSON,
                 weight: weight
             )
+            record = editing
         } else {
-            try service.create(
+            record = try service.create(
                 pet: pet,
                 type: type,
                 occurredAt: draft.occurredAt,
@@ -140,6 +144,14 @@ final class QuickRecordViewModel: ObservableObject {
                 payloadJSON: payloadJSON,
                 weight: weight
             )
+        }
+
+        // 首次保存记录后申请通知权限，再派生/更新提醒（疫苗/驱虫/用药/就诊）
+        if let reminderService {
+            Task {
+                await reminderService.requestAuthorizationIfNeeded()
+                await reminderService.deriveReminder(from: record)
+            }
         }
     }
 
