@@ -111,20 +111,16 @@ xcodebuild -scheme PawLog \
 
 ## 支持这个项目
 
-爪记是我用业余时间独立开发的开源项目，没有广告、没有内购、数据全部存在你自己的设备上。
-如果它帮你省下了一次"病历说不清"的麻烦，可以请我喝杯咖啡：
+爪记是我用业余时间独立开发的开源项目：没有广告、没有内购、没有云同步，所有数据都保存在你自己的设备上。
 
-- 微信 / 支付宝赞赏码：
+如果它帮你省下过一次"病历说不清"的麻烦，可以请我喝杯咖啡。打赏完全自愿，不打赏也能使用全部功能。
 
-<p align="center">
-  <img src="<img width="1280" height="1919" alt="4f02c8c44f5d014fdff1c807eaa89746" src="https://github.com/user-attachments/assets/b57d09eb-8bce-4587-820e-0b2dbc623045" />
-" width="240" alt="赞赏码">
-  <img src="![Uploading 59adfad5ad8c3a09fa89a0d621afe11f.jpg…]()
-" alt="赞赏码">
-</p>
-
-打赏完全自愿，不打赏也能用全部功能。
-
+<table>
+  <tr>
+    <td align="center"><b>微信</b><br/><img src="store-assets/sponsor-wechat.jpg" width="220" alt="微信赞赏码"></td>
+    <td align="center"><b>支付宝</b><br/><img src="store-assets/sponsor-alipay.jpg" width="220" alt="支付宝赞赏码"></td>
+  </tr>
+</table>
 
 ## License
 
