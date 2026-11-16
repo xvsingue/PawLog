@@ -1,6 +1,13 @@
 # 爪记 PawLog
 > 宠物健康记录 App｜30 秒记一条，看病时一页纸说清楚
-![demo](store-assets/demo.gif)
+<!-- 真实操作录屏待补充，先以轮播动图占位 -->
+![demo](store-assets/demo-preview.gif)
+
+![iOS](https://img.shields.io/badge/iOS-17%2B-blue)
+![Swift](https://img.shields.io/badge/Swift-6-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Tests](https://img.shields.io/badge/Tests-88%20passed-brightgreen)
+
 📱 iOS 17+ · Swift 6 · SwiftUI · SwiftData · Swift Charts · 零第三方运行时依赖
 
 ## 截图
@@ -63,7 +70,7 @@ xcodebuild -scheme PawLog \
   -only-testing:PawLogTests test
 ```
 
-当前 **86 条单元测试**，全部在 Service 层：
+当前 **88 条单元测试**，全部在 Service 层：
 
 - `EntitlementServiceTests` · `StoreKitConfigurationTests`（4 条 SKTestSession：productID 校验 / 购买解锁 / 退款回落 / 恢复还原）
 - `ReminderServiceTests` · `ReminderRecordSyncTests` · `ReminderFreeLimitTests`
@@ -71,6 +78,7 @@ xcodebuild -scheme PawLog \
 - `RecordServiceTests` · `PetServiceTests`（含级联删除与排序）
 - `SummaryPDFTests` · `WeightTrendTests` · `WeightUnitTests`
 - `LocalizationKeyTests`（`String(localized:)` 全部 key 在 Catalog 存在）
+- `PawLogConfigTests`（订阅开关关闭时全用户视作 Pro、限额放开；打开时免费限额恢复）
 - `QuickRecordDefaultsTests`（默认值 / 必填字段）
 
 订阅开关在测试里显式注入 `proEnabled: true`，所以即使开源版默认关闭，StoreKit 四个用例仍直连 `.storekit` 通过。
