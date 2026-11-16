@@ -36,6 +36,12 @@ final class Reminder {
     var enabled: Bool
     var lastDoneAt: Date?
 
+    // MARK: - 同步元数据（默认值保证旧 store 可迁移）
+    var localUpdatedAt: Date = Date.distantPast
+    var deviceID: String = ""
+    var deletedAt: Date?
+    var changeTag: String = ""
+
     init(
         id: UUID = UUID(),
         pet: Pet? = nil,

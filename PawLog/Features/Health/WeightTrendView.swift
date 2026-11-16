@@ -33,7 +33,7 @@ struct WeightTrendView: View {
     var onAddRecord: () -> Void = {}
 
     @Environment(\.dismiss) private var dismiss
-    @Query(sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
+    @Query(filter: #Predicate<WeightEntry> { $0.deletedAt == nil }, sort: \WeightEntry.date, order: .forward) private var allEntries: [WeightEntry]
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
     @State private var range: WeightRange = .last90
     @State private var showingSummary = false

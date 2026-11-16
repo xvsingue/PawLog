@@ -32,6 +32,7 @@ final class StoreKitConfigurationTests: XCTestCase {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
+            ChangeLog.self, ConflictLog.self,
             configurations: config
         )
         context = container.mainContext
@@ -102,6 +103,7 @@ final class StoreKitConfigurationTests: XCTestCase {
         let freshConfig = ModelConfiguration(isStoredInMemoryOnly: true)
         let freshContainer = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
+            ChangeLog.self, ConflictLog.self,
             configurations: freshConfig
         )
         let restored = EntitlementService(context: freshContainer.mainContext, proEnabled: true)

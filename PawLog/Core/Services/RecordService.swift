@@ -38,10 +38,19 @@ final class RecordService {
     private let context: ModelContext
     private let calendar = Calendar.current
     private let reminderService: ReminderService?
+    private let changes: ChangeLogService
+    private let clock: Clock
 
-    init(context: ModelContext, reminderService: ReminderService? = nil) {
+    init(
+        context: ModelContext,
+        reminderService: ReminderService? = nil,
+        deviceID: String = DeviceIdentity.current(),
+        clock: Clock = SystemClock()
+    ) {
         self.context = context
         self.reminderService = reminderService
+        self.clock = clock
+        self.changes = ChangeLogService(context: context, deviceID: deviceID, clock: clock)
     }
 
     // MARK: - 校验
@@ -85,6 +94,7 @@ final class RecordService {
         )
         context.insert(record)
         syncWeight(for: record, input: weight)
+        try changes.record(record, kind: .record, operation: .create)
         try context.save()
         return record
     }
@@ -110,6 +120,7 @@ final class RecordService {
         record.payloadJSON = payloadJSON
         record.updatedAt = now
         syncWeight(for: record, input: weight)
+        try changes.record(record, kind: .record, operation: .update, at: now)
         try context.save()
 
         syncReminderAfterUpdate(for: record, previousNextDate: previousNextDate)
@@ -129,13 +140,16 @@ final class RecordService {
         Task { await reminderService.reschedule(reminder) }
     }
 
-    /// 删除记录，同时删除其关联的 WeightEntry 与派生提醒并撤销通知
+    /// 删除记录：写墓碑（供其它设备同步感知），同时物理清理关联的 WeightEntry
+    /// 与派生提醒并撤销通知。
     func delete(_ record: Record) throws {
         reminderService?.deleteDerivedReminders(for: record)
         for entry in record.pet?.weightEntries ?? [] where entry.recordID == record.id {
             context.delete(entry)
         }
-        context.delete(record)
+        let now = clock.now
+        try changes.record(record, kind: .record, operation: .delete, at: now)
+        record.deletedAt = now
         try context.save()
     }
 

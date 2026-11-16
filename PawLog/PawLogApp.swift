@@ -19,6 +19,7 @@ struct PawLogApp: App {
             WeightEntry.self,
             Reminder.self,
             Attachment.self, Entitlement.self,
+            ChangeLog.self, ConflictLog.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

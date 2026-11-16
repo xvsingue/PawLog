@@ -28,7 +28,7 @@ enum LanguagePreference: String, CaseIterable, Identifiable {
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Pet.sortIndex) private var pets: [Pet]
+    @Query(filter: #Predicate<Pet> { $0.deletedAt == nil }, sort: \Pet.sortIndex) private var pets: [Pet]
 
     @AppStorage(WeightFormatter.storageKey) private var unitRaw = WeightUnit.kg.rawValue
     @AppStorage(LanguagePreference.storageKey) private var languageRaw = LanguagePreference.system.rawValue

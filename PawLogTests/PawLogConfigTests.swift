@@ -18,7 +18,7 @@ final class PawLogConfigTests: XCTestCase {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self,
-            Attachment.self, Entitlement.self, configurations: config
+            Attachment.self, Entitlement.self, ChangeLog.self, ConflictLog.self, configurations: config
         )
 
         // 用默认 proEnabled（= PawLogConfig.isProEnabled = false）
@@ -48,7 +48,7 @@ final class PawLogConfigTests: XCTestCase {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self,
-            Attachment.self, Entitlement.self, configurations: config
+            Attachment.self, Entitlement.self, ChangeLog.self, ConflictLog.self, configurations: config
         )
         let service = EntitlementService(context: container.mainContext, proEnabled: true)
 

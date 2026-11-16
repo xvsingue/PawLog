@@ -42,6 +42,18 @@ final class Pet {
     var sortIndex: Int = 0
     var createdAt: Date
 
+    // MARK: - 同步元数据
+    // 全部给默认值，旧 store 迁移时无需额外处理；备份 JSON 不含这些字段，
+    // 因此不需要升级备份 schemaVersion（缺省即为默认值）。
+    /// 本设备最后一次修改时间
+    var localUpdatedAt: Date = Date.distantPast
+    /// 最后一次修改来源设备
+    var deviceID: String = ""
+    /// 墓碑：非空表示已删除，等待同步
+    var deletedAt: Date?
+    /// 乐观并发用的变更标记
+    var changeTag: String = ""
+
     @Relationship(deleteRule: .cascade, inverse: \Record.pet)
     var records: [Record] = []
 

@@ -18,6 +18,7 @@ final class ReminderService {
     private let clock: Clock
     /// 免费提醒上限（nil 表示不限）；仅影响通知排期，不删数据、不改开关
     private let reminderLimit: () -> Int?
+    private let changes: ChangeLogService
     private let logger = Logger(subsystem: "com.Lennox.PawLog", category: "ReminderService")
 
     init(
@@ -25,6 +26,7 @@ final class ReminderService {
         notificationService: NotificationService,
         calendar: Calendar = .current,
         clock: Clock = SystemClock(),
+        deviceID: String = DeviceIdentity.current(),
         reminderLimit: @escaping () -> Int? = { nil }
     ) {
         self.context = context
@@ -32,6 +34,7 @@ final class ReminderService {
         self.calendar = calendar
         self.clock = clock
         self.reminderLimit = reminderLimit
+        self.changes = ChangeLogService(context: context, deviceID: deviceID, clock: clock)
     }
 
     // MARK: - 权限
@@ -75,6 +78,7 @@ final class ReminderService {
             )
             context.insert(reminder)
         }
+        try changes.record(reminder, kind: .reminder, operation: existing == nil ? .create : .update)
         try context.save()
         return reminder
     }
@@ -128,12 +132,14 @@ final class ReminderService {
 
         if let next = nextDueDate(from: now, rule: reminder.repeatRule) {
             reminder.dueAt = next
+            try changes.record(reminder, kind: .reminder, operation: .update, at: now)
             try context.save()
             if reminder.enabled {
                 await notificationService.schedule(for: reminder)
             }
         } else {
             reminder.enabled = false
+            try changes.record(reminder, kind: .reminder, operation: .update, at: now)
             try context.save()
         }
     }
@@ -153,6 +159,7 @@ final class ReminderService {
     /// 切换提醒开关。关闭则撤销该提醒全部待发通知。
     func setEnabled(_ reminder: Reminder, enabled: Bool) async throws {
         reminder.enabled = enabled
+        try changes.record(reminder, kind: .reminder, operation: .update)
         try context.save()
         if enabled {
             await reschedule(reminder)
@@ -218,6 +225,12 @@ final class ReminderService {
         guard !reminders.isEmpty else { return }
         for reminder in reminders {
             notificationService.cancel(for: reminder.id)
+            // 派生提醒没有独立墓碑，删除前先落一条变更日志，其它设备才能感知
+            do {
+                try changes.record(reminder, kind: .reminder, operation: .delete)
+            } catch {
+                logger.error("记录派生提醒删除变更失败：reminder=\(reminder.id, privacy: .public) error=\(error.localizedDescription, privacy: .public)")
+            }
             context.delete(reminder)
         }
         do {

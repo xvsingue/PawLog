@@ -20,6 +20,7 @@ final class RecordServiceTests: XCTestCase {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self, Attachment.self, Entitlement.self,
+            ChangeLog.self, ConflictLog.self,
             configurations: config
         )
         context = container.mainContext
@@ -110,7 +111,9 @@ final class RecordServiceTests: XCTestCase {
 
         try service.delete(record)
 
-        XCTAssertEqual(pet.records.count, 0)
+        // 删除改为墓碑：记录仍在，但标记为已删除；关联 WeightEntry 物理清理
+        XCTAssertNotNil(record.deletedAt)
+        XCTAssertTrue(pet.records.filter { $0.deletedAt == nil }.isEmpty)
         XCTAssertEqual(try context.fetch(FetchDescriptor<WeightEntry>()).count, 0)
     }
 

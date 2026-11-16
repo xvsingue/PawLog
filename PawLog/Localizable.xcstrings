@@ -2851,6 +2851,39 @@
         }
       }
     },
+    "sync.error.entityMismatch": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步数据的实体类型不匹配。"
+          }
+        }
+      }
+    },
+    "sync.error.malformedPayload": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步数据格式错误，无法解析。"
+          }
+        }
+      }
+    },
+    "sync.error.unknownEntity %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未知的同步实体：%@。"
+          }
+        }
+      }
+    },
     "timeline.locked.action": {
       "extractionState": "stale",
       "localizations": {

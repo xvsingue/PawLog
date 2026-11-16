@@ -52,15 +52,15 @@ final class BackupService {
 
     /// 组装备份结构。只读，不修改任何现有数据。
     func makeBackup(now: Date? = nil) throws -> BackupEnvelope {
-        let pets = try context.fetch(FetchDescriptor<Pet>())
+        let pets = try context.fetch(FetchDescriptor<Pet>()).filter { $0.deletedAt == nil }
             .sorted { $0.sortIndex != $1.sortIndex ? $0.sortIndex < $1.sortIndex : $0.id.uuidString < $1.id.uuidString }
-        let records = try context.fetch(FetchDescriptor<Record>())
+        let records = try context.fetch(FetchDescriptor<Record>()).filter { $0.deletedAt == nil }
             .sorted { $0.occurredAt != $1.occurredAt ? $0.occurredAt < $1.occurredAt : $0.id.uuidString < $1.id.uuidString }
-        let weights = try context.fetch(FetchDescriptor<WeightEntry>())
+        let weights = try context.fetch(FetchDescriptor<WeightEntry>()).filter { $0.deletedAt == nil }
             .sorted { $0.date != $1.date ? $0.date < $1.date : $0.id.uuidString < $1.id.uuidString }
-        let reminders = try context.fetch(FetchDescriptor<Reminder>())
+        let reminders = try context.fetch(FetchDescriptor<Reminder>()).filter { $0.deletedAt == nil }
             .sorted { $0.dueAt != $1.dueAt ? $0.dueAt < $1.dueAt : $0.id.uuidString < $1.id.uuidString }
-        let attachments = try context.fetch(FetchDescriptor<Attachment>())
+        let attachments = try context.fetch(FetchDescriptor<Attachment>()).filter { $0.deletedAt == nil }
             .sorted { $0.id.uuidString < $1.id.uuidString }
 
         return BackupEnvelope(
@@ -110,14 +110,24 @@ final class BackupService {
 
     // MARK: - 导入
 
-    /// 本地各模型条数
+    /// 本地各模型条数（墓碑不计入，避免"已删除仍提示覆盖"）
     func existingCounts() throws -> BackupCounts {
         BackupCounts(
-            pets: try context.fetchCount(FetchDescriptor<Pet>()),
-            records: try context.fetchCount(FetchDescriptor<Record>()),
-            weightEntries: try context.fetchCount(FetchDescriptor<WeightEntry>()),
-            reminders: try context.fetchCount(FetchDescriptor<Reminder>()),
-            attachments: try context.fetchCount(FetchDescriptor<Attachment>())
+            pets: try context.fetchCount(
+                FetchDescriptor<Pet>(predicate: #Predicate { $0.deletedAt == nil })
+            ),
+            records: try context.fetchCount(
+                FetchDescriptor<Record>(predicate: #Predicate { $0.deletedAt == nil })
+            ),
+            weightEntries: try context.fetchCount(
+                FetchDescriptor<WeightEntry>(predicate: #Predicate { $0.deletedAt == nil })
+            ),
+            reminders: try context.fetchCount(
+                FetchDescriptor<Reminder>(predicate: #Predicate { $0.deletedAt == nil })
+            ),
+            attachments: try context.fetchCount(
+                FetchDescriptor<Attachment>(predicate: #Predicate { $0.deletedAt == nil })
+            )
         )
     }
 

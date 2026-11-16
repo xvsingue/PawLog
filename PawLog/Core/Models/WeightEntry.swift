@@ -19,6 +19,12 @@ final class WeightEntry {
     var date: Date
     var recordID: UUID?
 
+    // MARK: - 同步元数据（默认值保证旧 store 可迁移）
+    var localUpdatedAt: Date = Date.distantPast
+    var deviceID: String = ""
+    var deletedAt: Date?
+    var changeTag: String = ""
+
     init(
         id: UUID = UUID(),
         pet: Pet? = nil,

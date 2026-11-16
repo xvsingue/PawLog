@@ -21,7 +21,7 @@ final class TimelineSearchTests: XCTestCase {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(
             for: Pet.self, Record.self, WeightEntry.self, Reminder.self,
-            Attachment.self, Entitlement.self, configurations: config
+            Attachment.self, Entitlement.self, ChangeLog.self, ConflictLog.self, configurations: config
         )
         context = container.mainContext
         pet = Pet(name: "咪咪", species: .cat)

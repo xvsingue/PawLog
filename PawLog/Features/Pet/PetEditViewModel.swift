@@ -81,7 +81,7 @@ final class PetEditViewModel: ObservableObject {
             pet.allergies = allergies.isEmpty ? nil : allergies
             pet.foodBrand = foodBrand.isEmpty ? nil : foodBrand
             pet.chipID = chipID.isEmpty ? nil : chipID
-            try service.saveChanges()
+            try service.saveChanges(for: pet)
         } else {
             let pet = Pet(
                 name: trimmedName,
