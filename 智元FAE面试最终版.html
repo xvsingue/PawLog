@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>智元机器人 FAE 面试 · 最终版</title>
+<style>
+  :root{
+    --ink:#111827; --ink2:#374151; --ink3:#6b7280;
+    --line:#e5e7eb; --bg:#f6f7f9; --card:#ffffff;
+    --brand:#0b5ed7; --brand-soft:#eaf1fd;
+    --green:#0f7b4f; --green-soft:#e9f7f0;
+    --amber:#a15c00; --amber-soft:#fff6e5;
+    --red:#b42318; --red-soft:#fdeceb;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink);
+    font-size:16px; line-height:1.78; letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 72px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:linear-gradient(160deg,#0f172a 0%,#12233d 55%,#0b3b6f 100%);
+    color:#fff; border-radius:0 0 22px 22px;
+    padding:38px 24px 30px; margin:0 -18px 22px;
+  }
+  .hero .kicker{font-size:12px;letter-spacing:.18em;color:#8fb4e8;text-transform:uppercase;}
+  .hero h1{font-size:clamp(23px,5.4vw,32px);line-height:1.32;margin:10px 0 8px;font-weight:700;letter-spacing:-.01em;}
+  .hero p{color:#c7d6ea;font-size:14.5px;line-height:1.7;}
+  .hero .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px;}
+  .hero .tags span{
+    font-size:12px;padding:4px 10px;border-radius:999px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#dbe7f7;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;
+  }
+  .nav a{
+    display:block;text-align:center;text-decoration:none;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:10px 6px;font-size:13.5px;color:var(--ink2);font-weight:500;
+    transition:.18s;
+  }
+  .nav a:hover{border-color:#bcd2f2;color:var(--brand);background:#fbfcff;}
+
+  /* ---------- Sections ---------- */
+  section{margin-bottom:14px;}
+  .part{
+    display:flex;align-items:baseline;gap:10px;
+    margin:30px 0 14px;padding-bottom:8px;border-bottom:2px solid #dfe5ee;
+  }
+  .part .no{
+    font-size:12px;font-weight:700;color:#fff;background:var(--brand);
+    padding:2px 8px;border-radius:6px;letter-spacing:.06em;flex:0 0 auto;
+  }
+  .part h2{font-size:clamp(19px,4.6vw,23px);font-weight:700;letter-spacing:-.01em;}
+  .part small{color:var(--ink3);font-size:13px;font-weight:400;}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;margin-bottom:12px;
+  }
+  h3{font-size:16.5px;font-weight:650;margin-bottom:8px;line-height:1.5;}
+  h3 .idx{color:var(--brand);font-weight:700;margin-right:6px;}
+  h4{font-size:14.5px;font-weight:650;color:var(--ink2);margin:12px 0 5px;}
+  p{margin-bottom:8px;color:var(--ink2);}
+  p:last-child{margin-bottom:0;}
+  ul,ol{margin:0 0 8px 20px;color:var(--ink2);}
+  li{margin-bottom:5px;}
+  li:last-child{margin-bottom:0;}
+  b,strong{color:var(--ink);font-weight:650;}
+  code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:13px;background:#eef1f6;padding:1px 5px;border-radius:4px;color:#24436e;
+  }
+
+  /* callouts */
+  .callout{border-radius:12px;padding:14px 16px;margin:12px 0;font-size:15px;line-height:1.75;}
+  .callout:last-child{margin-bottom:0;}
+  .callout .label{
+    display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;
+    margin-bottom:5px;opacity:.9;
+  }
+  .callout.blue{background:var(--brand-soft);border-left:4px solid var(--brand);color:#123a6b;}
+  .callout.green{background:var(--green-soft);border-left:4px solid var(--green);color:#0b4c34;}
+  .callout.amber{background:var(--amber-soft);border-left:4px solid #d99100;color:#6b3d00;}
+  .callout.red{background:var(--red-soft);border-left:4px solid var(--red);color:#7a1a14;}
+  .callout b{color:inherit;}
+
+  .quote{
+    border-left:3px solid #c9d4e3;padding:2px 0 2px 14px;margin:10px 0;
+    color:var(--ink3);font-size:15px;
+  }
+
+  /* self-intro table */
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin:6px 0 4px;}
+  th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top;line-height:1.65;}
+  th{background:#f4f6fa;font-weight:650;color:var(--ink2);font-size:13.5px;}
+  td b{color:var(--ink);}
+
+  /* flow steps */
+  .flow{counter-reset:step;margin-top:6px;}
+  .flow .item{
+    position:relative;padding-left:34px;padding-bottom:12px;counter-increment:step;
+  }
+  .flow .item::before{
+    content:counter(step);
+    position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;
+    background:var(--brand);color:#fff;font-size:12px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .flow .item::after{
+    content:"";position:absolute;left:10.5px;top:26px;bottom:0;width:1px;background:#dbe3ef;
+  }
+  .flow .item:last-child{padding-bottom:0;}
+  .flow .item:last-child::after{display:none;}
+  .flow .item b{display:block;font-size:15px;}
+
+  /* two columns */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .cols .card{margin-bottom:0;}
+
+  /* scenario */
+  .scenario{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;background:#fff;}
+  .scenario .qline{display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;}
+  .scenario .badge{
+    flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--brand);
+    background:var(--brand-soft);border-radius:6px;padding:2px 8px;margin-top:2px;
+  }
+  .scenario .qtext{font-weight:650;font-size:15.5px;line-height:1.55;}
+
+  /* checklist */
+  .check{list-style:none;margin:0;}
+  .check li{position:relative;padding-left:26px;margin-bottom:7px;color:var(--ink2);}
+  .check li::before{
+    content:"";position:absolute;left:0;top:5px;width:14px;height:14px;
+    border:1.5px solid #9aa7b8;border-radius:4px;background:#fff;
+  }
+
+  /* no-say list */
+  .nosay{list-style:none;margin:0;}
+  .nosay li{position:relative;padding-left:24px;margin-bottom:7px;color:#7a1a14;font-size:15px;}
+  .nosay li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700;}
+
+  .foot{
+    margin-top:30px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--ink3);line-height:1.8;
+  }
+  .foot b{color:var(--ink2);}
+
+  .anchor{scroll-margin-top:16px;}
+
+  @media (max-width:560px){
+    body{font-size:15.5px;}
+    .cols{grid-template-columns:1fr;}
+    .nav{grid-template-columns:repeat(2,1fr);}
+    .card{padding:15px 14px;}
+    .hero{padding:30px 18px 24px;border-radius:0 0 18px 18px;}
+    .hero{margin:0 -18px 18px;}
+  }
+  @media print{
+    body{background:#fff;font-size:11.5pt;}
+    .wrap{max-width:none;padding:0;}
+    .hero{border-radius:0;margin:0 0 12px;}
+    .nav{display:none;}
+    .card,.scenario,.callout{break-inside:avoid;box-shadow:none;}
+    a{color:inherit;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kicker">Interview Prep · Final</div>
+  <h1>智元机器人 FAE 面试</h1>
+  <p>岗位理解 · 项目经历 · 场景问题，三类问题一条线打通。不背理论，只练“先做什么、用什么工具、怎么说话”。</p>
+  <div class="tags">
+    <span>整机交付</span><span>现场排障</span><span>参数标定</span>
+    <span>Linux / ROS2</span><span>客户沟通</span><span>短期出差</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <nav class="nav">
+    <a href="#p1">① 岗位理解</a>
+    <a href="#p2">② 项目经历</a>
+    <a href="#p3">③ 场景问题</a>
+    <a href="#p4">④ 技术速记</a>
+    <a href="#p5">⑤ 反问收尾</a>
+    <a href="#p6">⑥ 出发清单</a>
+  </nav>
+
+  <div class="callout amber">
+    <span class="label">面试前 30 分钟怎么用</span>
+    <p><b>1）</b>背下“一句话定位 + 30 秒自我介绍”；<b>2）</b>挑两个项目套进“问题→动作→工具→结果→沉淀”；<b>3）</b>把 6 个场景题的骨架读两遍；<b>4）</b>最后扫技术速记和反问，<b>不要临时补理论</b>。</p>
+    <p style="margin-top:6px">一条总原则：FAE 面试考的不是推导公式，而是 <b>①遇到问题先做什么 ②用什么工具取证 ③怎么跟客户和研发说话</b>。每个回答都要有“动作”和“证据”。</p>
+  </div>
+
+  <!-- ============ PART 1 ============ -->
+  <div class="part anchor" id="p1">
+    <span class="no">PART 1</span>
+    <h2>岗位理解类</h2>
+    <small>别答成“技术支持就是修机器”</small>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">1.1</span>FAE 到底是做什么</h3>
+    <p>通用定义：FAE 是客户和研发之间的技术接口，把“产品卖出去”变成“产品用起来”。</p>
+    <p>放到智元，按官方 JD 拆成四块：</p>
+    <ul>
+      <li><b>交付</b>：客户现场整机安装、系统部署、IMU 与关节等参数标定、现场验收。</li>
+      <li><b>救火</b>：接售后升级的复杂问题，现场或远程支援；硬件电路、软件逻辑、系统级定位。</li>
+      <li><b>沉淀</b>：故障案例集、FAQ、维护手册、SOP，把共性问题反哺研发。</li>
+      <li><b>赋能</b>：把研发规范翻译成销售和售后能用的文档，并做培训。</li>
+    </ul>
+    <div class="quote">一句话：让机器人到客户那儿能安全、稳定、可复现地跑起来。</div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">1.2</span>为什么选择 FAE</h3>
+    <p><b>不要说“研发太卷”。</b>按三层讲：</p>
+    <ul>
+      <li><b>行业</b>：人形机器人正从样机走向批量交付，公开信息显示智元已实现第 20000 台通用具身机器人下线，交付端正在缺人。</li>
+      <li><b>公司</b>：整机 + 灵巧手 + 关节模组 + 数据与模型的全栈布局，FAE 能接触最完整的产品面。</li>
+      <li><b>我自己</b>：坐得住现场，也喜欢把问题闭合；比起只做仿真，更擅长在真实系统里定位问题，这恰好是 FAE 的核心。</li>
+    </ul>
+    <div class="callout blue">
+      <span class="label">如果被问“为什么不做研发”</span>
+      “研发是把东西做出来，FAE 是确保它在真实环境里能用。我对后半段更感兴趣，也更擅长。”
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">1.3</span>你理解的 FAE 核心能力</h3>
+    <ol>
+      <li><b>排障思路</b>：能分层、能收敛，不靠猜。</li>
+      <li><b>动手能力</b>：会用万用表、示波器、逻辑分析仪，会看日志、会抓包。</li>
+      <li><b>技术翻译</b>：对客户讲人话，对研发讲证据。</li>
+      <li><b>闭环与沉淀</b>：问题解决完要变成文档，让别人也能处理。</li>
+    </ol>
+    <p>补一句：还有抗压和出差，这是这个岗位的日常，不是额外要求。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">1.4</span>一句话定位（背下来）</h3>
+    <div class="callout green">
+      “我是能把硬件问题用仪器测出来、把软件问题用日志定位到模块、并且能把过程写成别人能复用的文档的人。”
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">1.5</span>自我介绍：30 秒 / 90 秒</h3>
+    <table>
+      <tr><th style="width:15%">结构</th><th style="width:42%">30 秒（HR / 开场）</th><th>90 秒（技术面）</th></tr>
+      <tr>
+        <td>我是谁</td>
+        <td>学校 + 专业 + 一句话方向。</td>
+        <td>同上，补一句做过什么类型的板子或系统。</td>
+      </tr>
+      <tr>
+        <td>我做过什么</td>
+        <td>一个最硬的项目，说清我负责哪块。</td>
+        <td>两个项目：一个偏硬件调试，一个偏系统联调，各带一个数字（通道数、良率、定位时长）。</td>
+      </tr>
+      <tr>
+        <td>我为什么来</td>
+        <td>想做离产品最近、离客户最近的工程岗。</td>
+        <td>人形机器人进入交付期，FAE 是把技术变成可用产品的关口，我想站这个位置。</td>
+      </tr>
+      <tr>
+        <td>我能带来什么</td>
+        <td>上手快、能出差、能写文档。</td>
+        <td>仪器 + 电路 + 脚本三件套，能把一次救火变成一套 SOP。</td>
+      </tr>
+    </table>
+    <div class="quote">节奏：每段不超过 3 句，说完停 1 秒，留一个钩子让对方追问。</div>
+  </div>
+
+  <!-- ============ PART 2 ============ -->
+  <div class="part anchor" id="p2">
+    <span class="no">PART 2</span>
+    <h2>项目经历类</h2>
+    <small>细节比规模重要</small>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">2.1</span>包装公式：所有项目都用这一个</h3>
+    <div class="callout blue" style="text-align:center;font-size:16px;letter-spacing:.02em">
+      <b>问题 → 我的动作 → 用的工具 → 结果（数字）→ 沉淀</b>
+    </div>
+    <p>三个硬要求：</p>
+    <ul>
+      <li>第一人称，说“我”做了什么，不说“我们”。</li>
+      <li>每个判断都要有依据：测出来的、看出来的、查出来的。</li>
+      <li>结尾一定落到“防再发”。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">2.2</span>没有大项目怎么办</h3>
+    <p>课程实训、毕设、实验室设备调试、竞赛联调都能用，按下面三个模板改写。</p>
+
+    <h4>模板 A｜课程实训：板子不工作</h4>
+    <ul>
+      <li><b>问题</b>：焊接完成后上电无输出。</li>
+      <li><b>动作</b>：分段测量，先量供电，再量关键节点电压，对照原理图缩小范围。</li>
+      <li><b>工具</b>：万用表、示波器、原理图。</li>
+      <li><b>结果</b>：定位到虚焊 / 电源时序 / 器件方向问题，修复后功能正常。</li>
+      <li><b>沉淀</b>：整理了一份上电检查清单。</li>
+    </ul>
+
+    <h4>模板 B｜设备调试：通信不通</h4>
+    <ul>
+      <li><b>问题</b>：设备与上位机通信时通时断。</li>
+      <li><b>动作</b>：先查线序和波特率，再查终端电阻，最后抓报文看有没有错误帧。</li>
+      <li><b>工具</b>：万用表、逻辑分析仪 / 串口助手。</li>
+      <li><b>结果</b>：定位到接线或终端电阻问题，通信稳定。</li>
+      <li><b>沉淀</b>：写了接线与参数核对表。</li>
+    </ul>
+
+    <h4>模板 C｜竞赛或小系统联调：偶发故障</h4>
+    <ul>
+      <li><b>问题</b>：系统跑一段时间偶发死机。</li>
+      <li><b>动作</b>：加日志、记录时间和环境，反复复现，用排除法一次只改一个变量。</li>
+      <li><b>工具</b>：日志、示波器、替代法换件。</li>
+      <li><b>结果</b>：定位到供电或散热问题，复现率降为 0。</li>
+      <li><b>沉淀</b>：补充了长时间跑机测试项。</li>
+    </ul>
+    <div class="callout amber">
+      <span class="label">注意</span>
+      不要编。把真实做过的事按结构讲清楚，<b>细节比规模重要</b>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">2.3</span>两个 STAR 故事，各准备一个</h3>
+    <h4>故事一：靠“测量”定位（硬件向）</h4>
+    <ul>
+      <li><b>S</b>：客户或老师催，时间紧，只能一个人上。</li>
+      <li><b>T</b>：判断是供电、信号还是器件问题。</li>
+      <li><b>A</b>：先量供电，再看关键波形，逐一排除，换件验证，一次只改一个变量。</li>
+      <li><b>R</b>：定位到根因，恢复时间 X 小时，写了复盘。</li>
+    </ul>
+    <h4>故事二：靠“日志和代码”定位（软件向）</h4>
+    <ul>
+      <li><b>S</b>：现场偶发失败，无法长时间停留。</li>
+      <li><b>T</b>：要在离开前拿到可分析的证据。</li>
+      <li><b>A</b>：打开日志级别、录包、记录操作步骤，回去复现后定位到某个模块或配置。</li>
+      <li><b>R</b>：远程给出方案，问题闭环，形成排查步骤。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">2.4</span>必被追问的 5 个问题</h3>
+    <ul>
+      <li><b>“具体你做了什么？”</b> → 说动作和工具，不说职责。</li>
+      <li><b>“你怎么排除其他可能的？”</b> → 假设 → 验证 → 结果，这是加分点。</li>
+      <li><b>“如果最后没解决呢？”</b> → 讲止损、升级、留证据，不装成功。</li>
+      <li><b>“这个数字怎么来的？”</b> → 说清测量方式和口径，别拍脑袋。</li>
+      <li><b>“团队里你贡献多少？”</b> → 明确边界，不抢功也不贬低队友。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">2.5</span>面试前要准备好的“证据”</h3>
+    <ul class="check">
+      <li>2 个项目各 1 张图（框图 / 波形 / 现场照）</li>
+      <li>3 个数字：处理时长、定位环节、改善幅度</li>
+      <li>1 份你写过的文档（调试记录、SOP 都行）</li>
+      <li>想清楚：如果重来一次，你会先做什么</li>
+    </ul>
+  </div>
+
+  <!-- ============ PART 3 ============ -->
+  <div class="part anchor" id="p3">
+    <span class="no">PART 3</span>
+    <h2>场景问题类</h2>
+    <small>这部分决定你能不能过</small>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">3.0</span>万能答题结构（先背这个）</h3>
+    <div class="flow">
+      <div class="item"><b>确认现象和范围</b>谁、何时、什么操作、单台还是批次。</div>
+      <div class="item"><b>先保安全、先止损</b>急停、备用机、降级方案。</div>
+      <div class="item"><b>分层定位</b>供电 → 通信 → 驱动 → 配置 → 算法 → 机械。</div>
+      <div class="item"><b>用工具取证</b>仪器、日志、抓包，留下证据再动手。</div>
+      <div class="item"><b>单变量验证</b>一次只改一处，改完立刻回归。</div>
+      <div class="item"><b>闭环</b>给方案、给时间点、写复盘。</div>
+      <div class="item"><b>沟通</b>对客户讲结论和下一步，对研发讲证据和影响面。</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="qline"><span class="badge">场景 1</span><span class="qtext">客户反馈设备 / 芯片异常，你怎么处理？</span></div>
+    <ul>
+      <li>先问清：什么现象、什么时候开始、之前动过什么、单台还是多台。</li>
+      <li>远程指导取证：拍照、录视频、导日志、量关键点电压。</li>
+      <li>判断归类：使用问题 / 配置问题 / 接线问题 / 硬件失效 / 设计缺陷。</li>
+      <li>先给临时方案让对方能继续用，再给根因和时间点。</li>
+      <li>闭环后写案例，判断是否需要通知同批次客户。</li>
+    </ul>
+    <div class="quote">一句总结：“先让客户能干活，再把原因找清楚。”</div>
+  </div>
+
+  <div class="scenario">
+    <div class="qline"><span class="badge">场景 2</span><span class="qtext">现场调试遇到难题，怎么推进？</span></div>
+    <ul>
+      <li><b>保交付优先</b>：备用机、降级模式、绕过故障模块。</li>
+      <li><b>缩小范围</b>：换模块、换线、换端口、换整机，用二分法快速定位。</li>
+      <li><b>带证据升级研发</b>：现象 + 复现步骤 + 日志波形 + 已排除项 + 影响范围。</li>
+      <li><b>现场记录</b>：时间、操作、现象，别靠回忆。</li>
+      <li><b>事后复盘</b>：判断是偶发还是设计问题。</li>
+    </ul>
+  </div>
+
+  <div class="scenario">
+    <div class="qline"><span class="badge">场景 3</span><span class="qtext">如何和客户沟通技术问题？</span></div>
+    <p><b>三段式：</b>结论先行（现在什么状态、能不能用）→ 影响与方案（影响多大、临时怎么办）→ 下一步与时间（谁来做、什么时候给结果）。</p>
+    <h4>四条纪律</h4>
+    <ul>
+      <li>不用术语砸人，要能翻译成大白话。</li>
+      <li>不确定的事不承诺，给区间也给条件。</li>
+      <li>重要结论书面确认，避免口头扯皮。</li>
+      <li>客户催的时候，先回应情绪，再回应问题。</li>
+    </ul>
+  </div>
+
+  <div class="cols" style="margin-bottom:12px">
+    <div class="scenario" style="margin-bottom:0">
+      <div class="qline"><span class="badge">场景 4</span><span class="qtext">客户不配合 / 现场条件差</span></div>
+      <ul>
+        <li>先找共同目标：交付验收、产线不停。</li>
+        <li>把要求变成清单：谁、什么时候、提供什么。</li>
+        <li>找对接口人，避免多头指挥。</li>
+        <li>全程留痕：照片、记录、邮件。</li>
+        <li>推进不了就按机制升级，不硬扛。</li>
+      </ul>
+    </div>
+    <div class="scenario" style="margin-bottom:0">
+      <div class="qline"><span class="badge">场景 5</span><span class="qtext">问题复现不了怎么办</span></div>
+      <ul>
+        <li>加日志、加记录，先让问题留下痕迹。</li>
+        <li>给客户操作清单，规范复现路径。</li>
+        <li>远程留观或安排回访，约定观察周期。</li>
+        <li>用同批次设备做对比测试。</li>
+        <li>明确告知：暂无法复现，但我们在怎么跟。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="qline"><span class="badge">场景 6</span><span class="qtext">销售催、研发不理，怎么协调？</span></div>
+    <ul>
+      <li>用影响面说话：影响多少台、是否阻塞验收。</li>
+      <li>分级：阻塞 / 严重 / 一般，按优先级排。</li>
+      <li>走升级机制，抄送对应负责人。</li>
+      <li>把口头变书面，形成待办和时间点。</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#fbfcff;border-color:#cfe0f8">
+    <h3><span class="idx">3.7</span>六步排障法（可以画在纸上讲）</h3>
+    <div class="flow">
+      <div class="item"><b>定范围</b>单台还是批次，偶发还是必现。</div>
+      <div class="item"><b>保安全</b>急停、支撑、限速。</div>
+      <div class="item"><b>分层查</b>供电 → 通信 → 驱动 → 配置 → 算法 → 机械。</div>
+      <div class="item"><b>取证</b>仪器、日志、抓包。</div>
+      <div class="item"><b>单变量验证</b>一次只改一处。</div>
+      <div class="item"><b>沉淀</b>案例、FAQ、SOP。</div>
+    </div>
+    <div class="callout green">
+      <span class="label">加分句</span>
+      “我判断问题是否真解决，标准不是‘现在能动了’，而是‘同样条件下复现不出来，并且别人照文档也能处理’。”
+    </div>
+  </div>
+
+  <!-- ============ PART 4 ============ -->
+  <div class="part anchor" id="p4">
+    <span class="no">PART 4</span>
+    <h2>技术速记</h2>
+    <small>够说出口就行，不深挖</small>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">4.1</span>关节模组</h3>
+    <ul>
+      <li><b>构成</b>：无框力矩电机 + 减速器 + 编码器 + 驱动器 + 抱闸。</li>
+      <li><b>参数</b>：减速比、额定与峰值扭矩、编码器分辨率、通信周期。</li>
+      <li><b>标定</b>：机械零位、方向、限位、力矩常数、摩擦补偿。</li>
+      <li><b>故障</b>：抱闸未松、零位漂、过流、过温、丢帧。</li>
+    </ul>
+  </div>
+
+  <div class="cols" style="margin-bottom:12px">
+    <div class="card" style="margin-bottom:0">
+      <h3><span class="idx">4.2</span>IMU 标定</h3>
+      <ul>
+        <li>静态零偏：静止采样取均值扣除。</li>
+        <li>六面法：标加速度计零偏与标度因数。</li>
+        <li>还要考虑温漂、安装误差、与关节零位联合标定。</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <h3><span class="idx">4.3</span>电源与安全链</h3>
+      <ul>
+        <li>母线电压、上电时序、缓启动、保险、浪涌。</li>
+        <li>急停回路、STO、抱闸供电。</li>
+        <li>地环路是多点接地最常见的坑。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">4.4</span>总线</h3>
+    <h4>CAN</h4>
+    <ul>
+      <li>两端各 120Ω，断电测约 60Ω。</li>
+      <li>波特率一致，ID 不冲突，负载低于 70%。</li>
+      <li>屏蔽层单点接地。</li>
+    </ul>
+    <h4>EtherCAT</h4>
+    <ul>
+      <li>状态机 INIT → PREOP → SAFEOP → OP。</li>
+      <li>关注 DC 同步和丢站，先怀疑线缆接头。</li>
+    </ul>
+    <p>工具：<code>candump</code>、<code>cansend</code>、示波器差分探头。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">4.5</span>Linux 与 ROS2</h3>
+    <h4>Linux</h4>
+    <p><code>dmesg -w</code>、<code>journalctl -u</code>、<code>ip a</code>、<code>ping</code>、<code>ethtool</code>、<code>tcpdump</code>、<code>df -h</code>。</p>
+    <h4>ROS2</h4>
+    <p><code>ros2 topic list/echo/hz</code>、<code>node info</code>、<code>param</code>、<code>bag record/play</code>、<code>tf2_echo</code>、<code>rqt_graph</code>。</p>
+    <p><b>三个坑</b>：QoS 不匹配、<code>ROS_DOMAIN_ID</code> 冲突、忘了 <code>source install/setup.bash</code>。</p>
+    <div class="callout amber">
+      <span class="label">回答程度要诚实</span>
+      分三档说清：能做 / 学过 / 没做过，再补学习动作。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="idx">4.6</span>公司产品（说 2 到 3 个即可）</h3>
+    <ul>
+      <li>第 20000 台通用具身机器人下线。</li>
+      <li>精灵 G2 Max：双臂合计负载 40kg，双电池热插拔。</li>
+      <li>OmniHand 灵巧手：16 自由度，约 510g。</li>
+      <li>皮下式关节液冷系统。</li>
+    </ul>
+    <div class="quote">别背成新闻播报，提 1 到 2 个就够。</div>
+  </div>
+
+  <!-- ============ PART 5 ============ -->
+  <div class="part anchor" id="p5">
+    <span class="no">PART 5</span>
+    <h2>反问与收尾</h2>
+    <small>问交付，不问福利</small>
+  </div>
+
+  <div class="card">
+    <h3>选 3 个问</h3>
+    <ul>
+      <li>团队目前客户主要是哪类？典型交付周期多长？</li>
+      <li>现场故障 Top3 是什么类型？</li>
+      <li>FAE 和研发的反馈链路怎么走，建议怎么落地？</li>
+      <li>一年出差比例和主要城市？</li>
+      <li>若为外包岗：编制、转正机制、汇报关系？</li>
+    </ul>
+    <div class="callout blue">
+      <span class="label">收尾一句</span>
+      “我今天准备的都是怎么把问题查清楚、把客户服务好。如果有机会加入，我希望先把交付流程和故障案例集吃透。”
+    </div>
+  </div>
+
+  <!-- ============ PART 6 ============ -->
+  <div class="part anchor" id="p6">
+    <span class="no">PART 6</span>
+    <h2>出发前清单</h2>
+    <small>照着打勾</small>
+  </div>
+
+  <div class="card">
+    <ul class="check">
+      <li>一句话定位能脱口而出</li>
+      <li>30 秒自我介绍不卡壳</li>
+      <li>2 个项目各 90 秒能讲完，带数字</li>
+      <li>六步排障法能画出来</li>
+      <li>6 个场景题各能说 3 句</li>
+      <li>CAN 120Ω、EtherCAT 状态机记得</li>
+      <li>ROS2 三个命令 + 三个坑记得</li>
+      <li>3 个反问写在纸上</li>
+      <li>简历纸质版 + 项目图</li>
+      <li>提前 15 分钟到，设备静音</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-color:#f4cfcb">
+    <h3>不要说的话</h3>
+    <ul class="nosay">
+      <li>“我学习能力强，什么都能学。”</li>
+      <li>“研发太卷所以来做 FAE。”</li>
+      <li>“这个问题我没遇到过，不知道。”<br><span style="color:var(--ink3);font-size:14px">改成：我没直接做过，但我会这样查。</span></li>
+      <li>把团队成果全说成自己的。</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    <p><b>内容来源：</b>智元官方招聘 JD（产品支持工程师 FAE / FAE 工程师）与公开产品报道；秋招 FAE 面试经验（岗位理解、项目经历、场景问题三类，重点考排障思路与沟通表达）；抖音视频提供的准备框架（公司研究→岗位画像→技术补齐→项目包装→话术→反问），未获取逐字口播。</p>
+    <p style="margin-top:8px"><b>使用提醒：</b>把模板里的项目、数字换成你自己的真实经历，每一个数字都要能解释来源。面试里最值钱的不是背得多，而是讲得具体。</p>
+  </div>
+
+</div>
+</body>
+</html>
