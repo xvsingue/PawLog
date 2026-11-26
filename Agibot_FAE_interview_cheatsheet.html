@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智元机器人 FAE 面试速记卡</title>
+<style>
+  :root{
+    --ink:#14171c; --ink2:#3d4650; --ink3:#6b7480;
+    --line:#e2e6ec; --bg:#ffffff; --soft:#f5f7fa;
+    --accent:#0f5bd7; --accent-soft:#eaf1fe;
+    --warn:#b23c1f; --warn-soft:#fdf0ec;
+    --ok:#1c7a4a; --ok-soft:#e9f6ef;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--ink); background:#eef1f5; line-height:1.62;
+    font-size:14px; -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    width:210mm; min-height:297mm; margin:16px auto; background:var(--bg);
+    padding:14mm 13mm; box-shadow:0 2px 16px rgba(20,23,28,.1);
+  }
+  h1{font-size:22px;line-height:1.3;letter-spacing:-.2px;}
+  h2{
+    font-size:14.5px; margin:14px 0 7px; padding-left:8px;
+    border-left:3px solid var(--accent); line-height:1.35;
+  }
+  h3{font-size:13px;color:var(--ink2);margin:9px 0 4px;}
+  p{margin:0 0 6px;}
+  ul,ol{margin:0 0 6px 17px;}
+  li{margin-bottom:3px;}
+  .head{border-bottom:1px solid var(--line);padding-bottom:10px;}
+  .sub{color:var(--ink3);font-size:12px;margin-top:4px;}
+  .tag{
+    display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;
+    background:var(--accent-soft);color:var(--accent);margin:0 4px 4px 0;
+  }
+  .tag.warn{background:var(--warn-soft);color:var(--warn);}
+  .tag.ok{background:var(--ok-soft);color:var(--ok);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 14px;}
+  .card{background:var(--soft);border-radius:6px;padding:9px 11px;margin-bottom:8px;}
+  .card.blue{background:var(--accent-soft);}
+  .card.red{background:var(--warn-soft);}
+  .card.green{background:var(--ok-soft);}
+  .card h3{margin-top:0;}
+  b,strong{font-weight:600;}
+  .k{color:var(--accent);font-weight:600;}
+  .hl{background:#fff3bf;padding:0 2px;border-radius:2px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:4px 0 8px;}
+  th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top;}
+  th{background:var(--soft);font-weight:600;color:var(--ink2);}
+  .step{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start;}
+  .num{
+    flex:0 0 20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;
+    font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:600;margin-top:2px;
+  }
+  .q{font-weight:600;color:var(--ink);margin:9px 0 3px;}
+  .a{color:var(--ink2);}
+  .a b{color:var(--ink);}
+  .chk::before{content:"☐ ";color:var(--ink3);}
+  .foot{
+    margin-top:14px;padding-top:8px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--ink3);
+  }
+  .now{background:#141b26;color:#fff;border-radius:8px;padding:11px 14px;margin:12px 0 4px;}
+  .now h3{color:#fff;font-size:13px;margin:0 0 6px;}
+  .now ol{margin-left:17px;}
+  .now li{margin-bottom:4px;}
+  .now b{color:#8fc0ff;}
+  .quote{font-size:12px;color:var(--ink3);border-left:2px solid var(--line);padding-left:8px;margin:6px 0;}
+  @media print{
+    body{background:#fff;font-size:12px;}
+    .page{width:auto;min-height:auto;margin:0;padding:10mm;box-shadow:none;}
+    h2{margin-top:11px;}
+    .card,table,.now{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <h1>智元机器人 · FAE 面试速记卡</h1>
+    <div class="sub">上海智元新创（AGIBOT）｜产品支持 / FAE｜整机交付 · 现场排障 · 技术赋能</div>
+    <div style="margin-top:6px">
+      <span class="tag">整机调试</span><span class="tag">参数标定</span><span class="tag">现场排障</span>
+      <span class="tag">Linux / ROS2</span><span class="tag warn">短期出差</span><span class="tag ok">文档沉淀</span>
+    </div>
+  </div>
+
+  <div class="now">
+    <h3>只剩 10 分钟，只看这 5 条</h3>
+    <ol>
+      <li><b>岗位不是“卖芯片”</b>：核心是<b>把机器人交付到客户现场并跑起来</b>——装、调、标定、排障、写文档、培训。</li>
+      <li><b>面试官最怕你只会读书</b>：每个回答都落到“我动手做过 / 我用仪器测过 / 我写过复盘”。</li>
+      <li><b>背熟六步排障法</b>：定范围 → 保安全 → 分层查 → 取证 → 单变量验证 → 沉淀。</li>
+      <li><b>模拟背景是你的加分项</b>：电源、信号链、EMC、示波器/万用表，正是现场定位硬件问题的底子。</li>
+      <li><b>反问要问交付</b>：客户结构、典型故障 Top3、出差比例、外包/编制。</li>
+    </ol>
+  </div>
+
+  <h2>一、岗位画像：面试官在测什么</h2>
+  <div class="grid2">
+    <div>
+      <h3>JD 拆成 4 块</h3>
+      <ul>
+        <li><b>交付</b>：整机安装、系统部署、IMU / 关节等参数标定、现场验收。</li>
+        <li><b>救火</b>：接售后升级的复杂问题，现场或远程支援，硬件电路 + 软件逻辑 + 系统级定位。</li>
+        <li><b>沉淀</b>：故障案例集、FAQ、维护手册、SOP，反哺研发改设计。</li>
+        <li><b>赋能</b>：把研发规范翻译成销售/售后能用的文档和培训。</li>
+      </ul>
+    </div>
+    <div>
+      <h3>对应的 5 项能力</h3>
+      <ul>
+        <li>仪器：万用表、示波器、逻辑分析仪——<b>会测、会读波形</b>。</li>
+        <li>系统：Linux 常用命令 + ROS2 生态 + 能读 C/C++/Python。</li>
+        <li>机电：电机、减速器、编码器、IMU、驱动器的基本工作原理。</li>
+        <li>沟通：对客户讲人话，对研发讲证据。</li>
+        <li>韧性：出差、夜场、客户催交付时不崩。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue">
+    <b>一句话自我定位（可背）：</b>“我是能把硬件问题用仪器测出来、把软件问题用日志定位到模块、并且能把过程写成别人能复用的文档的人。”
+  </div>
+
+  <h2>二、自我介绍：30 秒版 + 90 秒版</h2>
+  <table>
+    <tr><th style="width:16%">结构</th><th style="width:42%">30 秒（HR / 开场）</th><th>90 秒（技术面）</th></tr>
+    <tr>
+      <td>我是谁</td>
+      <td>学校 + 专业 + 一句话方向（硬件 / 机电 / 嵌入式）。</td>
+      <td>同上，补一句“做过什么类型的板子 / 系统”。</td>
+    </tr>
+    <tr>
+      <td>我做过什么</td>
+      <td>一个最硬的项目，说清“我负责哪块”。</td>
+      <td>两个项目：一个偏硬件调试，一个偏系统联调，各带 1 个数字（通道数、良率、定位时长）。</td>
+    </tr>
+    <tr>
+      <td>我为什么来</td>
+      <td>想做“离产品最近、离客户最近”的工程岗。</td>
+      <td>人形机器人正从样机走向批量交付，FAE 是把技术变成可用产品的关口，我想站这个位置。</td>
+    </tr>
+    <tr>
+      <td>我能带来什么</td>
+      <td>上手快、肯出差、能写文档。</td>
+      <td>仪器 + 电路 + 脚本三件套；能把一次救火变成一套 SOP。</td>
+    </tr>
+  </table>
+  <div class="quote">控制节奏：每段 ≤3 句，说完停 1 秒看对方反应。不要背成流水账，留一个“钩子”让面试官追问。</div>
+
+  <h2>三、必答 6 问与回答骨架</h2>
+
+  <div class="q">1. 为什么选智元？为什么做 FAE 而不是研发？</div>
+  <div class="a">
+    三层：<b>行业</b>（人形机器人进入量产交付期，公开信息显示智元已实现第 20000 台通用具身机器人下线）→ <b>公司</b>（整机 + 灵巧手 + 关节模组 + 数据/模型全栈，FAE 能接触最完整的产品面）→ <b>我自己</b>（喜欢在现场把问题闭合，坐不住纯仿真）。
+    <br>不要说“研发太卷所以来做 FAE”，改成“我更擅长在真实系统里定位问题，这恰好是 FAE 的核心”。
+  </div>
+
+  <div class="q">2. 客户现场机器人上电后，某个关节不动作，你怎么查？<span class="tag warn">高频</span></div>
+  <div class="a">
+    按层走，别乱拆：<b>①安全</b>（急停是否释放、是否在使能状态、周围是否允许动）→ <b>②供电</b>（母线电压、驱动器指示灯、保险、抱闸供电）→ <b>③通信</b>（CAN/EtherCAT 是否在线、有无报错帧、节点是否丢失）→ <b>④配置/标定</b>（关节 ID、方向、零位、限位、减速比是否被改）→ <b>⑤软件</b>（日志、报错码、控制模式、使能指令是否下发）→ <b>⑥机械</b>（卡死、抱闸未松、线束磨损）。
+    <br><b>取证</b>：万用表量供电、示波器看差分信号、<code>candump</code> 看报文、<code>ros2 topic echo</code> 看状态、<code>dmesg</code> 看驱动。
+    <br><b>收尾</b>：换件验证 → 记录到案例集 → 判断是偶发还是设计缺陷。
+  </div>
+
+  <div class="q">3. 讲一个你定位并解决的硬件 / 系统问题（STAR）</div>
+  <div class="a">
+    <b>S</b> 场景与约束（时间、人手、客户在等）→ <b>T</b> 你的具体任务（不是团队任务）→ <b>A</b> 你怎么分层排查、用了什么仪器、排除了哪些假设（<span class="hl">重点讲“排除”</span>）→ <b>R</b> 结果量化 + 沉淀（写没写文档、有没有防再发）。
+    <br>准备 2 个：一个“靠测量定位”，一个“靠日志/代码定位”。
+  </div>
+
+  <div class="q">4. 现场交付在即，问题一时解决不了，客户在催，你怎么办？</div>
+  <div class="a">
+    <b>先恢复、再根因</b>：启用备用机 / 降级方案 / 绕过故障模块，保证客户能验收；同时明确告知“当前状态 + 下一步 + 时间点”，不承诺做不到的事；按升级机制拉研发；事后 24 小时内出复盘。
+    <br>关键词：<b>止损优先、信息透明、升级及时、闭环复盘</b>。
+  </div>
+
+  <div class="q">5. Linux / ROS2 你到什么程度？（务必诚实分级）</div>
+  <div class="a">
+    用“能做 / 学过 / 没做过”三档回答，别硬吹。示例：“日常能用 Linux 查日志、看设备、配网络；ROS2 能跑节点、看 topic、录 bag、看 tf；源码级改造还在学，但能读 C++/Python 定位到模块。”
+    <br>补一句学习证据：最近在跟的教程 / 自己搭过的仿真或小项目。
+  </div>
+
+  <div class="q">6. 能接受出差吗？抗压怎么样？</div>
+  <div class="a">
+    给具体而不是表忠心：“能接受短期出差，之前做过需要外场调试的项目，连续几天在现场也经历过；我的习惯是当天问题当天记录，避免越积越乱。”
+  </div>
+
+  <h2>四、技术速记（会被追问细节）</h2>
+  <div class="grid2">
+    <div>
+      <h3>关节模组</h3>
+      <ul>
+        <li>构成：无框力矩电机 + 减速器（谐波/行星）+ 编码器 + 驱动器 + 抱闸。</li>
+        <li>关键参数：减速比、额定/峰值扭矩、编码器分辨率、通信周期。</li>
+        <li>标定：机械零位、方向、限位、力矩常数、摩擦补偿。</li>
+        <li>常见故障：抱闸未松、编码器零位漂、过流/过温、通信丢帧。</li>
+      </ul>
+      <h3>IMU 标定</h3>
+      <ul>
+        <li>静态零偏：静止采样取均值扣除。</li>
+        <li>六面法：加速度计零偏与标度因数。</li>
+        <li>温漂、安装误差矩阵、与关节零位联合标定。</li>
+      </ul>
+      <h3>电源与安全链</h3>
+      <ul>
+        <li>母线电压、上电时序、缓启动、保险、浪涌。</li>
+        <li>急停回路、STO 安全转矩关断、抱闸供电。</li>
+        <li>接地与共模：多点接地引起的地环路最坑。</li>
+      </ul>
+    </div>
+    <div>
+      <h3>总线排查</h3>
+      <ul>
+        <li><b>CAN</b>：两端各 120Ω（断电测总线约 60Ω）、波特率一致、ID 冲突、负载 &lt;70%、CAN_H/L 差分、屏蔽单点接地。</li>
+        <li><b>EtherCAT</b>：INIT→PREOP→SAFEOP→OP、DC 同步、从站丢站按段排查、网线/接头优先怀疑。</li>
+        <li>工具：<code>candump</code> / <code>cansend</code>、示波器差分探头、总线分析仪。</li>
+      </ul>
+      <h3>Linux 常用</h3>
+      <ul>
+        <li><code>dmesg -w</code>、<code>journalctl -u</code>、<code>ls /dev/tty*</code></li>
+        <li><code>ip a</code>、<code>ping</code>、<code>ethtool</code>、<code>tcpdump</code></li>
+        <li><code>top</code>、<code>df -h</code>、<code>udev</code> 规则、权限/组</li>
+      </ul>
+      <h3>ROS2 常用</h3>
+      <ul>
+        <li><code>ros2 topic list/echo/hz</code>、<code>node info</code>、<code>param</code></li>
+        <li><code>ros2 bag record/play</code>、<code>tf2_echo</code>、<code>rqt_graph</code></li>
+        <li>高频坑：<b>QoS 不匹配</b>（reliability/durability）、<code>ROS_DOMAIN_ID</code> 冲突、<code>source install/setup.bash</code> 没执行。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>五、现场排障六步法（可以画在纸上讲）</h2>
+  <div class="step"><div class="num">1</div><div><b>定范围</b>：单台还是批次？一直有还是偶发？什么操作后出现？先复现。</div></div>
+  <div class="step"><div class="num">2</div><div><b>保安全</b>：急停、支撑、限速；先让客户能继续用（备用机/降级）。</div></div>
+  <div class="step"><div class="num">3</div><div><b>分层查</b>：供电 → 通信 → 驱动/固件 → 标定/参数 → 上层算法 → 机械。</div></div>
+  <div class="step"><div class="num">4</div><div><b>取证</b>：仪器 + 日志 + 抓包，留下证据再动手，避免“修好了不知道为什么”。</div></div>
+  <div class="step"><div class="num">5</div><div><b>单变量验证</b>：一次只改一处，改完立刻回归，排除巧合。</div></div>
+  <div class="step"><div class="num">6</div><div><b>沉淀</b>：案例集 + FAQ + SOP；能反哺设计的提给研发。</div></div>
+  <div class="card green">
+    <b>加分句：</b>“我判断一个问题是否真的解决，标准不是‘现在能动了’，而是‘同样条件下复现不出来，并且别人照文档也能处理’。”
+  </div>
+
+  <h2>六、你的模拟 / 硬件背景怎么接上机器人</h2>
+  <table>
+    <tr><th style="width:34%">你的底子</th><th>迁移到智元 FAE 的说法</th></tr>
+    <tr><td>电源 / 模拟电路</td><td>整机供电、上电时序、浪涌、纹波、地环路——现场一大半“玄学故障”是电源和接地。</td></tr>
+    <tr><td>信号链 / 传感器</td><td>编码器、IMU、力/触觉传感器的输出异常，本质是信号链与噪声问题。</td></tr>
+    <tr><td>EMC / 布线</td><td>总线丢帧、通信偶发失败，多半是屏蔽、双绞、共地没做好。</td></tr>
+    <tr><td>仪器使用</td><td>示波器、万用表、逻辑分析仪——JD 明确要求，这是你的直接优势。</td></tr>
+    <tr><td>客户支持经验</td><td>选型/调试/失效分析，本质就是“把技术翻译给客户”，和 FAE 同构。</td></tr>
+  </table>
+  <div class="quote">如果被问“你没做过人形机器人怎么办”：承认差距 + 给出补齐路径（关节/IMU 标定、ROS2、整机安全流程），并强调底层方法可迁移。</div>
+
+  <h2>七、反问（选 3 个，别问薪资福利）</h2>
+  <ul>
+    <li>团队现在交付的客户主要是哪类（科研 / 工业 / 商业服务）？典型交付周期多长？</li>
+    <li>目前现场故障里，Top3 分别是什么类型？硬件、通信还是软件配置？</li>
+    <li>FAE 和研发的问题反馈链路是怎样的？我提的改进建议通常怎么落地？</li>
+    <li>这个岗位一年大概多少出差比例？主要城市？</li>
+    <li>（若为外包岗）编制与转正机制、日常汇报关系是怎样的？</li>
+  </ul>
+
+  <h2>八、出发前 10 分钟 checklist</h2>
+  <div class="grid3">
+    <div>
+      <p class="chk">30 秒自我介绍能脱口而出</p>
+      <p class="chk">两个 STAR 故事各 90 秒讲完</p>
+      <p class="chk">六步排障法能画出来</p>
+    </div>
+    <div>
+      <p class="chk">CAN 120Ω / EtherCAT 状态机记得</p>
+      <p class="chk">ROS2 三个命令 + QoS 坑</p>
+      <p class="chk">公司产品名能说 2–3 个</p>
+    </div>
+    <div>
+      <p class="chk">简历纸质版 + 项目图</p>
+      <p class="chk">3 个反问写在纸上</p>
+      <p class="chk">提前 15 分钟到 / 设备静音</p>
+    </div>
+  </div>
+  <div class="card">
+    <b>可引用的公开信息（2026 智元创新日等公开报道）：</b>第 20000 台通用具身机器人下线；精灵 G2 Max 双臂合计负载 40kg、支持双电池热插拔；OmniHand 灵巧手 16 自由度、约 510g；发布皮下式关节液冷系统。
+    <span style="color:var(--ink3)">（面试中提 1–2 个即可，别背成新闻播报。）</span>
+  </div>
+
+  <div class="foot">
+    依据：智元官方招聘 JD（产品支持工程师 FAE / FAE 工程师）与公开产品报道整理；抖音视频仅提供“公司研究 → 岗位画像 → 技术补齐 → 项目包装 → 话术 → 反问”的准备框架，未获取逐字口播。<br>
+    建议：面试前用自己的真实项目替换模板中的占位内容，所有数字必须能解释来源。
+  </div>
+
+</div>
+</body>
+</html>
